@@ -100,6 +100,10 @@ class DriveSubsystem : public frc2::SubsystemBase {
       frc::Translation2d{-DriveConstants::kWheelBase / 2,
                          -DriveConstants::kTrackWidth / 2}};
 
+
+  // The gyro sensor
+  frc::ADIS16470_IMU m_gyro;
+
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
@@ -108,9 +112,6 @@ class DriveSubsystem : public frc2::SubsystemBase {
   MAXSwerveModule m_rearLeft;
   MAXSwerveModule m_frontRight;
   MAXSwerveModule m_rearRight;
-
-  // The gyro sensor
-  frc::ADIS16470_IMU m_gyro;
 
   // Odometry class for tracking robot pose
   // 4 defines the number of modules

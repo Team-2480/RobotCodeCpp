@@ -30,6 +30,8 @@ namespace DriveConstants {
 constexpr units::meters_per_second_t kMaxSpeed = 4.8_mps;
 constexpr units::radians_per_second_t kMaxAngularSpeed{2 * std::numbers::pi};
 
+constexpr float kTargetMult = 0.1;
+
 constexpr double kDirectionSlewRate = 1.2;   // radians per second
 constexpr double kMagnitudeSlewRate = 1.8;   // percent per second (1 = 100%)
 constexpr double kRotationalSlewRate = 2.0;  // percent per second (1 = 100%)
@@ -54,8 +56,8 @@ constexpr int kRearRightDrivingCanId = 3;
 
 constexpr int kFrontLeftTurningCanId = 5;
 constexpr int kRearLeftTurningCanId = 8;
-constexpr int kFrontRightTurningCanId = 7;
-constexpr int kRearRightTurningCanId = 6;
+constexpr int kFrontRightTurningCanId = 6;
+constexpr int kRearRightTurningCanId = 7;
 }  // namespace DriveConstants
 
 namespace ModuleConstants {
