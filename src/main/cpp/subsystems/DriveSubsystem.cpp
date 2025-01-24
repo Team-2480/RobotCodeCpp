@@ -11,6 +11,7 @@
 #include <units/velocity.h>
 
 #include "Constants.h"
+#include "subsystems/MAXSwerveModule.h"
 
 using namespace DriveConstants;
 
@@ -32,6 +33,8 @@ DriveSubsystem::DriveSubsystem()
   // Usage reporting for MAXSwerve template
   HAL_Report(HALUsageReporting::kResourceType_RobotDrive,
              HALUsageReporting::kRobotDriveSwerve_MaxSwerve);
+  
+  printf("is connected %i\n", m_gyro.IsConnected());
 }
 
 void DriveSubsystem::Periodic() {

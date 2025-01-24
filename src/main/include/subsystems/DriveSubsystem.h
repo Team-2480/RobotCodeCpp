@@ -13,6 +13,8 @@
 #include <frc/kinematics/SwerveDriveOdometry.h>
 #include <frc2/command/SubsystemBase.h>
 
+#include <frc/AnalogGyro.h>
+
 #include "Constants.h"
 #include "MAXSwerveModule.h"
 
