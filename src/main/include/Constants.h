@@ -30,6 +30,7 @@ namespace DriveConstants {
 constexpr units::meters_per_second_t kMaxSpeed = 4.8_mps;
 constexpr units::radians_per_second_t kMaxAngularSpeed{2 * std::numbers::pi};
 
+//TODO: Swtich kTargetMult with mps to decrease verbosity and directly specify speed.
 constexpr float kTargetMult = 0.1;
 
 constexpr double kDirectionSlewRate = 1.2;   // radians per second
@@ -38,7 +39,7 @@ constexpr double kRotationalSlewRate = 2.0;  // percent per second (1 = 100%)
 
 // Chassis configuration
 constexpr units::meter_t kTrackWidth =
-    0.6731_m;  // Distance between centers of right and left wheels on robot
+    24.5_in;  // Distance between centers of right and left wheels on robot
 constexpr units::meter_t kWheelBase =
     24.5_in;  // Distance between centers of front and back wheels on robot
 
@@ -87,10 +88,13 @@ constexpr auto kMaxAcceleration = 3_mps_sq;
 constexpr auto kMaxAngularSpeed = 3.142_rad_per_s;
 constexpr auto kMaxAngularAcceleration = 3.142_rad_per_s_sq;
 
+// Position controllers
+// Used for PID in container 
 constexpr double kPXController = 0.5;
 constexpr double kPYController = 0.5;
 constexpr double kPThetaController = 0.5;
 
+// Constraint for the motion profiled robot angle controller
 extern const frc::TrapezoidProfile<units::radians>::Constraints
     kThetaControllerConstraints;
 }  // namespace AutoConstants

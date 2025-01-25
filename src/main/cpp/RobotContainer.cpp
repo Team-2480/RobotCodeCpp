@@ -32,22 +32,34 @@ RobotContainer::RobotContainer() {
   // Set up default drive command
   // The left stick controls translation of the robot.
   // Turning is controlled by the X axis of the right stick.
+  // Uses lambda functions, RunCommand takes 2 args
   m_drive.SetDefaultCommand(frc2::RunCommand(
       [this] {
         m_drive.Drive(
             -units::meters_per_second_t{frc::ApplyDeadband(
-                m_driverController.GetLeftY(), OIConstants::kDriveDeadband)} * DriveConstants::kTargetMult,
+                m_driverController.GetLeftY(), OIConstants::kDriveDeadband)} *
+                DriveConstants::kTargetMult,
+
             -units::meters_per_second_t{frc::ApplyDeadband(
-                m_driverController.GetLeftX(), OIConstants::kDriveDeadband)} * DriveConstants::kTargetMult,
+                m_driverController.GetLeftX(), OIConstants::kDriveDeadband)} *
+
+                DriveConstants::kTargetMult,
             -units::radians_per_second_t{frc::ApplyDeadband(
-                m_driverController.GetRightX(), OIConstants::kDriveDeadband)} * DriveConstants::kTargetMult,
+                m_driverController.GetRightX(), OIConstants::kDriveDeadband)} *
+
+                DriveConstants::kTargetMult,
             true);
-            printf("gyro at %f\n", m_drive.m_gyro.GetAngle(frc::ADIS16470_IMU::IMUAxis::kZ).value());
+
+        printf(
+            "gyro at %f\n",
+            m_drive.m_gyro.GetAngle(frc::ADIS16470_IMU::IMUAxis::kZ).value());
       },
       {&m_drive}));
 }
 
 void RobotContainer::ConfigureButtonBindings() {
+  // the while true method will run the lambda function specified until the
+  // button class is in false state.
   frc2::JoystickButton(&m_driverController,
                        frc::XboxController::Button::kRightBumper)
       .WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
@@ -78,15 +90,19 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
   thetaController.EnableContinuousInput(units::radian_t{-std::numbers::pi},
                                         units::radian_t{std::numbers::pi});
 
+  // NOTE: I put unecesary blank comments here to fix the auto formatter ill fix
+  // it later
+  // - bear
   frc2::SwerveControllerCommand<4> swerveControllerCommand(
-      exampleTrajectory, [this]() { return m_drive.GetPose(); },
-
+      exampleTrajectory,                       //
+      [this]() { return m_drive.GetPose(); },  //
       m_drive.kDriveKinematics,
 
-      frc::PIDController{AutoConstants::kPXController, 0, 0},
-      frc::PIDController{AutoConstants::kPYController, 0, 0}, thetaController,
-
-      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
+      // Position controllers
+      frc::PIDController{AutoConstants::kPXController, 0, 0},                //
+      frc::PIDController{AutoConstants::kPYController, 0, 0},                //
+      thetaController,                                                       //
+      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },  //
 
       {&m_drive});
 
@@ -94,6 +110,7 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
   m_drive.ResetOdometry(exampleTrajectory.InitialPose());
 
   // no auto
+  // Run path following command, then stop at the end.
   return new frc2::SequentialCommandGroup(
       std::move(swerveControllerCommand),
       frc2::InstantCommand(

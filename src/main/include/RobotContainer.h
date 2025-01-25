@@ -2,6 +2,8 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+// Robot container handles OI things. Input mappings and command bindings.
+
 #pragma once
 
 #include <frc/XboxController.h>
@@ -26,12 +28,22 @@
  */
 class RobotContainer {
  public:
+  /**
+   * (constructor)
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
   RobotContainer();
 
+  /**
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
   frc2::Command* GetAutonomousCommand();
 
  private:
   // The driver's controller
+  // Perhaps rename so its evident this represents HID not an arbitrary data structure.
   frc::XboxController m_driverController{OIConstants::kDriverControllerPort};
 
   // The robot's subsystems and commands are defined here...
@@ -42,5 +54,11 @@ class RobotContainer {
   // The chooser for the autonomous routines
   frc::SendableChooser<frc2::Command*> m_chooser;
 
+  /**
+   * Use this method to define your button->command mappings. Buttons can be
+   * created by instantiating a GenericHID object or one of its
+   * subclasses eg. Joystick or XboxController, and then calling by passing it
+   * to a JoystickButton.
+   */
   void ConfigureButtonBindings();
 };

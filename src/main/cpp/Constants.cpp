@@ -6,6 +6,7 @@
 
 namespace AutoConstants {
 
+// Constraint for the motion profiled robot angle controller
 const frc::TrapezoidProfile<units::radians>::Constraints
     kThetaControllerConstraints{kMaxAngularSpeed, kMaxAngularAcceleration};
 
