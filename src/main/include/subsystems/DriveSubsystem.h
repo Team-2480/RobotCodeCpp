@@ -12,7 +12,7 @@
 #include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc/kinematics/SwerveDriveOdometry.h>
 #include <frc2/command/SubsystemBase.h>
-
+#include <ctre/phoenix6/Pigeon2.hpp>
 #include "Constants.h"
 #include "MAXSwerveModule.h"
 
@@ -102,6 +102,7 @@ class DriveSubsystem : public frc2::SubsystemBase {
 
   // The gyro sensor
   frc::ADIS16470_IMU m_gyro;
+  ctre::phoenix6::hardware::Pigeon2 m_pideon;
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be

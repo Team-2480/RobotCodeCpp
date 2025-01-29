@@ -11,30 +11,29 @@
 #include <units/velocity.h>
 
 #include "Constants.h"
+#include "ctre/phoenix6/core/CorePigeon2.hpp"
 #include "subsystems/MAXSwerveModule.h"
 
 using namespace DriveConstants;
 
 DriveSubsystem::DriveSubsystem()
-    : m_frontLeft{kFrontLeftDrivingCanId, kFrontLeftTurningCanId,
+    : m_pideon(kPideonCanId, "rio"),
+      m_frontLeft{kFrontLeftDrivingCanId, kFrontLeftTurningCanId,
                   kFrontLeftChassisAngularOffset},
       m_rearLeft{kRearLeftDrivingCanId, kRearLeftTurningCanId,
                  kRearLeftChassisAngularOffset},
       m_frontRight{kFrontRightDrivingCanId, kFrontRightTurningCanId,
                    kFrontRightChassisAngularOffset},
       m_rearRight{kRearRightDrivingCanId, kRearRightTurningCanId,
-                  kRearRightChassisAngularOffset},
-      m_odometry{kDriveKinematics,
+                  kRearRightChassisAngularOffset}, m_odometry{kDriveKinematics,
                  frc::Rotation2d(units::radian_t{
                      m_gyro.GetAngle(frc::ADIS16470_IMU::IMUAxis::kZ)}),
                  {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
                   m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
-                 frc::Pose2d{}} {
+                 frc::Pose2d{}}{
   // Usage reporting for MAXSwerve template
   HAL_Report(HALUsageReporting::kResourceType_RobotDrive,
              HALUsageReporting::kRobotDriveSwerve_MaxSwerve);
-
-  printf("is connected %i\n", m_gyro.IsConnected());
 }
 
 void DriveSubsystem::Periodic() {

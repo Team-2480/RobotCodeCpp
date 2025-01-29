@@ -37,21 +37,24 @@ RobotContainer::RobotContainer() {
       [this] {
         m_drive.Drive(
             -units::meters_per_second_t{frc::ApplyDeadband(
-                m_driverController.GetLeftY(), OIConstants::kDriveDeadband)} *
-                DriveConstants::kTargetMult,
+                m_driverController.GetLeftY(), OIConstants::kDriveDeadband,
+                DriveConstants::kTargetSpeed.value())},
 
             -units::meters_per_second_t{frc::ApplyDeadband(
-                m_driverController.GetLeftX(), OIConstants::kDriveDeadband)} *
+                m_driverController.GetLeftX(), OIConstants::kDriveDeadband,
+                DriveConstants::kTargetSpeed.value())},
 
-                DriveConstants::kTargetMult,
-            -units::radians_per_second_t{frc::ApplyDeadband(
-                m_driverController.GetRightX(), OIConstants::kDriveDeadband)} *
+            -units::radians_per_second_t {
+              frc::ApplyDeadband(m_driverController.GetRightX(),
+                                 OIConstants::kDriveDeadband,
+                                 DriveConstants::kTargetSpeed.value())
+            },
 
-                DriveConstants::kTargetMult,
             true);
 
         printf(
-            "gyro at %f\n",
+            "pideon at %f\nadis at %f\n",
+            units::degree_t(m_drive.m_pideon.GetRotation3d().Z()).value(),
             m_drive.m_gyro.GetAngle(frc::ADIS16470_IMU::IMUAxis::kZ).value());
       },
       {&m_drive}));
@@ -63,6 +66,12 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::JoystickButton(&m_driverController,
                        frc::XboxController::Button::kRightBumper)
       .WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
+
+  frc2::JoystickButton(&m_driverController,
+                       frc::XboxController::Button::kA)
+      .WhileTrue(new frc2::RunCommand([this] { 
+        m_drive.m_gyro.SetGyroAngleZ((units::degree_t)0); // TODO: zero pidgeon
+       }, {&m_drive}));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

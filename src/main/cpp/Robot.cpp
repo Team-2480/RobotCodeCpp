@@ -9,6 +9,8 @@
 
 void Robot::RobotInit() {}
 
+void Robot::TestInit() {}
+
 void Robot::RobotPeriodic() {
   // Runs the Scheduler.  This is responsible for polling buttons, adding
   // newly-scheduled commands, running already-scheduled commands, removing
