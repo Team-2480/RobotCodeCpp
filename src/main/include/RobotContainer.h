@@ -61,4 +61,7 @@ class RobotContainer {
    * to a JoystickButton.
    */
   void ConfigureButtonBindings();
+
+  void GenerateClimbCommand();
+  frc2::Command* m_climb_command;
 };

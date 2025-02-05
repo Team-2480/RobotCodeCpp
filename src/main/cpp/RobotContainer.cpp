@@ -12,6 +12,7 @@
 #include <frc2/command/InstantCommand.h>
 #include <frc2/command/SequentialCommandGroup.h>
 #include <frc2/command/SwerveControllerCommand.h>
+#include <frc2/command/WaitCommand.h>
 #include <frc2/command/button/JoystickButton.h>
 #include <units/angle.h>
 #include <units/velocity.h>
@@ -24,7 +25,7 @@
 using namespace DriveConstants;
 
 RobotContainer::RobotContainer() {
-  // Initialize all of your commands and subsystems here
+  GenerateClimbCommand();
 
   // Configure the button bindings
   ConfigureButtonBindings();
@@ -44,20 +45,26 @@ RobotContainer::RobotContainer() {
                 m_driverController.GetLeftX(), OIConstants::kDriveDeadband,
                 DriveConstants::kTargetSpeed.value())},
 
-            -units::radians_per_second_t {
-              frc::ApplyDeadband(m_driverController.GetRightX(),
-                                 OIConstants::kDriveDeadband,
-                                 DriveConstants::kTargetSpeed.value())
-            },
+            -units::radians_per_second_t{frc::ApplyDeadband(
+                m_driverController.GetRightX(), OIConstants::kDriveDeadband,
+                DriveConstants::kTargetSpeed.value())},
 
             true);
-
-        printf(
-            "pideon at %f\nadis at %f\n",
-            units::degree_t(m_drive.m_pideon.GetRotation3d().Z()).value(),
-            m_drive.m_gyro.GetAngle(frc::ADIS16470_IMU::IMUAxis::kZ).value());
+        // TODO: setup ui
+        // printf(
+        //     "pideon at %f\nadis at %f\n",
+        //     units::degree_t(m_drive.m_pideon.GetRotation3d().Z()).value(),
+        //     m_drive.m_gyro.GetAngle(frc::ADIS16470_IMU::IMUAxis::kZ).value());
       },
       {&m_drive}));
+}
+
+void RobotContainer::GenerateClimbCommand() {
+  m_climb_command = new frc2::SequentialCommandGroup(
+      // TODO: hook up climbing motors
+      frc2::InstantCommand([]() { printf("fire first operations\n"); }),
+      frc2::WaitCommand(5_s),
+      frc2::InstantCommand([]() { printf("fire second operations\n"); }));
 }
 
 void RobotContainer::ConfigureButtonBindings() {
@@ -67,11 +74,16 @@ void RobotContainer::ConfigureButtonBindings() {
                        frc::XboxController::Button::kRightBumper)
       .WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
 
-  frc2::JoystickButton(&m_driverController,
-                       frc::XboxController::Button::kA)
-      .WhileTrue(new frc2::RunCommand([this] { 
-        m_drive.m_gyro.SetGyroAngleZ((units::degree_t)0); // TODO: zero pidgeon
-       }, {&m_drive}));
+  frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
+      .WhileTrue(new frc2::RunCommand(
+          [this] {
+            m_drive.m_gyro.SetGyroAngleZ(
+                (units::degree_t)0);  // TODO: zero pidgeon
+          },
+          {&m_drive}));
+
+  frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kY)
+      .ToggleOnTrue(m_climb_command);
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
