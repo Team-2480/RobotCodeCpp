@@ -25,15 +25,19 @@ DriveSubsystem::DriveSubsystem()
       m_frontRight{kFrontRightDrivingCanId, kFrontRightTurningCanId,
                    kFrontRightChassisAngularOffset},
       m_rearRight{kRearRightDrivingCanId, kRearRightTurningCanId,
-                  kRearRightChassisAngularOffset}, m_odometry{kDriveKinematics,
+                  kRearRightChassisAngularOffset},
+      m_odometry{kDriveKinematics,
                  frc::Rotation2d(units::radian_t{
                      m_gyro.GetAngle(frc::ADIS16470_IMU::IMUAxis::kZ)}),
                  {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
                   m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
-                 frc::Pose2d{}}{
+                 frc::Pose2d{}},
+      m_compressor(DriveConstants::kPneumaticsCanId,
+                   frc::PneumaticsModuleType::CTREPCM) {
   // Usage reporting for MAXSwerve template
   HAL_Report(HALUsageReporting::kResourceType_RobotDrive,
              HALUsageReporting::kRobotDriveSwerve_MaxSwerve);
+  // m_compressor is on closed loop mode
 }
 
 void DriveSubsystem::Periodic() {

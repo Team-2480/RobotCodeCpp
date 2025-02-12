@@ -30,7 +30,7 @@ namespace DriveConstants {
 constexpr units::meters_per_second_t kMaxSpeed = 4.8_mps;
 constexpr units::radians_per_second_t kMaxAngularSpeed{2 * std::numbers::pi};
 
-constexpr units::meters_per_second_t kTargetSpeed = 1_mps;
+constexpr units::meters_per_second_t kTargetSpeed = 0.5_mps;
 
 constexpr double kDirectionSlewRate = 1.2;   // radians per second
 constexpr double kMagnitudeSlewRate = 1.8;   // percent per second (1 = 100%)
@@ -59,7 +59,11 @@ constexpr int kRearLeftTurningCanId = 8;
 constexpr int kFrontRightTurningCanId = 6;
 constexpr int kRearRightTurningCanId = 7;
 
-constexpr int kPideonCanId= 10;
+constexpr int kPideonCanId = 10;
+
+// Climb CanIDs
+const int kPneumaticsCanId = 32;
+
 }  // namespace DriveConstants
 
 namespace ModuleConstants {
@@ -90,7 +94,7 @@ constexpr auto kMaxAngularSpeed = 3.142_rad_per_s;
 constexpr auto kMaxAngularAcceleration = 3.142_rad_per_s_sq;
 
 // Position controllers
-// Used for PID in container 
+// Used for PID in container
 constexpr double kPXController = 0.5;
 constexpr double kPYController = 0.5;
 constexpr double kPThetaController = 0.5;

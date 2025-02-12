@@ -40,21 +40,13 @@ RobotContainer::RobotContainer() {
             -units::meters_per_second_t{frc::ApplyDeadband(
                 m_driverController.GetLeftY(), OIConstants::kDriveDeadband,
                 DriveConstants::kTargetSpeed.value())},
-
             -units::meters_per_second_t{frc::ApplyDeadband(
                 m_driverController.GetLeftX(), OIConstants::kDriveDeadband,
                 DriveConstants::kTargetSpeed.value())},
-
             -units::radians_per_second_t{frc::ApplyDeadband(
                 m_driverController.GetRightX(), OIConstants::kDriveDeadband,
                 DriveConstants::kTargetSpeed.value())},
-
             true);
-        // TODO: setup ui
-        // printf(
-        //     "pideon at %f\nadis at %f\n",
-        //     units::degree_t(m_drive.m_pideon.GetRotation3d().Z()).value(),
-        //     m_drive.m_gyro.GetAngle(frc::ADIS16470_IMU::IMUAxis::kZ).value());
       },
       {&m_drive}));
 }
@@ -111,8 +103,8 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
   thetaController.EnableContinuousInput(units::radian_t{-std::numbers::pi},
                                         units::radian_t{std::numbers::pi});
 
-  // NOTE: I put unecesary blank comments here to fix the auto formatter ill fix
-  // it later
+  // NOTE: I put unecesary blank comments here to fix the auto formatter ill
+  // fix it later
   // - bear
   frc2::SwerveControllerCommand<4> swerveControllerCommand(
       exampleTrajectory,                       //
