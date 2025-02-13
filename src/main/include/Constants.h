@@ -59,7 +59,7 @@ constexpr int kRearLeftTurningCanId = 8;
 constexpr int kFrontRightTurningCanId = 6;
 constexpr int kRearRightTurningCanId = 7;
 
-constexpr int kPideonCanId = 10;
+constexpr int kPigeonCanId = 10;
 
 // Climb CanIDs
 const int kPneumaticsCanId = 32;

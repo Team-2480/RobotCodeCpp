@@ -17,7 +17,7 @@
 using namespace DriveConstants;
 
 DriveSubsystem::DriveSubsystem()
-    : m_pideon(kPideonCanId, "rio"),
+    : m_pigeon(kPigeonCanId, "rio"),
       m_frontLeft{kFrontLeftDrivingCanId, kFrontLeftTurningCanId,
                   kFrontLeftChassisAngularOffset},
       m_rearLeft{kRearLeftDrivingCanId, kRearLeftTurningCanId,
