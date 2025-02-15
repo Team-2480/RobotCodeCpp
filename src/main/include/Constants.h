@@ -62,7 +62,10 @@ constexpr int kRearRightTurningCanId = 7;
 constexpr int kPigeonCanId = 10;
 
 // Climb CanIDs
-const int kPneumaticsCanId = 32;
+const int kPneumaticsCanId = 0;
+
+constexpr int kTopShooterCanId = 22;
+constexpr int kBottomShooterCanId = 21;
 
 }  // namespace DriveConstants
 

@@ -76,6 +76,11 @@ void RobotContainer::ConfigureButtonBindings() {
 
   frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kY)
       .ToggleOnTrue(m_climb_command);
+
+  frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
+      .ToggleOnTrue(new frc2::RunCommand([=]() { m_shooter.Rev(); }));
+  frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
+      .ToggleOnTrue(m_shooter.Shoot());
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
