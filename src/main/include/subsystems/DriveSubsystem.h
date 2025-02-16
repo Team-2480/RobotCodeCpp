@@ -65,7 +65,7 @@ class DriveSubsystem : public frc2::SubsystemBase {
    *
    * @return the robot's heading in degrees, from 180 to 180
    */
-  units::degree_t GetHeading() const;
+  units::degree_t GetHeading();
 
   /**
    * Zeroes the heading of the robot.
@@ -104,11 +104,10 @@ class DriveSubsystem : public frc2::SubsystemBase {
                          -DriveConstants::kTrackWidth / 2}};
 
   // The gyro sensor
-  frc::ADIS16470_IMU m_gyro;
+  // frc::ADIS16470_IMU m_gyro;
   ctre::phoenix6::hardware::Pigeon2 m_pigeon;
 
-  // Pneumatics compressor
-  frc::Compressor m_compressor;
+
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
@@ -119,7 +118,7 @@ class DriveSubsystem : public frc2::SubsystemBase {
   MAXSwerveModule m_frontRight;
   MAXSwerveModule m_rearRight;
 
-  // Odometry class for tracking robot pose
+  // Odometry class for tracking robot pose,
   // 4 defines the number of modules
   frc::SwerveDriveOdometry<4> m_odometry;
 };

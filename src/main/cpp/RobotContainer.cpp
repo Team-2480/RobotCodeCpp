@@ -69,8 +69,8 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
       .WhileTrue(new frc2::RunCommand(
           [this] {
-            m_drive.m_gyro.SetGyroAngleZ(
-                (units::degree_t)0);  // TODO: zero pidgeon
+            m_drive.m_pigeon.SetYaw(
+                (units::degree_t)0);
           },
           {&m_drive}));
 
@@ -106,9 +106,6 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
   thetaController.EnableContinuousInput(units::radian_t{-std::numbers::pi},
                                         units::radian_t{std::numbers::pi});
 
-  // NOTE: I put unecesary blank comments here to fix the auto formatter ill
-  // fix it later
-  // - bear
   frc2::SwerveControllerCommand<4> swerveControllerCommand(
       exampleTrajectory,                       //
       [this]() { return m_drive.GetPose(); },  //
