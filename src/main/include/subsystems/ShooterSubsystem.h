@@ -21,12 +21,21 @@ class ShooterSubsystem {
   rev::spark::SparkMax m_top;
   rev::spark::SparkClosedLoopController m_topClosedLoopController =
       m_top.GetClosedLoopController();
-  ;
   rev::spark::SparkMax m_bottom;
   rev::spark::SparkClosedLoopController m_bottomClosedLoopController =
       m_bottom.GetClosedLoopController();
-  ;
   void Stop();
+
+  frc2::SequentialCommandGroup* shootCmd = new frc2::SequentialCommandGroup(
+      frc2::InstantCommand([=] {
+        m_bottomClosedLoopController.SetReference(
+            (double)90, SparkMax::ControlType::kVelocity);
+      }),
+      frc2::WaitCommand(1_s), frc2::InstantCommand([=]() {
+        m_topClosedLoopController.SetReference(
+            (double)-1, SparkMax::ControlType::kVelocity);
+      }),
+      frc2::WaitCommand(1_s), frc2::InstantCommand([=]() { Stop(); }));
 
  public:
   ShooterSubsystem()
