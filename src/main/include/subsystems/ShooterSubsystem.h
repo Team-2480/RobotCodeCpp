@@ -17,7 +17,7 @@
 #include "Constants.h"
 
 class ShooterSubsystem {
- private:
+private:
   rev::spark::SparkMax m_top;
   rev::spark::SparkClosedLoopController m_topClosedLoopController =
       m_top.GetClosedLoopController();
@@ -37,11 +37,10 @@ class ShooterSubsystem {
       }),
       frc2::WaitCommand(1_s), frc2::InstantCommand([=]() { Stop(); }));
 
- public:
   ShooterSubsystem()
-      : m_top(DriveConstants::kTopShooterCanId,
+      : m_top(ShooterConstants::kTopShooterCanId,
               rev::spark::SparkMax::MotorType::kBrushless),
-        m_bottom(DriveConstants::kBottomShooterCanId,
+        m_bottom(ShooterConstants::kBottomShooterCanId,
                  rev::spark::SparkMax::MotorType::kBrushless) {
     m_top.Configure(Configs::MAXSwerveModule::DrivingConfig(),
                     rev::spark::SparkBase::ResetMode::kResetSafeParameters,
@@ -55,5 +54,5 @@ class ShooterSubsystem {
   ~ShooterSubsystem() {}
 
   void Rev();
-  frc2::Command* Shoot();
+  frc2::Command *Shoot();
 };
