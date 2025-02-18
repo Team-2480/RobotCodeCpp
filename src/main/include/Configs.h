@@ -65,4 +65,17 @@ class MAXSwerveModule {
     return turningConfig;
   }
 };
+
+// // FIX: configure the motor to use correct rpm etc.
+// class ClimbSubsystem {
+//  public:
+//   static SparkMaxConfig& DrivingConfig() {
+//     static SparkMaxConfig climbingConfig{};
+
+//     climbingConfig.SetIdleMode(SparkBaseConfig::IdleMode::kBrake);
+//     return climbingConfig;
+//   }
+// };
+
+
 }  // namespace Configs
