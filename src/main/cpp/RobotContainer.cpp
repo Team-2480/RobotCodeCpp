@@ -36,14 +36,14 @@ RobotContainer::RobotContainer() {
       [this] {
         m_drive.Drive(
             -units::meters_per_second_t{frc::ApplyDeadband(
-                m_driverController.GetLeftY(), OIConstants::kDriveDeadband,
+                std::pow(m_driverController.GetLeftY(), 3), OIConstants::kDriveDeadband,
                 DriveConstants::kTargetSpeed.value())},
             -units::meters_per_second_t{frc::ApplyDeadband(
-                m_driverController.GetLeftX(), OIConstants::kDriveDeadband,
+                 std::pow(m_driverController.GetLeftX(), 3), OIConstants::kDriveDeadband,
                 DriveConstants::kTargetSpeed.value())},
             -units::radians_per_second_t{frc::ApplyDeadband(
-                m_driverController.GetRightX(), OIConstants::kDriveDeadband,
-                DriveConstants::kTargetSpeed.value())},
+                std::pow(m_driverController.GetRightX(), 3), OIConstants::kDriveDeadband,
+                DriveConstants::kTargetRotation.value())},
             true);
       },
       {&m_drive}));
