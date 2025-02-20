@@ -6,7 +6,8 @@
 #include "rev/SparkMax.h"
 
 ClimbSubsystem::ClimbSubsystem()
-    : m_climbingMotor(ClimbConstants::kClimbMotorCanId, SparkMax::MotorType::kBrushless),
+    : m_climbingMotor(ClimbConstants::kClimbMotorCanId,
+                      SparkMax::MotorType::kBrushless),
       m_compressor(ClimbConstants::kPneumaticCanId,
                    frc::PneumaticsModuleType::CTREPCM),
       upSensor(ClimbConstants::kUpSensorDio),
@@ -19,22 +20,59 @@ ClimbSubsystem::ClimbSubsystem()
 
   // zero the controller
   m_climbingEncoder.SetPosition(0);
+
+  m_unspool_command = new frc2::InstantCommand([=]() {
+    stage = STAGE_GOING_UP;
+    // The solenoid will attempt to go up immediatly but be reigned in by the
+    // rope
+    solenoid.Toggle();
+    m_climbingClosedLoopController.SetReference(
+        -ClimbConstants::kSpoolSpeed, SparkMax::ControlType::kVelocity);
+  });
+
+  m_spool_command = new frc2::InstantCommand([=]() {
+    stage = STAGE_GOING_DOWN;
+    // leaving the solenoid up here so that we get a full spool
+    m_climbingClosedLoopController.SetReference(
+        (double)ClimbConstants::kSpoolSpeed, SparkMax::ControlType::kVelocity);
+  });
+  m_null_command = new frc2::InstantCommand(
+      [=]() { printf("Someone's a little trigger happy...\n"); });
 }
 
-void ClimbSubsystem::Spool() {
-  m_climbingClosedLoopController.SetReference((double)1,
+frc2::Command *ClimbSubsystem::Trigger() {
+  switch (stage) {
+  case STAGE_UP:
+    return Spool();
+    break;
+  case STAGE_DOWN:
+    return Unspool();
+    break;
+  default:
+    return m_null_command;
+    break;
+  }
+}
+
+frc2::Command *ClimbSubsystem::Spool() { return m_spool_command; }
+
+frc2::Command *ClimbSubsystem::Unspool() { return m_unspool_command; }
+void ClimbSubsystem::Periodic() {
+  if (TestSensorUp() && stage == STAGE_GOING_UP) {
+    Stop();
+    stage = STAGE_UP;
+  }
+  if (TestSensorDown() && stage == STAGE_GOING_DOWN) {
+    solenoid.Toggle();
+    Stop();
+    stage = STAGE_DOWN;
+  }
+}
+
+bool ClimbSubsystem::TestSensorUp() { return upSensor.Get(); }
+bool ClimbSubsystem::TestSensorDown() { return downSensor.Get(); }
+
+void ClimbSubsystem::Stop() {
+  m_climbingClosedLoopController.SetReference((double)0,
                                               SparkMax::ControlType::kVelocity);
 }
-
-void ClimbSubsystem::Unspool() {
-  m_climbingClosedLoopController.SetReference((double)-1,
-                                              SparkMax::ControlType::kVelocity);
-}
-
-void ClimbSubsystem::PneumaticUp() {}
-void ClimbSubsystem::PneumaticDown() {}
-
-bool ClimbSubsystem::TestSensorUp() {return upSensor.Get();}
-bool ClimbSubsystem::TestSensorDown() {return downSensor.Get();}
-
-void ClimbSubsystem::ResetEncoders() { m_climbingEncoder.SetPosition(0); }

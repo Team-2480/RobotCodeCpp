@@ -25,8 +25,6 @@
 using namespace DriveConstants;
 
 RobotContainer::RobotContainer() {
-  GenerateClimbCommand();
-
   // Configure the button bindings
   ConfigureButtonBindings();
 
@@ -51,14 +49,6 @@ RobotContainer::RobotContainer() {
       {&m_drive}));
 }
 
-void RobotContainer::GenerateClimbCommand() {
-  m_climb_command = new frc2::SequentialCommandGroup(
-      // TODO: hook up climbing motors
-      frc2::InstantCommand([]() { printf("fire first operations\n"); }),
-      frc2::WaitCommand(5_s),
-      frc2::InstantCommand([]() { printf("fire second operations\n"); }));
-}
-
 void RobotContainer::ConfigureButtonBindings() {
   // the while true method will run the lambda function specified until the
   // button class is in false state.
@@ -66,22 +56,18 @@ void RobotContainer::ConfigureButtonBindings() {
                        frc::XboxController::Button::kRightBumper)
       .WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
 
-  frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
+  frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
       .WhileTrue(new frc2::RunCommand(
-          [this] {
-            m_drive.m_pigeon.SetYaw(
-                (units::degree_t)0);
-          },
-          {&m_drive}));
-
-  frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kY)
-      .ToggleOnTrue(m_climb_command);
+          [this] { m_drive.m_pigeon.SetYaw((units::degree_t)0); }, {&m_drive}));
 
   frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
       .ToggleOnTrue(m_shooter.Shoot());
+
+  frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kY)
+      .ToggleOnTrue(m_climb.Trigger());
 }
 
-frc2::Command* RobotContainer::GetAutonomousCommand() {
+frc2::Command *RobotContainer::GetAutonomousCommand() {
   // Set up config for trajectory
   frc::TrajectoryConfig config(AutoConstants::kMaxSpeed,
                                AutoConstants::kMaxAcceleration);
@@ -107,15 +93,15 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
                                         units::radian_t{std::numbers::pi});
 
   frc2::SwerveControllerCommand<4> swerveControllerCommand(
-      exampleTrajectory,                       //
-      [this]() { return m_drive.GetPose(); },  //
+      exampleTrajectory,                      //
+      [this]() { return m_drive.GetPose(); }, //
       m_drive.kDriveKinematics,
 
       // Position controllers
-      frc::PIDController{AutoConstants::kPXController, 0, 0},                //
-      frc::PIDController{AutoConstants::kPYController, 0, 0},                //
-      thetaController,                                                       //
-      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },  //
+      frc::PIDController{AutoConstants::kPXController, 0, 0},               //
+      frc::PIDController{AutoConstants::kPYController, 0, 0},               //
+      thetaController,                                                      //
+      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); }, //
 
       {&m_drive});
 

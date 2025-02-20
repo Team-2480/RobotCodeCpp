@@ -32,10 +32,11 @@ constexpr int kPneumaticCanId = 0;
 
 constexpr int kUpSensorDio = 1;
 constexpr int kDownSensorDio = 0;
+
+constexpr double kSpoolSpeed = 50;
 } // namespace ClimbConstants
 
 namespace ShooterConstants {
-
 constexpr int kTopShooterCanId = 22;
 constexpr int kBottomShooterCanId = 21;
 } // namespace ShooterConstants
