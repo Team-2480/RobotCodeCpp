@@ -32,7 +32,9 @@ ClimbSubsystem::ClimbSubsystem()
 
   m_spool_command = new frc2::InstantCommand([=]() {
     stage = STAGE_GOING_DOWN;
-    // leaving the solenoid up here so that we get a full spool
+    // on an acidental down command the spool with become rough but it shouldnt matter
+    // it'll sort itself out when going back up
+    solenoid.Toggle();
     m_climbingClosedLoopController.SetReference(
         (double)ClimbConstants::kSpoolSpeed, SparkMax::ControlType::kVelocity);
   });
@@ -63,7 +65,6 @@ void ClimbSubsystem::Periodic() {
     stage = STAGE_UP;
   }
   if (TestSensorDown() && stage == STAGE_GOING_DOWN) {
-    solenoid.Toggle();
     Stop();
     stage = STAGE_DOWN;
   }
