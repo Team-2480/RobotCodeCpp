@@ -11,7 +11,8 @@ ClimbSubsystem::ClimbSubsystem()
       m_compressor(ClimbConstants::kPneumaticCanId,
                    frc::PneumaticsModuleType::CTREPCM),
       upSensor(ClimbConstants::kUpSensorDio),
-      downSensor(ClimbConstants::kDownSensorDio) {
+      downSensor(ClimbConstants::kDownSensorDio)
+{
 
   // FIX: replace drivingConfig with the correct climbing config
   m_climbingMotor.Configure(Configs::MAXSwerveModule::DrivingConfig(),
@@ -21,50 +22,61 @@ ClimbSubsystem::ClimbSubsystem()
   // zero the controller
   m_climbingEncoder.SetPosition(0);
 
-  m_unspool_command = new frc2::InstantCommand([=]() {
-    stage = STAGE_GOING_UP;
-    // The solenoid will attempt to go up immediatly but be reigned in by the
-    // rope
-    solenoid.Toggle();
-    m_climbingClosedLoopController.SetReference(
-        -ClimbConstants::kSpoolSpeed, SparkMax::ControlType::kVelocity);
-  });
-
-  m_spool_command = new frc2::InstantCommand([=]() {
-    stage = STAGE_GOING_DOWN;
-    // on an acidental down command the spool with become rough but it shouldnt matter
-    // it'll sort itself out when going back up
-    solenoid.Toggle();
-    m_climbingClosedLoopController.SetReference(
-        (double)ClimbConstants::kSpoolSpeed, SparkMax::ControlType::kVelocity);
-  });
-  m_null_command = new frc2::InstantCommand(
-      [=]() { printf("Someone's a little trigger happy...\n"); });
+  m_trigger_command = Trigger();
 }
 
-frc2::Command *ClimbSubsystem::Trigger() {
-  switch (stage) {
+frc2::Command *ClimbSubsystem::Trigger()
+{
+  return new frc2::InstantCommand([=]()
+                                  {
+printf("Triggering with stage %i\n", stage);
+  switch (stage)
+  {
   case STAGE_UP:
-    return Spool();
+     Spool();
     break;
   case STAGE_DOWN:
-    return Unspool();
+     Unspool();
     break;
   default:
-    return m_null_command;
+    printf("Someone's a little trigger happy...\n");
     break;
-  }
+  } });
 }
 
-frc2::Command *ClimbSubsystem::Spool() { return m_spool_command; }
+void ClimbSubsystem::Spool()
+{
+  printf("Spooling\n");
+  stage = STAGE_GOING_DOWN;
+  // on an acidental down command the spool with become rough but it shouldnt matter
+  // it'll sort itself out when going back up
+  m_climbingClosedLoopController.SetReference(
+      (double)ClimbConstants::kSpoolSpeed, SparkMax::ControlType::kVelocity);
+}
 
-frc2::Command *ClimbSubsystem::Unspool() { return m_unspool_command; }
-void ClimbSubsystem::Periodic() {
-  if (TestSensorUp() && stage == STAGE_GOING_UP) {
+void ClimbSubsystem::Unspool()
+{
+  printf("Unspooling\n");
+  stage = STAGE_GOING_UP;
+  // The solenoid will attempt to go up immediatly but be reigned in by the
+  // rope
+  solenoid.Toggle();
+  m_climbingClosedLoopController.SetReference(
+      -ClimbConstants::kSpoolSpeed, SparkMax::ControlType::kVelocity);
+}
+void ClimbSubsystem::Periodic()
+{
+  printf("Sensor Up: %i, Sensor Down: %i, Stage: %i\n", !TestSensorUp(), !TestSensorDown(), stage);
+  if (!TestSensorUp() && stage == STAGE_GOING_UP)
+  {
+    printf("Finished up\n");
     Stop();
     stage = STAGE_UP;
   }
-  if (TestSensorDown() && stage == STAGE_GOING_DOWN) {
+  if (!TestSensorDown() && stage == STAGE_GOING_DOWN)
+  {
+    printf("Finished down\n");
+    solenoid.Toggle();
     Stop();
     stage = STAGE_DOWN;
   }
@@ -73,7 +85,8 @@ void ClimbSubsystem::Periodic() {
 bool ClimbSubsystem::TestSensorUp() { return upSensor.Get(); }
 bool ClimbSubsystem::TestSensorDown() { return downSensor.Get(); }
 
-void ClimbSubsystem::Stop() {
+void ClimbSubsystem::Stop()
+{
   m_climbingClosedLoopController.SetReference((double)0,
                                               SparkMax::ControlType::kVelocity);
 }
