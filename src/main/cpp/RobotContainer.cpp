@@ -55,23 +55,19 @@ void RobotContainer::ConfigureButtonBindings()
 {
     // the while true method will run the lambda function specified until the
     // button class is in false state.
-    frc2::JoystickButton(&m_driverController,
-                         frc::XboxController::Button::kRightBumper)
-        .WhileTrue(new frc2::RunCommand([this]
-                                        { m_drive.SetX(); },
-                                        {&m_drive}));
 
-    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
-        .WhileTrue(new frc2::RunCommand(
-            [this]
-            { m_drive.m_pigeon.SetYaw((units::degree_t)0); },
-            {&m_drive}));
+    // TODO: make this work with joystick
+    // frc2::JoystickButton(&m_driverController,
+    //                      frc::XboxController::Button::kRightBumper)
+    //     .WhileTrue(new frc2::RunCommand([this]
+    //                                     { m_drive.SetX(); },
+    //                                     {&m_drive}));
 
-    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
+    frc2::JoystickButton(&m_driverController, frc::Joystick::ButtonType::kTriggerButton)
         .ToggleOnTrue(m_shooter.Shoot());
 
-    // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kY)
-    //   .ToggleOnTrue(m_climb.Trigger());
+    frc2::JoystickButton(&m_driverController, frc::Joystick::ButtonType::kTopButton)
+        .ToggleOnTrue(m_climb.Trigger());
 }
 
 frc2::Command *RobotContainer::GetAutonomousCommand()

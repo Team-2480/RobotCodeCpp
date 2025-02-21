@@ -23,7 +23,8 @@
 
 using namespace rev::spark;
 
-class ClimbSubsystem : public frc2::SubsystemBase {
+class ClimbSubsystem : public frc2::SubsystemBase
+{
   /**
    * Constructs the Climbing subsystem and configures hardware, I.e
    * encoder, and PID controller.
@@ -33,13 +34,10 @@ public:
   ~ClimbSubsystem() {}
 
   frc2::Command *Trigger();
-  frc2::Command *m_null_command;
+  frc2::Command *m_trigger_command;
 
-
-  frc2::Command *Unspool();
-  frc2::Command *m_unspool_command;
-  frc2::Command *Spool();
-  frc2::Command *m_spool_command;
+  void Unspool();
+  void Spool();
   void PneumaticUp();
   void PneumaticDown();
   bool TestSensorUp();
@@ -72,8 +70,6 @@ private:
 
   frc::Solenoid solenoid{frc::PneumaticsModuleType::CTREPCM,
                          0}; // Solenoid on channel 0
-  frc::Compressor compressor{
-      frc::PneumaticsModuleType::CTREPCM}; // Compressor control
 
   // Pneumatics compressor
   frc::Compressor m_compressor;

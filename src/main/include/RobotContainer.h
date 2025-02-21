@@ -54,7 +54,7 @@ private:
   // The robot's subsystems
   DriveSubsystem m_drive;
   ShooterSubsystem m_shooter;
-  // ClimbSubsystem m_climb;
+  ClimbSubsystem m_climb;
 
   // The chooser for the autonomous routines
   frc::SendableChooser<frc2::Command *> m_chooser;
