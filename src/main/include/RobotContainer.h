@@ -28,8 +28,9 @@
  * scheduler calls).  Instead, the structure of the robot (including subsystems,
  * commands, and button mappings) should be declared here.
  */
-class RobotContainer {
- public:
+class RobotContainer
+{
+public:
   /**
    * (constructor)
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -41,9 +42,9 @@ class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  frc2::Command* GetAutonomousCommand();
+  frc2::Command *GetAutonomousCommand();
 
- private:
+private:
   // The driver's controller
   // Perhaps rename so its evident this represents HID not an arbitrary data structure.
   frc::XboxController m_driverController{OIConstants::kDriverControllerPort};
@@ -54,9 +55,12 @@ class RobotContainer {
   DriveSubsystem m_drive;
   ShooterSubsystem m_shooter;
   ClimbSubsystem m_climb;
+  float x_mult = -1;
+  float y_mult = -1;
+  bool global_local = false;
 
   // The chooser for the autonomous routines
-  frc::SendableChooser<frc2::Command*> m_chooser;
+  frc::SendableChooser<frc2::Command *> m_chooser;
 
   /**
    * Use this method to define your button->command mappings. Buttons can be

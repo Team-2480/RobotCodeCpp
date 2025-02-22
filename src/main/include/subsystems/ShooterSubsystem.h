@@ -16,7 +16,8 @@
 #include "Configs.h"
 #include "Constants.h"
 
-class ShooterSubsystem {
+class ShooterSubsystem
+{
 private:
   rev::spark::SparkMax m_top;
   rev::spark::SparkClosedLoopController m_topClosedLoopController =
@@ -26,23 +27,23 @@ private:
       m_bottom.GetClosedLoopController();
   void Stop();
 
-  frc2::SequentialCommandGroup* shootCmd = new frc2::SequentialCommandGroup(
-      frc2::InstantCommand([=] {
-        m_bottomClosedLoopController.SetReference(
-            (double)90, SparkMax::ControlType::kVelocity);
-      }),
-      frc2::WaitCommand(1_s), frc2::InstantCommand([=]() {
-        m_topClosedLoopController.SetReference(
-            (double)-1, SparkMax::ControlType::kVelocity);
-      }),
-      frc2::WaitCommand(1_s), frc2::InstantCommand([=]() { Stop(); }));
+  frc2::SequentialCommandGroup *shootCmd = new frc2::SequentialCommandGroup(
+      frc2::InstantCommand([=]
+                           { m_bottomClosedLoopController.SetReference(
+                                 (double)7, SparkMax::ControlType::kVelocity); }),
+      frc2::WaitCommand(0.2_s), frc2::InstantCommand([=]()
+                                                     { m_topClosedLoopController.SetReference(
+                                                           (double)-1, SparkMax::ControlType::kVelocity); }),
+      frc2::WaitCommand(1_s), frc2::InstantCommand([=]()
+                                                   { Stop(); }));
 
- public:
+public:
   ShooterSubsystem()
       : m_top(ShooterConstants::kTopShooterCanId,
               rev::spark::SparkMax::MotorType::kBrushless),
         m_bottom(ShooterConstants::kBottomShooterCanId,
-                 rev::spark::SparkMax::MotorType::kBrushless) {
+                 rev::spark::SparkMax::MotorType::kBrushless)
+  {
     m_top.Configure(Configs::MAXSwerveModule::DrivingConfig(),
                     rev::spark::SparkBase::ResetMode::kResetSafeParameters,
                     rev::spark::SparkBase::PersistMode::kPersistParameters);
@@ -50,6 +51,7 @@ private:
     m_bottom.Configure(Configs::MAXSwerveModule::DrivingConfig(),
                        rev::spark::SparkBase::ResetMode::kResetSafeParameters,
                        rev::spark::SparkBase::PersistMode::kPersistParameters);
+    Stop();
   }
 
   ~ShooterSubsystem() {}
