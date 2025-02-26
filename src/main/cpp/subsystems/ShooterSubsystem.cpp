@@ -1,13 +1,17 @@
 #include <subsystems/ShooterSubsystem.h>
 
-void ShooterSubsystem::Rev() {
+void ShooterSubsystem::Rev()
+{
   m_topClosedLoopController.SetReference((double)0.1,
                                          SparkMax::ControlType::kVelocity);
 }
-frc2::Command* ShooterSubsystem::Shoot() {
+frc2::Command *ShooterSubsystem::Shoot()
+{
   return shootCmd;
 }
-void ShooterSubsystem::Stop() {
+void ShooterSubsystem::Stop()
+{
+  printf("bottom stopped\n");
   m_topClosedLoopController.SetReference((double)0,
                                          SparkMax::ControlType::kVelocity);
 
