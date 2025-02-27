@@ -44,14 +44,35 @@ class MAXSwerveModule {
     directConfig.SetIdleMode(SparkBaseConfig::IdleMode::kBrake)
         .SmartCurrentLimit(50);
     directConfig.encoder
-        .PositionConversionFactor(2 * M_PI)          // meters
-        .VelocityConversionFactor(2 * M_PI / 60.0);  // meters per second
+        .PositionConversionFactor(15)          // meters
+        .VelocityConversionFactor(15);  // meters per second
     directConfig.closedLoop
         .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
         // These are example gains you may need to them for your own robot!
         .Pid(0.04, 0, 0)
         .VelocityFF(directVelocityFeedForward)
         .OutputRange(-1, 1);
+
+    return directConfig;
+  }
+
+  static SparkMaxConfig& ClimbConfig() {
+    static SparkMaxConfig directConfig{};
+
+    double directVelocityFeedForward =
+        1 / ModuleConstants::kDriveWheelFreeSpeedRps;
+
+    directConfig.SetIdleMode(SparkBaseConfig::IdleMode::kBrake)
+        .SmartCurrentLimit(50);
+    directConfig.encoder
+        .PositionConversionFactor(60)
+        .VelocityConversionFactor(60);
+    directConfig.closedLoop
+        .Pid(0.04, 0, 0)
+        .VelocityFF(directVelocityFeedForward)
+        .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
+        .OutputRange(-1, 1)
+    .maxMotion.MaxAcceleration(50).MaxVelocity(50);
 
     return directConfig;
   }
