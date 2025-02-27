@@ -50,6 +50,9 @@ public:
 
   void Stop();
 
+  SparkClosedLoopController m_climbingClosedLoopController =
+      m_climbingMotor.GetClosedLoopController();
+
 private:
   enum Stage
   {
@@ -64,15 +67,6 @@ private:
   SparkMax m_climbingMotor;
 
   SparkRelativeEncoder m_climbingEncoder = m_climbingMotor.GetEncoder();
-
-  SparkClosedLoopController m_climbingClosedLoopController =
-      m_climbingMotor.GetClosedLoopController();
-
-  frc::Solenoid solenoid{frc::PneumaticsModuleType::CTREPCM,
-                         0}; // Solenoid on channel 0
-
-  // Pneumatics compressor
-  frc::Compressor m_compressor;
 
   frc::DigitalInput upSensor;
   frc::DigitalInput downSensor;

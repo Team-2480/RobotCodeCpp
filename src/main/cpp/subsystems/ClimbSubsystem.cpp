@@ -8,14 +8,12 @@
 ClimbSubsystem::ClimbSubsystem()
     : m_climbingMotor(ClimbConstants::kClimbMotorCanId,
                       SparkMax::MotorType::kBrushless),
-      m_compressor(ClimbConstants::kPneumaticCanId,
-                   frc::PneumaticsModuleType::CTREPCM),
       upSensor(ClimbConstants::kUpSensorDio),
       downSensor(ClimbConstants::kDownSensorDio)
 {
 
   // FIX: replace drivingConfig with the correct climbing config
-  m_climbingMotor.Configure(Configs::MAXSwerveModule::DrivingConfig(),
+  m_climbingMotor.Configure(Configs::MAXSwerveModule::DirectConfig(),
                             SparkBase::ResetMode::kResetSafeParameters,
                             SparkBase::PersistMode::kPersistParameters);
 
@@ -60,26 +58,24 @@ void ClimbSubsystem::Unspool()
   stage = STAGE_GOING_UP;
   // The solenoid will attempt to go up immediatly but be reigned in by the
   // rope
-  solenoid.Toggle();
   m_climbingClosedLoopController.SetReference(
       -ClimbConstants::kSpoolSpeed, SparkMax::ControlType::kVelocity);
 }
 void ClimbSubsystem::Periodic()
 {
-  printf("Sensor Up: %i, Sensor Down: %i, Stage: %i\n", !TestSensorUp(), !TestSensorDown(), stage);
-  if (!TestSensorUp() && stage == STAGE_GOING_UP)
-  {
-    printf("Finished up\n");
-    Stop();
-    stage = STAGE_UP;
-  }
-  if (!TestSensorDown() && stage == STAGE_GOING_DOWN)
-  {
-    printf("Finished down\n");
-    solenoid.Toggle();
-    Stop();
-    stage = STAGE_DOWN;
-  }
+  // printf("Sensor Up: %i, Sensor Down: %i, Stage: %i\n", !TestSensorUp(), !TestSensorDown(), stage);
+  // if (!TestSensorUp() && stage == STAGE_GOING_UP)
+  // {
+  //   printf("Finished up\n");
+  //   Stop();
+  //   stage = STAGE_UP;
+  // }
+  // if (!TestSensorDown() && stage == STAGE_GOING_DOWN)
+  // {
+  //   printf("Finished down\n");
+  //   Stop();
+  //   stage = STAGE_DOWN;
+  // }
 }
 
 bool ClimbSubsystem::TestSensorUp() { return upSensor.Get(); }

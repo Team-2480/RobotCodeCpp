@@ -25,30 +25,30 @@ private:
   rev::spark::SparkMax m_bottom;
   rev::spark::SparkClosedLoopController m_bottomClosedLoopController =
       m_bottom.GetClosedLoopController();
-  void Stop();
 
-  frc2::SequentialCommandGroup *shootCmd = new frc2::SequentialCommandGroup(
-      frc2::InstantCommand([=]
-                           { m_bottomClosedLoopController.SetReference(
-                                 (double)7, SparkMax::ControlType::kVelocity); }),
-      frc2::WaitCommand(0.2_s), frc2::InstantCommand([=]()
-                                                     { m_topClosedLoopController.SetReference(
-                                                           (double)-1, SparkMax::ControlType::kVelocity); }),
-      frc2::WaitCommand(1_s), frc2::InstantCommand([=]()
-                                                   { Stop(); }));
+  frc2::Command *shootCmd = new frc2::InstantCommand([=]
+                                                     {
+                                                       printf("bottom triggered\n");
+                                                       m_bottomClosedLoopController.SetReference(
+                                                           (double)1, SparkMax::ControlType::kVelocity);
+                                                       //   m_topClosedLoopController.SetReference(
+                                                       //                            (double)-650, SparkMax::ControlType::kVelocity);
+                                                     });
 
 public:
+  void Stop();
+
   ShooterSubsystem()
       : m_top(ShooterConstants::kTopShooterCanId,
               rev::spark::SparkMax::MotorType::kBrushless),
         m_bottom(ShooterConstants::kBottomShooterCanId,
                  rev::spark::SparkMax::MotorType::kBrushless)
   {
-    m_top.Configure(Configs::MAXSwerveModule::DrivingConfig(),
+    m_top.Configure(Configs::MAXSwerveModule::DirectConfig(), // TODO: Configure this properly
                     rev::spark::SparkBase::ResetMode::kResetSafeParameters,
                     rev::spark::SparkBase::PersistMode::kPersistParameters);
 
-    m_bottom.Configure(Configs::MAXSwerveModule::DrivingConfig(),
+    m_bottom.Configure(Configs::MAXSwerveModule::DirectConfig(),
                        rev::spark::SparkBase::ResetMode::kResetSafeParameters,
                        rev::spark::SparkBase::PersistMode::kPersistParameters);
     Stop();

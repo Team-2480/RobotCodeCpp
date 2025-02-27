@@ -52,7 +52,22 @@ RobotContainer::RobotContainer()
                     m_driverController.GetRightX(), OIConstants::kDriveDeadband,
                     DriveConstants::kTargetSpeed.value())},
                 global_local);
-            printf("Yaw: %f\n", m_drive.m_pigeon.GetYaw().GetValue().value());
+
+            double combined_triggers = frc::ApplyDeadband(
+                m_driverController.GetLeftTriggerAxis() - m_driverController.GetRightTriggerAxis(), OIConstants::kDriveDeadband);
+
+            // printf("Yaw: %f Current Trigger: %f\n", m_drive.m_pigeon.GetYaw().GetValue().value(), combined_triggers);
+
+            try
+            {
+
+                // m_climb.m_climbingClosedLoopController.SetReference(
+                //     combined_triggers * ClimbConstants::kSpoolSpeed, SparkMax::ControlType::kVelocity);
+            }
+            catch (std::exception e)
+            {
+                printf("%s\n", e.what());
+            }
         },
         {&m_drive}));
 }
@@ -76,15 +91,16 @@ void RobotContainer::ConfigureButtonBindings()
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
         .ToggleOnTrue(m_shooter.Shoot());
 
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
+        .ToggleOnFalse(new frc2::InstantCommand([this]()
+                                                { m_shooter.Stop(); }));
+
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kX)
         .ToggleOnTrue(new frc2::InstantCommand(
             [this]
             { global_local = !global_local;
             printf("global local: %i\n", global_local); },
             {}));
-
-    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kY)
-        .ToggleOnTrue(m_climb.Trigger());
 
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kBack)
         .ToggleOnTrue(new frc2::InstantCommand(
