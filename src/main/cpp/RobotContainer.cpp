@@ -27,7 +27,7 @@ using namespace DriveConstants;
 RobotContainer::RobotContainer()
 {
     // Configure the button bindings
-    ConfigureButtonBindings();
+    ConfigureButtonBindingsJoystick();
 
     // Set up default drive command
     // The left stick controls translation of the robot.
@@ -51,27 +51,46 @@ RobotContainer::RobotContainer()
         {&m_drive}));
 }
 
-void RobotContainer::ConfigureButtonBindings()
+// void RobotContainer::ConfigureButtonBindings()
+// {
+//     // the while true method will run the lambda function specified until the
+//     // button class is in false state.
+//     frc2::JoystickButton(&m_driverController,
+//                          frc::XboxController::Button::kRightBumper)
+//         .WhileTrue(new frc2::RunCommand([this]
+//                                         { m_drive.SetX(); },
+//                                         {&m_drive}));
+
+//     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
+//         .WhileTrue(new frc2::RunCommand(
+//             [this]
+//             { m_drive.m_pigeon.SetYaw((units::degree_t)0); },
+//             {&m_drive}));
+
+//     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
+//         .ToggleOnTrue(m_shooter.Shoot());
+
+//     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kY)
+//         .ToggleOnTrue(m_climb.Trigger());
+// }
+
+void RobotContainer::ConfigureButtonBindingsJoystick()
 {
     // the while true method will run the lambda function specified until the
     // button class is in false state.
-    frc2::JoystickButton(&m_driverController,
-                         frc::XboxController::Button::kRightBumper)
-        .WhileTrue(new frc2::RunCommand([this]
-                                        { m_drive.SetX(); },
-                                        {&m_drive}));
+    // frc2::JoystickButton(&m_driverJoystick, frc::Joystick::Button::kB)
+    //     .WhileTrue(new frc2::RunCommand(
+    //         [this]
+    //         // { m_drive.m_pigeon.SetYaw((units::degree_t)0); },
+    //         {&m_drive}));
 
-    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
-        .WhileTrue(new frc2::RunCommand(
-            [this]
-            { m_drive.m_pigeon.SetYaw((units::degree_t)0); },
-            {&m_drive}));
-
-    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
+    frc2::JoystickButton(&m_driverJoystick, 1) // kTrigger = 1
         .ToggleOnTrue(m_shooter.Shoot());
 
-    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kY)
-        .ToggleOnTrue(m_climb.Trigger());
+    // frc::ChassisSpeeds speeds{-m_driverJoystick.GetY(), -m_driverJoystick.GetX(), -m_driverJoystick.GetZ()};
+
+    // frc2::JoystickButton(&m_driverJoystick, frc::Joystick::Button::kY)
+    // .ToggleOnTrue(m_climb.Trigger());
 }
 
 frc2::Command *RobotContainer::GetAutonomousCommand()

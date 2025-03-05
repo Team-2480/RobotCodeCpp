@@ -7,6 +7,7 @@
 #pragma once
 
 #include <frc/XboxController.h>
+#include <frc/Joystick.h>
 #include <frc/controller/PIDController.h>
 #include <frc/controller/ProfiledPIDController.h>
 #include <frc/smartdashboard/SendableChooser.h>
@@ -28,8 +29,9 @@
  * scheduler calls).  Instead, the structure of the robot (including subsystems,
  * commands, and button mappings) should be declared here.
  */
-class RobotContainer {
- public:
+class RobotContainer
+{
+public:
   /**
    * (constructor)
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -41,12 +43,13 @@ class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  frc2::Command* GetAutonomousCommand();
+  frc2::Command *GetAutonomousCommand();
 
- private:
+private:
   // The driver's controller
   // Perhaps rename so its evident this represents HID not an arbitrary data structure.
-  frc::XboxController m_driverController{OIConstants::kDriverControllerPort};
+  frc::XboxController m_driverController{OIConstants::kDriverControllerPortXbox};
+  frc::Joystick m_driverJoystick{OIConstants::kDriverControllerPortJoystick};
 
   // The robot's subsystems and commands are defined here...
 
@@ -56,7 +59,7 @@ class RobotContainer {
   ClimbSubsystem m_climb;
 
   // The chooser for the autonomous routines
-  frc::SendableChooser<frc2::Command*> m_chooser;
+  frc::SendableChooser<frc2::Command *> m_chooser;
 
   /**
    * Use this method to define your button->command mappings. Buttons can be
@@ -65,4 +68,5 @@ class RobotContainer {
    * to a JoystickButton.
    */
   void ConfigureButtonBindings();
+  void ConfigureButtonBindingsJoystick();
 };
