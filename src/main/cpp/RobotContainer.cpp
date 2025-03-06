@@ -38,13 +38,13 @@ RobotContainer::RobotContainer()
         {
             m_drive.Drive(
                 -units::meters_per_second_t{frc::ApplyDeadband(
-                    m_driverController.GetLeftY(), OIConstants::kDriveDeadband,
+                    m_driverJoystick.GetY(), OIConstants::kDriveDeadband,
                     DriveConstants::kTargetSpeed.value())},
                 -units::meters_per_second_t{frc::ApplyDeadband(
-                    m_driverController.GetLeftX(), OIConstants::kDriveDeadband,
+                    m_driverJoystick.GetX(), OIConstants::kDriveDeadband,
                     DriveConstants::kTargetSpeed.value())},
                 -units::radians_per_second_t{frc::ApplyDeadband(
-                    m_driverController.GetRightX(), OIConstants::kDriveDeadband,
+                    m_driverJoystick.GetTwist(), OIConstants::kDriveDeadband,
                     DriveConstants::kTargetSpeed.value())},
                 true);
         },
@@ -78,16 +78,27 @@ void RobotContainer::ConfigureButtonBindingsJoystick()
 {
     // the while true method will run the lambda function specified until the
     // button class is in false state.
-    // frc2::JoystickButton(&m_driverJoystick, frc::Joystick::Button::kB)
+    // frc2::JoystickButton(&m_driverJoystick, frc::Joystick::Button::kBf
     //     .WhileTrue(new frc2::RunCommand(
     //         [this]
     //         // { m_drive.m_pigeon.SetYaw((units::degree_t)0); },
     //         {&m_drive}));
 
     frc2::JoystickButton(&m_driverJoystick, 1) // kTrigger = 1
-        .ToggleOnTrue(m_shooter.Shoot());
+        .ToggleOnTrue(new frc2::InstantCommand(
+        [this]
+        {
+           m_shooter.Shoot();
+        }
+        ));
 
-    // frc::ChassisSpeeds speeds{-m_driverJoystick.GetY(), -m_driverJoystick.GetX(), -m_driverJoystick.GetZ()};
+
+
+    // m_driverJoystick.GetTrigger()
+    //     .ToggleOnTrue(m_shooter.Shoot());
+
+
+    //frc::ChassisSpeeds speeds{-m_driverJoystick.GetY(), -m_driverJoystick.GetX(), -m_driverJoystick.GetZ()};
 
     // frc2::JoystickButton(&m_driverJoystick, frc::Joystick::Button::kY)
     // .ToggleOnTrue(m_climb.Trigger());
