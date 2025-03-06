@@ -30,9 +30,9 @@ private:
                                                      {
                                                        printf("bottom triggered\n");
                                                        m_bottomClosedLoopController.SetReference(
-                                                           (double)650, SparkMax::ControlType::kMAXMotionVelocityControl);
+                                                           (double)650, SparkMax::ControlType::kVelocity);
                                                        m_topClosedLoopController.SetReference(
-                                                                                  (double)-100, SparkMax::ControlType::kMAXMotionVelocityControl);
+                                                                                  (double)-100, SparkMax::ControlType::kVelocity);
                                                      });
 
 public:

@@ -50,7 +50,7 @@ class MAXSwerveModule {
         .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
         // These are example gains you may need to them for your own robot!
         .Pid(0.04, 0, 0)
-        .VelocityFF(directVelocityFeedForward)
+        .VelocityFF(1/11000)
         .OutputRange(-1, 1);
 
     return directConfig;
