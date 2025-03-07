@@ -38,13 +38,13 @@ RobotContainer::RobotContainer()
         {
             m_drive.Drive(
                 -units::meters_per_second_t{frc::ApplyDeadband(
-                    m_driverJoystick.GetY(), OIConstants::kDriveDeadband,
+                    std::pow(m_driverJoystick.GetY(),3), OIConstants::kDriveDeadband,
                     DriveConstants::kTargetSpeed.value())},
                 -units::meters_per_second_t{frc::ApplyDeadband(
-                    m_driverJoystick.GetX(), OIConstants::kDriveDeadband,
+                    std::pow(m_driverJoystick.GetX(),3), OIConstants::kDriveDeadband,
                     DriveConstants::kTargetSpeed.value())},
                 -units::radians_per_second_t{frc::ApplyDeadband(
-                    m_driverJoystick.GetTwist(), OIConstants::kDriveDeadband,
+                    std::pow(m_driverJoystick.GetTwist(),3), OIConstants::kDriveDeadband,
                     DriveConstants::kTargetSpeed.value())},
                 true);
         },
