@@ -127,6 +127,7 @@ extern const frc::TrapezoidProfile<units::radians>::Constraints
 } // namespace AutoConstants
 
 namespace OIConstants {
-constexpr int kDriverControllerPort = 0;
+constexpr int kDriverControllerPortXbox = 1;
+constexpr int kDriverControllerPortJoystick = 0;
 constexpr double kDriveDeadband = 0.05;
 } // namespace OIConstants

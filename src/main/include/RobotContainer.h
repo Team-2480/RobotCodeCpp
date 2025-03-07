@@ -15,6 +15,7 @@
 #include <frc2/command/PIDCommand.h>
 #include <frc2/command/ParallelRaceGroup.h>
 #include <frc2/command/RunCommand.h>
+#include <frc/Joystick.h>
 
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
@@ -47,7 +48,8 @@ public:
 private:
   // The driver's controller
   // Perhaps rename so its evident this represents HID not an arbitrary data structure.
-  frc::XboxController m_driverController{OIConstants::kDriverControllerPort};
+  frc::XboxController m_driverController{OIConstants::kDriverControllerPortXbox};
+  frc::Joystick m_driverJoystick{OIConstants::kDriverControllerPortJoystick};
 
   // The robot's subsystems and commands are defined here...
 
@@ -69,4 +71,5 @@ private:
    * to a JoystickButton.
    */
   void ConfigureButtonBindings();
+  void ConfigureButtonBindingsJoystick();
 };

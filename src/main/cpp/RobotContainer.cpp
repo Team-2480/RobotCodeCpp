@@ -28,6 +28,7 @@ RobotContainer::RobotContainer()
 {
     // Configure the button bindings
     ConfigureButtonBindings();
+    ConfigureButtonBindingsJoystick();
 
     // Set up default drive command
     // The left stick controls translation of the robot.
@@ -36,38 +37,17 @@ RobotContainer::RobotContainer()
     m_drive.SetDefaultCommand(frc2::RunCommand(
         [this]
         {
-            double y_val;
-            double x_val;
-            y_val = frc::ApplyDeadband(
-                m_driverController.GetLeftY(), OIConstants::kDriveDeadband,
-                DriveConstants::kTargetSpeed.value());
-
-            x_val = frc::ApplyDeadband(
-                m_driverController.GetLeftX(), OIConstants::kDriveDeadband,
-                DriveConstants::kTargetSpeed.value());
             m_drive.Drive(
-                y_mult * units::meters_per_second_t{y_val},
-                x_mult * units::meters_per_second_t{x_val},
-                -units::radians_per_second_t{frc::ApplyDeadband(
-                    m_driverController.GetRightX(), OIConstants::kDriveDeadband,
+                -units::meters_per_second_t{frc::ApplyDeadband(
+                    std::pow(m_driverJoystick.GetY(), 3), OIConstants::kDriveDeadband,
                     DriveConstants::kTargetSpeed.value())},
-                global_local);
-
-            double combined_triggers = frc::ApplyDeadband(
-                m_driverController.GetLeftTriggerAxis() - m_driverController.GetRightTriggerAxis(), OIConstants::kDriveDeadband);
-
-            // printf("Yaw: %f Current Trigger: %f\n", m_drive.m_pigeon.GetYaw().GetValue().value(), combined_triggers);
-
-            try
-            {
-
-                // m_climb.m_climbingClosedLoopController.SetReference(
-                //     combined_triggers * ClimbConstants::kSpoolSpeed, SparkMax::ControlType::kVelocity);
-            }
-            catch (std::exception e)
-            {
-                printf("%s\n", e.what());
-            }
+                -units::meters_per_second_t{frc::ApplyDeadband(
+                    std::pow(m_driverJoystick.GetX(), 3), OIConstants::kDriveDeadband,
+                    DriveConstants::kTargetSpeed.value())},
+                -units::radians_per_second_t{frc::ApplyDeadband(
+                    std::pow(m_driverJoystick.GetTwist(), 3), OIConstants::kDriveDeadband,
+                    DriveConstants::kTargetSpeed.value())},
+                true);
         },
         {&m_drive}));
 }
@@ -101,7 +81,10 @@ void RobotContainer::ConfigureButtonBindings()
             { global_local = !global_local;
             printf("global local: %i\n", global_local); },
             {}));
+}
 
+void RobotContainer::ConfigureButtonBindingsJoystick()
+{
 }
 
 frc2::Command *RobotContainer::GetAutonomousCommand()
