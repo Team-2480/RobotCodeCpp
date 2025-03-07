@@ -4,8 +4,14 @@
 
 #include "Robot.h"
 
+#include <cameraserver/CameraServer.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
+
+Robot::Robot() {
+  // CameraServer must be on seperate thread or it will block hardware code.
+  frc::CameraServer::StartAutomaticCapture();
+}
 
 void Robot::RobotInit() {}
 
