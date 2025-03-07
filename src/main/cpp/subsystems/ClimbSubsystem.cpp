@@ -9,7 +9,7 @@ ClimbSubsystem::ClimbSubsystem()
     : m_climbingMotor(ClimbConstants::kClimbMotorCanId,
                       SparkMax::MotorType::kBrushless),
       upSensor(ClimbConstants::kUpSensorDio),
-      downSensor(ClimbConstants::kDownSensorDio), regulator(&m_climbingMotor, &m_climbingClosedLoopController, 10.0)
+      downSensor(ClimbConstants::kDownSensorDio)
 {
 
   // FIX: replace drivingConfig with the correct climbing config

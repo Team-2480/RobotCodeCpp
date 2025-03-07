@@ -102,11 +102,6 @@ void RobotContainer::ConfigureButtonBindings()
             printf("global local: %i\n", global_local); },
             {}));
 
-    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kBack)
-        .ToggleOnTrue(new frc2::InstantCommand(
-            [this]
-            { m_climb.Stop(); },
-            {}));
 }
 
 frc2::Command *RobotContainer::GetAutonomousCommand()

@@ -30,9 +30,9 @@ private:
                                                      {
                                                        printf("bottom triggered\n");
                                                        m_bottomClosedLoopController.SetReference(
-                                                           (double)650, SparkMax::ControlType::kVelocity);
+                                                           (double)0.9, SparkMax::ControlType::kDutyCycle);
                                                        m_topClosedLoopController.SetReference(
-                                                                                  (double)-100, SparkMax::ControlType::kVelocity);
+                                                                                  (double)-0.2, SparkMax::ControlType::kDutyCycle);
                                                      });
 
 public:
@@ -46,11 +46,11 @@ public:
   {
     m_top.Configure(Configs::MAXSwerveModule::DirectConfig(), // TODO: Configure this properly
                     rev::spark::SparkBase::ResetMode::kResetSafeParameters,
-                    rev::spark::SparkBase::PersistMode::kPersistParameters);
+                    rev::spark::SparkBase::PersistMode::kNoPersistParameters);
 
     m_bottom.Configure(Configs::MAXSwerveModule::DirectConfig(),
                        rev::spark::SparkBase::ResetMode::kResetSafeParameters,
-                       rev::spark::SparkBase::PersistMode::kPersistParameters);
+                       rev::spark::SparkBase::PersistMode::kNoPersistParameters);
     Stop();
   }
 

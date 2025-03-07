@@ -41,16 +41,14 @@ class MAXSwerveModule {
     double directVelocityFeedForward =
         1 / ModuleConstants::kDriveWheelFreeSpeedRps;
 
-    directConfig.SetIdleMode(SparkBaseConfig::IdleMode::kBrake)
-        .SmartCurrentLimit(50);
     directConfig.encoder
-        .PositionConversionFactor(15)          // meters
-        .VelocityConversionFactor(15);  // meters per second
+        .PositionConversionFactor(1)          // meters
+        .VelocityConversionFactor(1);  // meters per second
     directConfig.closedLoop
         .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
         // These are example gains you may need to them for your own robot!
         .Pid(0.04, 0, 0)
-        .VelocityFF(1/11000)
+        .VelocityFF(1.0/11000)
         .OutputRange(-1, 1);
 
     return directConfig;

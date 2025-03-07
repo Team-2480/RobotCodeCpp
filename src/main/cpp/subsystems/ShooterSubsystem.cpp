@@ -13,8 +13,8 @@ void ShooterSubsystem::Stop()
 {
   printf("bottom stopped\n");
   m_topClosedLoopController.SetReference((double)0,
-                                         SparkMax::ControlType::kVelocity);
+                                         SparkMax::ControlType::kDutyCycle);
 
   m_bottomClosedLoopController.SetReference((double)0,
-                                            SparkMax::ControlType::kVelocity);
+                                            SparkMax::ControlType::kDutyCycle);
 }
