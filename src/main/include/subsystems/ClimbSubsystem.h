@@ -45,6 +45,8 @@ public:
 
   void Stop();
 
+  MotorRegulator m_regulator;
+
 private:
   enum Stage
   {
@@ -62,7 +64,6 @@ private:
       m_climbingMotor.GetClosedLoopController();
 
   SparkRelativeEncoder m_climbingEncoder = m_climbingMotor.GetEncoder();
-  MotorRegulator m_regulator;
 
   frc::DigitalInput upSensor;
   frc::DigitalInput downSensor;

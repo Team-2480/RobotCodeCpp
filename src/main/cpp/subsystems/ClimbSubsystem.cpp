@@ -17,7 +17,7 @@ ClimbSubsystem::ClimbSubsystem()
                             SparkBase::ResetMode::kResetSafeParameters,
                             SparkBase::PersistMode::kPersistParameters);
 
-  m_regulator.SetLimits(4.5, 0);
+  m_regulator.SetLimits(5, 0);
   m_regulator.SetRatio(60);
 }
 

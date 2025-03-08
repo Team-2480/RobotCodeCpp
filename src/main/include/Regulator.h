@@ -18,7 +18,6 @@ public:
     MotorRegulator(rev::spark::SparkMax *spark_max, rev::spark::SparkClosedLoopController *closed_loop, double throttle_speed) : spark_max(spark_max), closed_loop(closed_loop), throttle_speed(throttle_speed)
     {
         // WARNING: motor must stay in the same place on boot !!!
-        spark_max->GetEncoder().SetPosition(0);
     }
     ~MotorRegulator() {}
 
@@ -38,11 +37,16 @@ public:
         limit_down = p_limit_down;
     }
 
+    void Zero()
+    {
+        spark_max->GetEncoder().SetPosition(0);
+    }
+
     void Periodic()
     {
         double position = spark_max->GetEncoder().GetPosition() / position_ratio;
         double target_speed = input * throttle_speed;
-        if (limit_down.has_value() && limit_up.has_value() && (limit_down > position + target_speed/10 || position + target_speed/10 > limit_up))
+        if (limit_down.has_value() && limit_up.has_value() && (limit_down > position + target_speed / 10 || position + target_speed / 10 > limit_up))
             target_speed = 0;
 
         printf("sending %f with curently %f\n", target_speed, position);
