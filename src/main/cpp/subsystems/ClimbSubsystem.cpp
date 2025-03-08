@@ -13,7 +13,7 @@ ClimbSubsystem::ClimbSubsystem()
 {
 
   // FIX: replace drivingConfig with the correct climbing config
-  m_climbingMotor.Configure(Configs::MAXSwerveModule::DirectConfig(),
+  m_climbingMotor.Configure(Configs::MAXSwerveModule::ClimbConfig(),
                             SparkBase::ResetMode::kResetSafeParameters,
                             SparkBase::PersistMode::kPersistParameters);
 
