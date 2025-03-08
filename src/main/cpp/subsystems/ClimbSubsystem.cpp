@@ -9,7 +9,7 @@ ClimbSubsystem::ClimbSubsystem()
     : m_climbingMotor(ClimbConstants::kClimbMotorCanId,
                       SparkMax::MotorType::kBrushless),
       upSensor(ClimbConstants::kUpSensorDio),
-      downSensor(ClimbConstants::kDownSensorDio)
+      downSensor(ClimbConstants::kDownSensorDio), m_regulator(&m_climbingMotor, &m_climbingClosedLoopController, 0.05)
 {
 
   // FIX: replace drivingConfig with the correct climbing config
@@ -17,65 +17,25 @@ ClimbSubsystem::ClimbSubsystem()
                             SparkBase::ResetMode::kResetSafeParameters,
                             SparkBase::PersistMode::kPersistParameters);
 
-  // zero the controller
-  m_climbingEncoder.SetPosition(0);
-
-  m_trigger_command = Trigger();
-}
-
-frc2::Command *ClimbSubsystem::Trigger()
-{
-  return new frc2::InstantCommand([=]()
-                                  {
-printf("Triggering with stage %i\n", stage);
-  switch (stage)
-  {
-  case STAGE_UP:
-     Spool();
-    break;
-  case STAGE_DOWN:
-     Unspool();
-    break;
-  default:
-    printf("Someone's a little trigger happy...\n");
-    break;
-  } });
+  m_regulator.SetLimits(3.5, 0);
+  m_regulator.SetRatio(60);
 }
 
 void ClimbSubsystem::Spool()
 {
   printf("Spooling\n");
-  stage = STAGE_GOING_DOWN;
-  // on an acidental down command the spool with become rough but it shouldnt matter
-  // it'll sort itself out when going back up
-  m_climbingClosedLoopController.SetReference(
-      (double)ClimbConstants::kSpoolSpeed, SparkMax::ControlType::kVelocity);
+  m_regulator.SetReference(
+      1);
 }
 
 void ClimbSubsystem::Unspool()
 {
   printf("Unspooling\n");
-  stage = STAGE_GOING_UP;
-  // The solenoid will attempt to go up immediatly but be reigned in by the
-  // rope
-  m_climbingClosedLoopController.SetReference(
-      -ClimbConstants::kSpoolSpeed, SparkMax::ControlType::kVelocity);
+  m_regulator.SetReference(-1);
 }
 void ClimbSubsystem::Periodic()
 {
-  // printf("Sensor Up: %i, Sensor Down: %i, Stage: %i\n", !TestSensorUp(), !TestSensorDown(), stage);
-  // if (!TestSensorUp() && stage == STAGE_GOING_UP)
-  // {
-  //   printf("Finished up\n");
-  //   Stop();
-  //   stage = STAGE_UP;
-  // }
-  // if (!TestSensorDown() && stage == STAGE_GOING_DOWN)
-  // {
-  //   printf("Finished down\n");
-  //   Stop();
-  //   stage = STAGE_DOWN;
-  // }
+  m_regulator.Periodic();
 }
 
 bool ClimbSubsystem::TestSensorUp() { return upSensor.Get(); }
@@ -83,6 +43,5 @@ bool ClimbSubsystem::TestSensorDown() { return downSensor.Get(); }
 
 void ClimbSubsystem::Stop()
 {
-  m_climbingClosedLoopController.SetReference((double)0,
-                                              SparkMax::ControlType::kVelocity);
+  m_regulator.SetReference((double)0);
 }

@@ -75,12 +75,36 @@ void RobotContainer::ConfigureButtonBindings()
         .ToggleOnFalse(new frc2::InstantCommand([this]()
                                                 { m_shooter.Stop(); }));
 
+    // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kX)
+    //     .ToggleOnTrue(new frc2::InstantCommand(
+    //         [this]
+    //         { global_local = !global_local;
+    //         printf("global local: %i\n", global_local); },
+    //         {}));
+
+    
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kY)
+        .ToggleOnTrue(new frc2::InstantCommand(
+            [this]
+            {
+                m_climb.Spool();
+            }));
+
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kY)
+        .ToggleOnFalse(new frc2::InstantCommand([this]()
+                                                { m_climb.Stop(); }));
+    
+    
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kX)
         .ToggleOnTrue(new frc2::InstantCommand(
             [this]
-            { global_local = !global_local;
-            printf("global local: %i\n", global_local); },
-            {}));
+            {
+                m_climb.Unspool();
+            }));
+
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kX)
+        .ToggleOnFalse(new frc2::InstantCommand([this]()
+                                                { m_climb.Stop(); }));
 }
 
 void RobotContainer::ConfigureButtonBindingsJoystick()
