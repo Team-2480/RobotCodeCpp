@@ -47,7 +47,7 @@ RobotContainer::RobotContainer()
                 -units::radians_per_second_t{frc::ApplyDeadband(
                     std::pow(m_driverJoystick.GetTwist(), 3), OIConstants::kDriveDeadband,
                     DriveConstants::kTargetSpeed.value())},
-                true);
+                global_local);
         },
         {&m_drive}));
 }

@@ -9,7 +9,7 @@ ClimbSubsystem::ClimbSubsystem()
     : m_climbingMotor(ClimbConstants::kClimbMotorCanId,
                       SparkMax::MotorType::kBrushless),
       upSensor(ClimbConstants::kUpSensorDio),
-      downSensor(ClimbConstants::kDownSensorDio), m_regulator(&m_climbingMotor, &m_climbingClosedLoopController, 0.05)
+      downSensor(ClimbConstants::kDownSensorDio), m_regulator(&m_climbingMotor, &m_climbingClosedLoopController, 0.2)
 {
 
   // FIX: replace drivingConfig with the correct climbing config
@@ -17,7 +17,7 @@ ClimbSubsystem::ClimbSubsystem()
                             SparkBase::ResetMode::kResetSafeParameters,
                             SparkBase::PersistMode::kPersistParameters);
 
-  m_regulator.SetLimits(3.5, 0);
+  m_regulator.SetLimits(4.5, 0);
   m_regulator.SetRatio(60);
 }
 

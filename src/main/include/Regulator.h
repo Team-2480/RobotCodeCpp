@@ -42,9 +42,10 @@ public:
     {
         double position = spark_max->GetEncoder().GetPosition() / position_ratio;
         double target_speed = input * throttle_speed;
-        if (limit_down.has_value() && limit_up.has_value() && (limit_down > position || position > limit_up))
+        if (limit_down.has_value() && limit_up.has_value() && (limit_down > position + target_speed/10 || position + target_speed/10 > limit_up))
             target_speed = 0;
 
+        printf("sending %f with curently %f\n", target_speed, position);
         closed_loop->SetReference(target_speed, rev::spark::SparkLowLevel::ControlType::kDutyCycle);
     }
 };
