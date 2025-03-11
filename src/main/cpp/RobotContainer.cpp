@@ -37,17 +37,34 @@ RobotContainer::RobotContainer()
     m_drive.SetDefaultCommand(frc2::RunCommand(
         [this]
         {
-            m_drive.Drive(
-                -units::meters_per_second_t{frc::ApplyDeadband(
-                    std::pow(m_driverJoystick.GetY(), 3), OIConstants::kDriveDeadband,
-                    DriveConstants::kTargetSpeed.value())},
-                -units::meters_per_second_t{frc::ApplyDeadband(
-                    std::pow(m_driverJoystick.GetX(), 3), OIConstants::kDriveDeadband,
-                    DriveConstants::kTargetSpeed.value())},
-                -units::radians_per_second_t{frc::ApplyDeadband(
-                    std::pow(m_driverJoystick.GetTwist(), 3), OIConstants::kDriveDeadband,
-                    DriveConstants::kTargetSpeed.value())},
-                true);
+            if (slowMode)
+            {
+                m_drive.Drive(
+                    -units::meters_per_second_t{frc::ApplyDeadband(
+                        std::pow(m_driverJoystick.GetY(), 3), OIConstants::kDriveDeadband,
+                        DriveConstants::kSlowTargetSpeed.value())},
+                    -units::meters_per_second_t{frc::ApplyDeadband(
+                        std::pow(m_driverJoystick.GetX(), 3), OIConstants::kDriveDeadband,
+                        DriveConstants::kSlowTargetSpeed.value())},
+                    -units::radians_per_second_t{frc::ApplyDeadband(
+                        std::pow(m_driverJoystick.GetTwist(), 3), OIConstants::kDriveDeadband,
+                        DriveConstants::kSlowTargetSpeed.value())},
+                    true);
+            }
+            else
+            {
+                m_drive.Drive(
+                    -units::meters_per_second_t{frc::ApplyDeadband(
+                        std::pow(m_driverJoystick.GetY(), 3), OIConstants::kDriveDeadband,
+                        DriveConstants::kTargetSpeed.value())},
+                    -units::meters_per_second_t{frc::ApplyDeadband(
+                        std::pow(m_driverJoystick.GetX(), 3), OIConstants::kDriveDeadband,
+                        DriveConstants::kTargetSpeed.value())},
+                    -units::radians_per_second_t{frc::ApplyDeadband(
+                        std::pow(m_driverJoystick.GetTwist(), 3), OIConstants::kDriveDeadband,
+                        DriveConstants::kTargetSpeed.value())},
+                    true);
+            }
         },
         {&m_drive}));
 }
@@ -75,6 +92,14 @@ void RobotContainer::ConfigureButtonBindings()
         .ToggleOnFalse(new frc2::InstantCommand([this]()
                                                 { m_shooter.Stop(); }));
 
+    frc2::JoystickButton(&m_driverJoystick, 3)
+        .ToggleOnTrue(new frc2::InstantCommand(
+            [this]
+            {
+                slowMode = !slowMode;
+            },
+            {}));
+
     frc2::JoystickButton(&m_driverJoystick, 2)
         .ToggleOnTrue(new frc2::InstantCommand(
             [this]
@@ -86,14 +111,14 @@ void RobotContainer::ConfigureButtonBindings()
         .ToggleOnTrue(new frc2::InstantCommand(
             [this]
             {
+                printf("Flipping 180 Degrees...\n");
                 m_drive.Drive(
-                -units::meters_per_second_t{0},
-                -units::meters_per_second_t{0},
-                -units::radians_per_second_t{M_PI},
-                true);
+                    -units::meters_per_second_t{0},
+                    -units::meters_per_second_t{0},
+                    -units::radians_per_second_t{M_PI},
+                    true);
             },
             {}));
-
 }
 
 void RobotContainer::ConfigureButtonBindingsJoystick()
