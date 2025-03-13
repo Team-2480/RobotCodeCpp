@@ -62,18 +62,18 @@ namespace Configs
                 .VelocityConversionFactor(1);
             directConfig.closedLoop
                 .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
-                .Pid(0.04, 0, 0)
-                .VelocityFF(1.0 / 5676)
+                .Pid(0.9, 0, 0)
+                .VelocityFF(0.0)
                 .OutputRange(-1, 1)
                 .maxMotion.MaxVelocity(4500)
-                .MaxAcceleration(3000)
+                .MaxAcceleration(6000)
                 .AllowedClosedLoopError(1);
 
             directConfig.softLimit
                 .ReverseSoftLimitEnabled(true)
-                .ReverseSoftLimit(0)
+                .ReverseSoftLimit(-1*60)
                 .ForwardSoftLimitEnabled(true)
-                .ForwardSoftLimit(6*60);
+                .ForwardSoftLimit(7*60);
 
             return directConfig;
         }

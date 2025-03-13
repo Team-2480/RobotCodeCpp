@@ -41,7 +41,7 @@ public:
         if (target_up.has_value())
         {
             printf("going to %f\n", target_up.value());
-            closed_loop->SetReference(target_up.value() * position_ratio, rev::spark::SparkLowLevel::ControlType::kMAXMotionPositionControl);
+            closed_loop->SetReference(target_up.value() * position_ratio, rev::spark::SparkLowLevel::ControlType::kPosition);
         }
     }
     void Down()
@@ -49,11 +49,13 @@ public:
         if (target_down.has_value())
         {
             printf("going to %f\n", target_down.value());
-            closed_loop->SetReference(target_down.value() * position_ratio, rev::spark::SparkLowLevel::ControlType::kMAXMotionPositionControl);
+            printf("curently at %f\n", spark_max->GetEncoder().GetPosition());
+            closed_loop->SetReference(target_down.value() * position_ratio, rev::spark::SparkLowLevel::ControlType::kPosition);
         }
     }
     void Pause()
     {
+        printf("paused\n");
         closed_loop->SetReference(spark_max->GetEncoder().GetPosition(), rev::spark::SparkLowLevel::ControlType::kMAXMotionPositionControl);
     }
 };
