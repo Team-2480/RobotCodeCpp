@@ -2,6 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+#include <frc/XboxController.h>
 #include <frc/trajectory/TrapezoidProfile.h>
 #include <rev/SparkMax.h>
 #include <units/acceleration.h>
@@ -10,6 +11,7 @@
 #include <units/current.h>
 #include <units/length.h>
 #include <units/velocity.h>
+
 
 #include <numbers>
 
@@ -24,6 +26,30 @@
  * they are needed.
  */
 
+namespace ClimbConstants {
+constexpr int kClimbMotorCanId = 31;
+constexpr int kPneumaticCanId = 0;
+
+constexpr int kUpSensorDio = 1;
+constexpr int kDownSensorDio = 0;
+
+constexpr double kSpoolSpeed = 50;
+} // namespace ClimbConstants
+
+namespace ShooterConstants {
+constexpr int kTopShooterCanId = 22;
+constexpr int kBottomShooterCanId = 21;
+} // namespace ShooterConstants
+
+namespace OIKeymaps {
+// Custom mappings for Xbox controller buttons
+const int kRightBumper = frc::XboxController::Button::kRightBumper;
+const int kLeftBumper = frc::XboxController::Button::kLeftBumper;
+const int kAButton = frc::XboxController::Button::kA;
+const int kYButton = frc::XboxController::Button::kY;
+// Add more buttons as needed
+} // namespace OIKeymaps
+
 namespace DriveConstants {
 // Driving Parameters - Note that these are not the maximum capable speeds of
 // the robot, rather the allowed maximum speeds
@@ -32,15 +58,15 @@ constexpr units::radians_per_second_t kMaxAngularSpeed{2 * std::numbers::pi};
 
 constexpr units::meters_per_second_t kTargetSpeed = 0.5_mps;
 
-constexpr double kDirectionSlewRate = 1.2;   // radians per second
-constexpr double kMagnitudeSlewRate = 1.8;   // percent per second (1 = 100%)
-constexpr double kRotationalSlewRate = 2.0;  // percent per second (1 = 100%)
+constexpr double kDirectionSlewRate = 1.2;  // radians per second
+constexpr double kMagnitudeSlewRate = 1.8;  // percent per second (1 = 100%)
+constexpr double kRotationalSlewRate = 2.0; // percent per second (1 = 100%)
 
 // Chassis configuration
 constexpr units::meter_t kTrackWidth =
-    24.5_in;  // Distance between centers of right and left wheels on robot
+    24.5_in; // Distance between centers of right and left wheels on robot
 constexpr units::meter_t kWheelBase =
-    24.5_in;  // Distance between centers of front and back wheels on robot
+    24.5_in; // Distance between centers of front and back wheels on robot
 
 // Angular offsets of the modules relative to the chassis in radians
 constexpr double kFrontLeftChassisAngularOffset = -std::numbers::pi / 2;
@@ -60,13 +86,6 @@ constexpr int kFrontRightTurningCanId = 6;
 constexpr int kRearRightTurningCanId = 7;
 
 constexpr int kPigeonCanId = 10;
-
-// Climb CanIDs
-const int kPneumaticsCanId = 0;
-
-constexpr int kTopShooterCanId = 22;
-constexpr int kBottomShooterCanId = 21;
-
 }  // namespace DriveConstants
 
 namespace ModuleConstants {
@@ -77,7 +96,7 @@ constexpr int kDrivingMotorPinionTeeth = 14;
 
 // Calculations required for driving motor conversion factors and feed forward
 constexpr double kDrivingMotorFreeSpeedRps =
-    5676.0 / 60;  // NEO free speed is 5676 RPM
+    5676.0 / 60; // NEO free speed is 5676 RPM
 constexpr units::meter_t kWheelDiameter = 0.0762_m;
 constexpr units::meter_t kWheelCircumference =
     kWheelDiameter * std::numbers::pi;
@@ -88,7 +107,7 @@ constexpr double kDrivingMotorReduction =
 constexpr double kDriveWheelFreeSpeedRps =
     (kDrivingMotorFreeSpeedRps * kWheelCircumference.value()) /
     kDrivingMotorReduction;
-}  // namespace ModuleConstants
+} // namespace ModuleConstants
 
 namespace AutoConstants {
 constexpr auto kMaxSpeed = 3_mps;
@@ -105,9 +124,10 @@ constexpr double kPThetaController = 0.5;
 // Constraint for the motion profiled robot angle controller
 extern const frc::TrapezoidProfile<units::radians>::Constraints
     kThetaControllerConstraints;
-}  // namespace AutoConstants
+} // namespace AutoConstants
 
 namespace OIConstants {
-constexpr int kDriverControllerPort = 0;
+constexpr int kDriverControllerPortXbox = 1;
+constexpr int kDriverControllerPortJoystick = 0;
 constexpr double kDriveDeadband = 0.05;
-}  // namespace OIConstants
+} // namespace OIConstants

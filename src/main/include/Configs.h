@@ -35,6 +35,47 @@ class MAXSwerveModule {
     return drivingConfig;
   }
 
+  static SparkMaxConfig& DirectConfig() {
+    static SparkMaxConfig directConfig{};
+
+    double directVelocityFeedForward =
+        1 / ModuleConstants::kDriveWheelFreeSpeedRps;
+
+    directConfig.encoder
+        .PositionConversionFactor(1)          // meters
+        .VelocityConversionFactor(1);  // meters per second
+    directConfig.closedLoop
+        .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
+        // These are example gains you may need to them for your own robot!
+        .Pid(0.04, 0, 0)
+        .VelocityFF(1.0/11000)
+        .OutputRange(-1, 1);
+
+    return directConfig;
+  }
+
+  static SparkMaxConfig& ClimbConfig() {
+    static SparkMaxConfig directConfig{};
+
+    double directVelocityFeedForward =
+        1 / ModuleConstants::kDriveWheelFreeSpeedRps;
+
+    directConfig.SetIdleMode(SparkBaseConfig::IdleMode::kBrake)
+        .SmartCurrentLimit(50);
+    directConfig.encoder
+        .PositionConversionFactor(60)
+        .VelocityConversionFactor(60);
+    directConfig.closedLoop
+        .Pid(0.04, 0, 0)
+        .VelocityFF(directVelocityFeedForward)
+        .SetFeedbackSensor(ClosedLoopConfig::FeedbackSensor::kPrimaryEncoder)
+        .OutputRange(-1, 1)
+    .maxMotion.MaxAcceleration(50).MaxVelocity(50);
+
+    return directConfig;
+  }
+
+
   static SparkMaxConfig& TurningConfig() {
     static SparkMaxConfig turningConfig{};
 
@@ -65,4 +106,17 @@ class MAXSwerveModule {
     return turningConfig;
   }
 };
+
+// // FIX: configure the motor to use correct rpm etc.
+// class ClimbSubsystem {
+//  public:
+//   static SparkMaxConfig& DrivingConfig() {
+//     static SparkMaxConfig climbingConfig{};
+
+//     climbingConfig.SetIdleMode(SparkBaseConfig::IdleMode::kBrake);
+//     return climbingConfig;
+//   }
+// };
+
+
 }  // namespace Configs

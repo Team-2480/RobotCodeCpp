@@ -24,113 +24,73 @@
 
 using namespace DriveConstants;
 
-RobotContainer::RobotContainer() {
-  GenerateClimbCommand();
+RobotContainer::RobotContainer()
+{
+    // Configure the button bindings
+    ConfigureButtonBindings();
+    ConfigureButtonBindingsJoystick();
 
-  // Configure the button bindings
-  ConfigureButtonBindings();
-
-  // Set up default drive command
-  // The left stick controls translation of the robot.
-  // Turning is controlled by the X axis of the right stick.
-  // Uses lambda functions, RunCommand takes 2 args
-  m_drive.SetDefaultCommand(frc2::RunCommand(
-      [this] {
-        m_drive.Drive(
-            -units::meters_per_second_t{frc::ApplyDeadband(
-                m_driverController.GetLeftY(), OIConstants::kDriveDeadband,
-                DriveConstants::kTargetSpeed.value())},
-            -units::meters_per_second_t{frc::ApplyDeadband(
-                m_driverController.GetLeftX(), OIConstants::kDriveDeadband,
-                DriveConstants::kTargetSpeed.value())},
-            -units::radians_per_second_t{frc::ApplyDeadband(
-                m_driverController.GetRightX(), OIConstants::kDriveDeadband,
-                DriveConstants::kTargetSpeed.value())},
-            true);
-      },
-      {&m_drive}));
+    // Set up default drive command
+    // The left stick controls translation of the robot.
+    // Turning is controlled by the X axis of the right stick.
+    // Uses lambda functions, RunCommand takes 2 args
+    m_drive.SetDefaultCommand(frc2::RunCommand(
+        [this]
+        {
+            m_drive.Drive(
+                -units::meters_per_second_t{frc::ApplyDeadband(
+                    std::pow(m_driverJoystick.GetY(), 3), OIConstants::kDriveDeadband,
+                    DriveConstants::kTargetSpeed.value())},
+                -units::meters_per_second_t{frc::ApplyDeadband(
+                    std::pow(m_driverJoystick.GetX(), 3), OIConstants::kDriveDeadband,
+                    DriveConstants::kTargetSpeed.value())},
+                -units::radians_per_second_t{frc::ApplyDeadband(
+                    std::pow(m_driverJoystick.GetTwist(), 3), OIConstants::kDriveDeadband,
+                    DriveConstants::kTargetSpeed.value())},
+                true);
+        },
+        {&m_drive}));
 }
 
-void RobotContainer::GenerateClimbCommand() {
-  m_climb_command = new frc2::SequentialCommandGroup(
-      // TODO: hook up climbing motors
-      frc2::InstantCommand([]() { printf("fire first operations\n"); }),
-      frc2::WaitCommand(5_s),
-      frc2::InstantCommand([]() { printf("fire second operations\n"); }));
+void RobotContainer::ConfigureButtonBindings()
+{
+    // the while true method will run the lambda function specified until the
+    // button class is in false state.
+    frc2::JoystickButton(&m_driverController,
+                         frc::XboxController::Button::kRightBumper)
+        .WhileTrue(new frc2::RunCommand([this]
+                                        { m_drive.SetX(); },
+                                        {&m_drive}));
+
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
+        .WhileTrue(new frc2::RunCommand(
+            [this]
+            { m_drive.m_pigeon.SetYaw((units::degree_t)0); },
+            {&m_drive}));
+
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
+        .ToggleOnTrue(m_shooter.Shoot());
+
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
+        .ToggleOnFalse(new frc2::InstantCommand([this]()
+                                                { m_shooter.Stop(); }));
+
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kX)
+        .ToggleOnTrue(new frc2::InstantCommand(
+            [this]
+            { global_local = !global_local;
+            printf("global local: %i\n", global_local); },
+            {}));
 }
 
-void RobotContainer::ConfigureButtonBindings() {
-  // the while true method will run the lambda function specified until the
-  // button class is in false state.
-  frc2::JoystickButton(&m_driverController,
-                       frc::XboxController::Button::kRightBumper)
-      .WhileTrue(new frc2::RunCommand([this] { m_drive.SetX(); }, {&m_drive}));
-
-  frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
-      .WhileTrue(new frc2::RunCommand(
-          [this] {
-            m_drive.m_gyro.SetGyroAngleZ(
-                (units::degree_t)0);  // TODO: zero pidgeon
-          },
-          {&m_drive}));
-
-  frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kY)
-      .ToggleOnTrue(m_climb_command);
-
-  frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
-      .ToggleOnTrue(new frc2::RunCommand([=]() { m_shooter.Rev(); }));
-  frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
-      .ToggleOnTrue(m_shooter.Shoot());
+void RobotContainer::ConfigureButtonBindingsJoystick()
+{
 }
 
-frc2::Command* RobotContainer::GetAutonomousCommand() {
-  // Set up config for trajectory
-  frc::TrajectoryConfig config(AutoConstants::kMaxSpeed,
-                               AutoConstants::kMaxAcceleration);
-  // Add kinematics to ensure max speed is actually obeyed
-  config.SetKinematics(m_drive.kDriveKinematics);
-
-  // An example trajectory to follow.  All units in meters.
-  auto exampleTrajectory = frc::TrajectoryGenerator::GenerateTrajectory(
-      // Start at the origin facing the +X direction
-      frc::Pose2d{0_m, 0_m, 0_deg},
-      // Pass through these two interior waypoints, making an 's' curve path
-      {frc::Translation2d{1_m, 1_m}, frc::Translation2d{2_m, -1_m}},
-      // End 3 meters straight ahead of where we started, facing forward
-      frc::Pose2d{3_m, 0_m, 0_deg},
-      // Pass the config
-      config);
-
-  frc::ProfiledPIDController<units::radians> thetaController{
-      AutoConstants::kPThetaController, 0, 0,
-      AutoConstants::kThetaControllerConstraints};
-
-  thetaController.EnableContinuousInput(units::radian_t{-std::numbers::pi},
-                                        units::radian_t{std::numbers::pi});
-
-  // NOTE: I put unecesary blank comments here to fix the auto formatter ill
-  // fix it later
-  // - bear
-  frc2::SwerveControllerCommand<4> swerveControllerCommand(
-      exampleTrajectory,                       //
-      [this]() { return m_drive.GetPose(); },  //
-      m_drive.kDriveKinematics,
-
-      // Position controllers
-      frc::PIDController{AutoConstants::kPXController, 0, 0},                //
-      frc::PIDController{AutoConstants::kPYController, 0, 0},                //
-      thetaController,                                                       //
-      [this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },  //
-
-      {&m_drive});
-
-  // Reset odometry to the starting pose of the trajectory.
-  m_drive.ResetOdometry(exampleTrajectory.InitialPose());
-
-  // no auto
-  // Run path following command, then stop at the end.
-  return new frc2::SequentialCommandGroup(
-      std::move(swerveControllerCommand),
-      frc2::InstantCommand(
-          [this]() { m_drive.Drive(0_mps, 0_mps, 0_rad_per_s, false); }, {}));
+frc2::Command *RobotContainer::GetAutonomousCommand()
+{
+    return new frc2::SequentialCommandGroup(
+        frc2::InstantCommand(
+            [this]() {},
+            {}));
 }
