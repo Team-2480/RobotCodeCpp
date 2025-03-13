@@ -16,7 +16,9 @@
 #include <frc2/command/button/JoystickButton.h>
 #include <units/angle.h>
 #include <units/velocity.h>
-
+#include <pathplanner/lib/auto/AutoBuilder.h>
+#include <pathplanner/lib/config/RobotConfig.h>
+#include <pathplanner/lib/controllers/PPHolonomicDriveController.h>
 #include <utility>
 
 #include "Constants.h"
@@ -93,4 +95,12 @@ frc2::Command *RobotContainer::GetAutonomousCommand()
         frc2::InstantCommand(
             [this]() {},
             {}));
+
+    pathplanner::RobotConfig config = pathplanner::RobotConfig::fromGUISettings();
+
+    pathplanner::AutoBuilder::configureCustom([this]()
+                                        { return m_drive.GetPose(); }, [this](std::shared_ptr<pathplanner::PathPlannerPath> path){
+                                           
+                                        }, [this](frc::Pose2d pose)
+                                        { m_drive.ResetOdometry(pose); });
 }

@@ -109,6 +109,10 @@ class DriveSubsystem : public frc2::SubsystemBase {
 
 
 
+  // Odometry class for tracking robot pose,
+  // 4 defines the number of modules
+  frc::SwerveDriveOdometry<4> m_odometry;
+  
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
@@ -118,7 +122,4 @@ class DriveSubsystem : public frc2::SubsystemBase {
   MAXSwerveModule m_frontRight;
   MAXSwerveModule m_rearRight;
 
-  // Odometry class for tracking robot pose,
-  // 4 defines the number of modules
-  frc::SwerveDriveOdometry<4> m_odometry;
 };
