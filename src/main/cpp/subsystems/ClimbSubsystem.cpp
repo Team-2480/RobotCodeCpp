@@ -17,25 +17,23 @@ ClimbSubsystem::ClimbSubsystem()
                             SparkBase::ResetMode::kResetSafeParameters,
                             SparkBase::PersistMode::kPersistParameters);
 
-  m_regulator.SetLimits(6, 0);
+  m_regulator.SetTargets(6, 0);
   m_regulator.SetRatio(60);
 }
 
 void ClimbSubsystem::Spool()
 {
   printf("Spooling\n");
-  m_regulator.SetReference(
-      1);
+  m_regulator.Up();
 }
 
 void ClimbSubsystem::Unspool()
 {
   printf("Unspooling\n");
-  m_regulator.SetReference(-1);
+  m_regulator.Down();
 }
 void ClimbSubsystem::Periodic()
 {
-  m_regulator.Periodic();
 }
 
 bool ClimbSubsystem::TestSensorUp() { return upSensor.Get(); }
@@ -43,5 +41,5 @@ bool ClimbSubsystem::TestSensorDown() { return downSensor.Get(); }
 
 void ClimbSubsystem::Stop()
 {
-  m_regulator.SetReference((double)0);
+  m_regulator.Pause();
 }

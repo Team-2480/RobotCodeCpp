@@ -8,9 +8,8 @@ class MotorRegulator
 private:
     rev::spark::SparkMax *spark_max;
     rev::spark::SparkClosedLoopController *closed_loop;
-    std::optional<double> limit_up, limit_down;
+    std::optional<double> target_up, target_down;
 
-    double input = 0;
     double position_ratio = 1;
     const double throttle_speed;
 
@@ -21,20 +20,15 @@ public:
     }
     ~MotorRegulator() {}
 
-    void SetReference(double p_input)
-    {
-        input = std::clamp(p_input, -1.0, 1.0);
-    }
-
     void SetRatio(double p_ratio)
     {
         position_ratio = p_ratio;
     }
 
-    void SetLimits(double p_limit_up, double p_limit_down)
+    void SetTargets(double p_target_up, double p_target_down)
     {
-        limit_up = p_limit_up;
-        limit_down = p_limit_down;
+        target_up = p_target_up;
+        target_down = p_target_down;
     }
 
     void Zero()
@@ -42,14 +36,24 @@ public:
         spark_max->GetEncoder().SetPosition(0);
     }
 
-    void Periodic()
+    void Up()
     {
-        double position = spark_max->GetEncoder().GetPosition() / position_ratio;
-        double target_speed = input * throttle_speed;
-        if (limit_down.has_value() && limit_up.has_value() && (limit_down > position + target_speed / 10 || position + target_speed / 10 > limit_up))
-            target_speed = 0;
-
-        printf("sending %f with curently %f\n", target_speed, position);
-        closed_loop->SetReference(target_speed, rev::spark::SparkLowLevel::ControlType::kDutyCycle);
+        if (target_up.has_value())
+        {
+            printf("going to %f\n", target_up.value());
+            closed_loop->SetReference(target_up.value() * position_ratio, rev::spark::SparkLowLevel::ControlType::kMAXMotionPositionControl);
+        }
+    }
+    void Down()
+    {
+        if (target_down.has_value())
+        {
+            printf("going to %f\n", target_down.value());
+            closed_loop->SetReference(target_down.value() * position_ratio, rev::spark::SparkLowLevel::ControlType::kMAXMotionPositionControl);
+        }
+    }
+    void Pause()
+    {
+        closed_loop->SetReference(spark_max->GetEncoder().GetPosition(), rev::spark::SparkLowLevel::ControlType::kMAXMotionPositionControl);
     }
 };
