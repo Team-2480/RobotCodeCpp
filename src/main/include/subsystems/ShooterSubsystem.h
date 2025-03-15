@@ -28,12 +28,13 @@ private:
 
   frc2::Command *shootCmd = new frc2::InstantCommand([=]
                                                      {
-                                                       printf("bottom triggered\n");
                                                        m_bottomClosedLoopController.SetReference(
                                                            (double)0.9, SparkMax::ControlType::kDutyCycle);
                                                        m_topClosedLoopController.SetReference(
-                                                                                  (double)-0.2, SparkMax::ControlType::kDutyCycle);
-                                                     });
+                                                                                  (double)-0.2, SparkMax::ControlType::kDutyCycle); });
+  frc2::Command *reverseCmd = new frc2::InstantCommand([=]
+                                                       { m_topClosedLoopController.SetReference(
+                                                             (double)0.2, SparkMax::ControlType::kDutyCycle); });
 
 public:
   void Stop();
@@ -56,6 +57,6 @@ public:
 
   ~ShooterSubsystem() {}
 
-  void Rev();
+  frc2::Command *Rev();
   frc2::Command *Shoot();
 };

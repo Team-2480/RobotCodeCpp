@@ -91,6 +91,8 @@ void RobotContainer::ConfigureButtonBindings()
 
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
         .ToggleOnTrue(m_shooter.Shoot());
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kLeftBumper)
+        .ToggleOnTrue(m_shooter.Rev());
 
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
         .ToggleOnFalse(new frc2::InstantCommand([this]()
