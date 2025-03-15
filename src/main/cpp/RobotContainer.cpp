@@ -49,7 +49,7 @@ RobotContainer::RobotContainer()
                     -units::radians_per_second_t{frc::ApplyDeadband(
                         std::pow(m_driverJoystick.GetTwist(), 3), OIConstants::kDriveDeadband,
                         DriveConstants::kSlowTargetSpeed.value())},
-                    true);
+                    global_local);
             }
             else
             {
@@ -63,7 +63,7 @@ RobotContainer::RobotContainer()
                     -units::radians_per_second_t{frc::ApplyDeadband(
                         std::pow(m_driverJoystick.GetTwist(), 3), OIConstants::kDriveDeadband,
                         DriveConstants::kTargetSpeed.value())},
-                    true);
+                    global_local);
             }
         },
         {&m_drive}));
@@ -84,6 +84,10 @@ void RobotContainer::ConfigureButtonBindings()
             [this]
             { m_drive.m_pigeon.SetYaw((units::degree_t)0); },
             {&m_drive}));
+
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kBack)
+        .ToggleOnTrue(new frc2::InstantCommand([this]()
+                                               { m_climb.m_regulator.Zero(); }));
 
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
         .ToggleOnTrue(m_shooter.Shoot());
@@ -119,6 +123,28 @@ void RobotContainer::ConfigureButtonBindings()
                     true);
             },
             {}));
+
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kY)
+        .ToggleOnTrue(new frc2::InstantCommand(
+            [this]
+            {
+                m_climb.Spool();
+            }));
+
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kY)
+        .ToggleOnFalse(new frc2::InstantCommand([this]()
+                                                { m_climb.Stop(); }));
+
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kX)
+        .ToggleOnTrue(new frc2::InstantCommand(
+            [this]
+            {
+                m_climb.Unspool();
+            }));
+
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kX)
+        .ToggleOnFalse(new frc2::InstantCommand([this]()
+                                                { m_climb.Stop(); }));
 }
 
 void RobotContainer::ConfigureButtonBindingsJoystick()
