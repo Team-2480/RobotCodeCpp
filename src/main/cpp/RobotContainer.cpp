@@ -19,9 +19,10 @@
 #include <pathplanner/lib/auto/AutoBuilder.h>
 #include <pathplanner/lib/config/RobotConfig.h>
 #include <pathplanner/lib/controllers/PPHolonomicDriveController.h>
-#include <utility>
+#include <pathplanner/lib/commands/PathPlannerAuto.h>
 
 #include "Constants.h"
+#include "frc2/command/CommandPtr.h"
 #include "subsystems/DriveSubsystem.h"
 
 using namespace DriveConstants;
@@ -89,18 +90,30 @@ void RobotContainer::ConfigureButtonBindingsJoystick()
 {
 }
 
-frc2::Command *RobotContainer::GetAutonomousCommand()
+frc2::CommandPtr RobotContainer::getAutonomousCommand()
 {
-    return new frc2::SequentialCommandGroup(
-        frc2::InstantCommand(
-            [this]() {},
-            {}));
+    // This method loads the auto when it is called, however, it is recommended
+    // to first load your paths/autos when code starts, then return the
+    // pre-loaded auto/path
+    return pathplanner::PathPlannerAuto("Simple Path").ToPtr();
 
-    pathplanner::RobotConfig config = pathplanner::RobotConfig::fromGUISettings();
-
-    pathplanner::AutoBuilder::configureCustom([this]()
-                                        { return m_drive.GetPose(); }, [this](std::shared_ptr<pathplanner::PathPlannerPath> path){
-                                           
-                                        }, [this](frc::Pose2d pose)
-                                        { m_drive.ResetOdometry(pose); });
 }
+
+
+    // This method loads the auto when it is called, however, it is recommended
+    // to first load your paths/autos when code starts, then return the
+    // pre-loaded auto/path
+    // return PathPlannerAuto("Example Auto").ToPtr();
+    // return new frc2::SequentialCommandGroup(
+    //     frc2::InstantCommand(
+    //         [this]() {},
+    //         {}));
+
+    // pathplanner::RobotConfig config = pathplanner::RobotConfig::fromGUISettings();
+    //
+    // pathplanner::AutoBuilder::configureCustom([this]()
+    //                                     { return m_drive.GetPose(); }, [this](std::shared_ptr<pathplanner::PathPlannerPath> path){
+    //
+    //                                     }, [this](frc::Pose2d pose)
+    //                                     { m_drive.ResetOdometry(pose); });
+//}

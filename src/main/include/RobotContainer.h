@@ -18,6 +18,7 @@
 #include <frc/Joystick.h>
 
 #include "Constants.h"
+#include "frc2/command/CommandPtr.h"
 #include "subsystems/DriveSubsystem.h"
 #include "subsystems/ShooterSubsystem.h"
 #include "subsystems/ClimbSubsystem.h"
@@ -43,7 +44,7 @@ public:
    *
    * @return the command to run in autonomous
    */
-  frc2::Command *GetAutonomousCommand();
+  frc2::CommandPtr getAutonomousCommand();
 
 private:
   // The driver's controller
