@@ -4,10 +4,12 @@
 
 #pragma once
 
+#include <cstddef>
 #include <frc/TimedRobot.h>
 #include <frc2/command/Command.h>
 
 #include "RobotContainer.h"
+#include "frc2/command/CommandPtr.h"
 
 // see
 // https://github.wpilib.org/allwpilib/docs/release/cpp/classfrc_1_1_iterative_robot_base.html
@@ -61,7 +63,7 @@ class Robot : public frc::TimedRobot {
  private:
   // Have it null by default so that if testing teleop it
   // doesn't have undefined behavior and potentially crash.
-  frc2::Command* m_autonomousCommand = nullptr;
+    std::optional<frc2::CommandPtr> m_autonomousCommand;
 
   // Add robot container (main logic) as a member
   RobotContainer m_container;

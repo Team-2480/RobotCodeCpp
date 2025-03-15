@@ -20,7 +20,7 @@
 #include "MAXSwerveModule.h"
 
 class DriveSubsystem : public frc2::SubsystemBase {
- public:
+public:
   DriveSubsystem();
 
   /**
@@ -93,6 +93,22 @@ class DriveSubsystem : public frc2::SubsystemBase {
    */
   void ResetOdometry(frc::Pose2d pose);
 
+  /**
+   * Getter for ChassisSpeeds
+   *
+   * @return frs::ChassisSpeeds the reletive speeds obj
+   */
+  frc::ChassisSpeeds getChassisSpeeds(void);
+
+  /**
+   * Driving helper functions
+   *
+   * @param speeds: frc::ChassisSpeeds
+   *
+   * @return frc::ChassisSpeeds the reletive speeds obj
+   */
+  void driveRobotRelative(frc::ChassisSpeeds speeds);
+
   frc::SwerveDriveKinematics<4> kDriveKinematics{
       frc::Translation2d{DriveConstants::kWheelBase / 2,
                          DriveConstants::kTrackWidth / 2},
@@ -107,13 +123,11 @@ class DriveSubsystem : public frc2::SubsystemBase {
   // frc::ADIS16470_IMU m_gyro;
   ctre::phoenix6::hardware::Pigeon2 m_pigeon;
 
-
-
   // Odometry class for tracking robot pose,
   // 4 defines the number of modules
   frc::SwerveDriveOdometry<4> m_odometry;
-  
- private:
+
+private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 
@@ -121,5 +135,5 @@ class DriveSubsystem : public frc2::SubsystemBase {
   MAXSwerveModule m_rearLeft;
   MAXSwerveModule m_frontRight;
   MAXSwerveModule m_rearRight;
-
+  frc::ChassisSpeeds m_chassisSpeeds;
 };
