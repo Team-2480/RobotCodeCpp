@@ -98,8 +98,15 @@ void RobotContainer::ConfigureButtonBindings()
         .ToggleOnFalse(new frc2::InstantCommand([this]()
                                                 { m_shooter.Stop(); }));
 
-    frc2::JoystickButton(&m_driverJoystick, 3)
+    frc2::JoystickButton(&m_driverJoystick, 1)
         .ToggleOnTrue(new frc2::InstantCommand(
+            [this]
+            {
+                slowMode = !slowMode;
+            },
+            {}));
+    frc2::JoystickButton(&m_driverJoystick, 1)
+        .ToggleOnFalse(new frc2::InstantCommand(
             [this]
             {
                 slowMode = !slowMode;
@@ -113,7 +120,7 @@ void RobotContainer::ConfigureButtonBindings()
             printf("global local: %i\n", global_local); },
             {}));
 
-    frc2::JoystickButton(&m_driverJoystick, 1)
+    frc2::JoystickButton(&m_driverJoystick, 3)
         .ToggleOnTrue(new frc2::InstantCommand(
             [this]
             {
