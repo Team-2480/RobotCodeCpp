@@ -26,46 +26,10 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v4
 
-    - name: Cache Gradle dependencies
-      uses: actions/cache@v4
-      with:
-        path: ~/.gradle/caches
-        key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          gradle-${{ runner.os }}-
-
-    # Cache WPILib toolchain
-    - name: Cache WPILib toolchain
-      uses: actions/cache@v4
-      with:
-        path: ~/.wpilib
-        key: wpilib-${{ runner.os }}-${{ hashFiles('**/build.gradle', '**/settings.gradle') }}
-        restore-keys: |
-          wpilib-${{ runner.os }}-
-
     # Grant execute permission for gradlew
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
-    # # Install the roborio toolchain (if not cached)
-    # - name: Install roborio toolchain
-    #   run: ./gradlew installRoboRioToolchain
-
     # Runs a single command using the runners shell
     - name: Compile and run tests on robot code
       run: ./gradlew checkFrcUserProgramLinuxx86-64DebugExecutable
-
-    # Runs a single command using the runners shell
-    # - name: Simulate robot code
-    #   run: |
-    #     set +e
-    #     (
-    #       timeout --preserve-status 10s ./gradlew simulateJava
-    #     )
-    #     if [ $? -eq 143 ]; then
-    #       echo 'Simulation SUCCESS!'
-    #       exit 0
-    #     else
-    #       echo 'Simulation FAILED!'
-    #       exit 1
-    #     fi
