@@ -19,20 +19,41 @@ jobs:
     runs-on: ubuntu-latest
 
     # This grabs the WPILib docker container
-    container: wpilib/roborio-cross-ubuntu:2024-22.04
+    container: wpilib/roborio-cross-ubuntu:2025-24.04
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v4
 
+    - name: Cache Gradle dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.gradle/caches
+        key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          gradle-${{ runner.os }}-
+
+    # Cache WPILib toolchain
+    - name: Cache WPILib toolchain
+      uses: actions/cache@v4
+      with:
+        path: ~/.wpilib
+        key: wpilib-${{ runner.os }}-${{ hashFiles('**/build.gradle', '**/settings.gradle') }}
+        restore-keys: |
+          wpilib-${{ runner.os }}-
+
     # Grant execute permission for gradlew
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
+    # # Install the roborio toolchain (if not cached)
+    # - name: Install roborio toolchain
+    #   run: ./gradlew installRoboRioToolchain
+
     # Runs a single command using the runners shell
     - name: Compile and run tests on robot code
-      run: ./gradlew build
+      run: ./gradlew checkFrcUserProgramLinuxx86-64DebugExecutable
 
     # Runs a single command using the runners shell
     # - name: Simulate robot code
