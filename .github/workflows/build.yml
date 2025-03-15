@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
 
     # This grabs the WPILib docker container
-    container: wpilib/roborio-cross-ubuntu:2024-22.04
+    container: wpilib/roborio-cross-ubuntu:2025-24.04
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -32,19 +32,4 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: Compile and run tests on robot code
-      run: ./gradlew build
-
-    # Runs a single command using the runners shell
-    # - name: Simulate robot code
-    #   run: |
-    #     set +e
-    #     (
-    #       timeout --preserve-status 10s ./gradlew simulateJava
-    #     )
-    #     if [ $? -eq 143 ]; then
-    #       echo 'Simulation SUCCESS!'
-    #       exit 0
-    #     else
-    #       echo 'Simulation FAILED!'
-    #       exit 1
-    #     fi
+      run: ./gradlew checkFrcUserProgramLinuxx86-64DebugExecutable
