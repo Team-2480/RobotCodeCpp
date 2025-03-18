@@ -16,12 +16,13 @@
 #include <frc2/command/button/JoystickButton.h>
 #include <units/angle.h>
 #include <units/velocity.h>
-#include <pathplanner/lib/auto/AutoBuilder.h>
-#include <pathplanner/lib/config/RobotConfig.h>
-#include <pathplanner/lib/controllers/PPHolonomicDriveController.h>
-#include <pathplanner/lib/commands/PathPlannerAuto.h>
+// #include <pathplanner/lib/auto/AutoBuilder.h>
+// #include <pathplanner/lib/config/RobotConfig.h>
+// #include <pathplanner/lib/controllers/PPHolonomicDriveController.h>
+// #include <pathplanner/lib/commands/PathPlannerAuto.h>
 
 #include "Constants.h"
+#include "frc2/command/Command.h"
 #include "frc2/command/CommandPtr.h"
 #include "subsystems/DriveSubsystem.h"
 
@@ -116,13 +117,13 @@ void RobotContainer::ConfigureButtonBindingsJoystick()
 {
 }
 
-frc2::CommandPtr RobotContainer::getAutonomousCommand()
+frc2::Command* RobotContainer::getAutonomousCommand()
 {
-    // This method loads the auto when it is called, however, it is recommended
-    // to first load your paths/autos when code starts, then return the
-    // pre-loaded auto/path
-    return pathplanner::PathPlannerAuto("Simple Path").ToPtr();
-
+    // return pathplanner::PathPlannerAuto("Simple Path").ToPtr();
+return new frc2::SequentialCommandGroup(
+        frc2::InstantCommand(
+            [this]() {},
+            {}));
 }
 
 

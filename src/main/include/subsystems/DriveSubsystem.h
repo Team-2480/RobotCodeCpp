@@ -18,6 +18,7 @@
 
 #include "Constants.h"
 #include "MAXSwerveModule.h"
+#include "frc2/command/CommandPtr.h"
 
 class DriveSubsystem : public frc2::SubsystemBase {
 public:
