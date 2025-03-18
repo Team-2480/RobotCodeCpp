@@ -37,17 +37,34 @@ RobotContainer::RobotContainer()
     m_drive.SetDefaultCommand(frc2::RunCommand(
         [this]
         {
-            m_drive.Drive(
-                -units::meters_per_second_t{frc::ApplyDeadband(
-                    std::pow(m_driverJoystick.GetY(), 3), OIConstants::kDriveDeadband,
-                    DriveConstants::kTargetSpeed.value())},
-                -units::meters_per_second_t{frc::ApplyDeadband(
-                    std::pow(m_driverJoystick.GetX(), 3), OIConstants::kDriveDeadband,
-                    DriveConstants::kTargetSpeed.value())},
-                -units::radians_per_second_t{frc::ApplyDeadband(
-                    std::pow(m_driverJoystick.GetTwist(), 3), OIConstants::kDriveDeadband,
-                    DriveConstants::kTargetSpeed.value())},
-                true);
+            if (slowMode)
+            {
+                m_drive.Drive(
+                    -units::meters_per_second_t{frc::ApplyDeadband(
+                        std::pow(m_driverJoystick.GetY(), 3), OIConstants::kDriveDeadband,
+                        DriveConstants::kSlowTargetSpeed.value())},
+                    -units::meters_per_second_t{frc::ApplyDeadband(
+                        std::pow(m_driverJoystick.GetX(), 3), OIConstants::kDriveDeadband,
+                        DriveConstants::kSlowTargetSpeed.value())},
+                    -units::radians_per_second_t{frc::ApplyDeadband(
+                        std::pow(m_driverJoystick.GetTwist(), 3), OIConstants::kDriveDeadband,
+                        DriveConstants::kSlowTargetSpeed.value())},
+                    global_local);
+            }
+            else
+            {
+                m_drive.Drive(
+                    -units::meters_per_second_t{frc::ApplyDeadband(
+                        std::pow(m_driverJoystick.GetY(), 3), OIConstants::kDriveDeadband,
+                        DriveConstants::kTargetSpeed.value())},
+                    -units::meters_per_second_t{frc::ApplyDeadband(
+                        std::pow(m_driverJoystick.GetX(), 3), OIConstants::kDriveDeadband,
+                        DriveConstants::kTargetSpeed.value())},
+                    -units::radians_per_second_t{frc::ApplyDeadband(
+                        std::pow(m_driverJoystick.GetTwist(), 3), OIConstants::kDriveDeadband,
+                        DriveConstants::kTargetSpeed.value())},
+                    global_local);
+            }
         },
         {&m_drive}));
 }
@@ -68,19 +85,75 @@ void RobotContainer::ConfigureButtonBindings()
             { m_drive.m_pigeon.SetYaw((units::degree_t)0); },
             {&m_drive}));
 
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kBack)
+        .ToggleOnTrue(new frc2::InstantCommand([this]()
+                                               { m_climb.m_regulator.Zero(); }));
+
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
         .ToggleOnTrue(m_shooter.Shoot());
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kLeftBumper)
+        .ToggleOnTrue(m_shooter.Rev());
 
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
         .ToggleOnFalse(new frc2::InstantCommand([this]()
                                                 { m_shooter.Stop(); }));
 
-    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kX)
+    frc2::JoystickButton(&m_driverJoystick, 1)
+        .ToggleOnTrue(new frc2::InstantCommand(
+            [this]
+            {
+                slowMode = !slowMode;
+            },
+            {}));
+    frc2::JoystickButton(&m_driverJoystick, 1)
+        .ToggleOnFalse(new frc2::InstantCommand(
+            [this]
+            {
+                slowMode = !slowMode;
+            },
+            {}));
+
+    frc2::JoystickButton(&m_driverJoystick, 2)
         .ToggleOnTrue(new frc2::InstantCommand(
             [this]
             { global_local = !global_local;
             printf("global local: %i\n", global_local); },
             {}));
+
+    frc2::JoystickButton(&m_driverJoystick, 3)
+        .ToggleOnTrue(new frc2::InstantCommand(
+            [this]
+            {
+                printf("Flipping 180 Degrees...\n");
+                m_drive.Drive(
+                    -units::meters_per_second_t{0},
+                    -units::meters_per_second_t{0},
+                    -units::radians_per_second_t{M_PI},
+                    true);
+            },
+            {}));
+
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kY)
+        .ToggleOnTrue(new frc2::InstantCommand(
+            [this]
+            {
+                m_climb.Spool();
+            }));
+
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kY)
+        .ToggleOnFalse(new frc2::InstantCommand([this]()
+                                                { m_climb.Stop(); }));
+
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kX)
+        .ToggleOnTrue(new frc2::InstantCommand(
+            [this]
+            {
+                m_climb.Unspool();
+            }));
+
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kX)
+        .ToggleOnFalse(new frc2::InstantCommand([this]()
+                                                { m_climb.Stop(); }));
 }
 
 void RobotContainer::ConfigureButtonBindingsJoystick()

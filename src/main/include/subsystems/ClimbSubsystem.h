@@ -2,7 +2,6 @@
 
 #include <rev/SparkMax.h>
 #include <rev/SparkRelativeEncoder.h>
-
 #include "frc/kinematics/SwerveModulePosition.h"
 #include "frc/kinematics/SwerveModuleState.h"
 #include <frc/Compressor.h>
@@ -13,6 +12,7 @@
 #include <frc2/command/Command.h>
 #include <frc2/command/SubsystemBase.h>
 #include <optional>
+#include "Regulator.h"
 #include <frc2/command/Command.h>
 #include <frc2/command/InstantCommand.h>
 #include <frc2/command/WaitCommand.h>
@@ -33,13 +33,8 @@ public:
   ClimbSubsystem();
   ~ClimbSubsystem() {}
 
-  frc2::Command *Trigger();
-  frc2::Command *m_trigger_command;
-
   void Unspool();
   void Spool();
-  void PneumaticUp();
-  void PneumaticDown();
   bool TestSensorUp();
   bool TestSensorDown();
 
@@ -50,8 +45,7 @@ public:
 
   void Stop();
 
-  SparkClosedLoopController m_climbingClosedLoopController =
-      m_climbingMotor.GetClosedLoopController();
+  MotorRegulator m_regulator;
 
 private:
   enum Stage
@@ -65,6 +59,9 @@ private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
   SparkMax m_climbingMotor;
+
+  SparkClosedLoopController m_climbingClosedLoopController =
+      m_climbingMotor.GetClosedLoopController();
 
   SparkRelativeEncoder m_climbingEncoder = m_climbingMotor.GetEncoder();
 

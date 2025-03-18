@@ -56,7 +56,8 @@ namespace DriveConstants {
 constexpr units::meters_per_second_t kMaxSpeed = 4.8_mps;
 constexpr units::radians_per_second_t kMaxAngularSpeed{2 * std::numbers::pi};
 
-constexpr units::meters_per_second_t kTargetSpeed = 0.5_mps;
+constexpr units::meters_per_second_t kTargetSpeed = 0.5_mps; // speedy normal mode
+constexpr units::meters_per_second_t kSlowTargetSpeed = -0.01_mps; // For sllooowwwww mooooodddeeeeeeeeeee
 
 constexpr double kDirectionSlewRate = 1.2;  // radians per second
 constexpr double kMagnitudeSlewRate = 1.8;  // percent per second (1 = 100%)

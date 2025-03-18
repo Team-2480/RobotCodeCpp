@@ -1,9 +1,8 @@
 #include <subsystems/ShooterSubsystem.h>
 
-void ShooterSubsystem::Rev()
+frc2::Command *ShooterSubsystem::Rev()
 {
-  m_topClosedLoopController.SetReference((double)0.1,
-                                         SparkMax::ControlType::kVelocity);
+  return reverseCmd;
 }
 frc2::Command *ShooterSubsystem::Shoot()
 {
