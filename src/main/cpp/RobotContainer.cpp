@@ -7,7 +7,7 @@
 #include <frc/controller/PIDController.h>
 #include <frc/geometry/Translation2d.h>
 #include <frc/shuffleboard/Shuffleboard.h>
-#include <pathplanner/lib/auto/AutoBuilder.h>
+#include <pathplanner/lib/commands/PathPlannerAuto.h>
 #include <frc/trajectory/Trajectory.h>
 #include <frc/trajectory/TrajectoryGenerator.h>
 #include <frc2/command/InstantCommand.h>
@@ -163,6 +163,6 @@ void RobotContainer::ConfigureButtonBindingsJoystick()
 
 frc2::Command *RobotContainer::GetAutonomousCommand()
 {
-    auto autoCmd = pathplanner::AutoBuilder::buildAuto("Startup Sequence").Unwrap();
+    auto autoCmd = pathplanner::PathPlannerAuto("Simple Path").ToPtr();
     return autoCmd.get();
 }
