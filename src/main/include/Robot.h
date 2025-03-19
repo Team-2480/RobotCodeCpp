@@ -14,7 +14,12 @@
 // for a list of periodic methods.
 
 class Robot : public frc::TimedRobot {
- public:
+public:
+  /*
+   * Robot constructor
+   */
+  Robot();
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -58,7 +63,7 @@ class Robot : public frc::TimedRobot {
    */
   void TestPeriodic() override;
 
- private:
+private:
   // Have it null by default so that if testing teleop it
   // doesn't have undefined behavior and potentially crash.
   frc2::Command* m_autonomousCommand = nullptr;
