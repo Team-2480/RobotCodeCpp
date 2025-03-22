@@ -8,6 +8,7 @@
 #include <frc/geometry/Translation2d.h>
 #include <frc/shuffleboard/Shuffleboard.h>
 #include <pathplanner/lib/commands/PathPlannerAuto.h>
+#include <pathplanner/lib/auto/NamedCommands.h>
 #include <frc/trajectory/Trajectory.h>
 #include <frc/trajectory/TrajectoryGenerator.h>
 #include <frc2/command/InstantCommand.h>
@@ -163,6 +164,9 @@ void RobotContainer::ConfigureButtonBindingsJoystick()
 
 pathplanner::PathPlannerAuto *RobotContainer::GetAutonomousCommand()
 {
+    pathplanner::NamedCommands::registerCommand("rev", m_shooter.Rev()); 
+    pathplanner::NamedCommands::registerCommand("shoot", m_shooter.Shoot()); 
+    pathplanner::NamedCommands::registerCommand("stop", m_shooter.Stop()); 
     pathplanner::PathPlannerAuto * path = new pathplanner::PathPlannerAuto("Simple Path");
     return path;
 }
