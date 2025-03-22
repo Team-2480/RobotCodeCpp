@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <pathplanner/lib/commands/PathPlannerAuto.h>
 #include <frc/TimedRobot.h>
 #include <frc2/command/Command.h>
 
@@ -61,7 +62,7 @@ class Robot : public frc::TimedRobot {
  private:
   // Have it null by default so that if testing teleop it
   // doesn't have undefined behavior and potentially crash.
-  frc2::Command* m_autonomousCommand = nullptr;
+  pathplanner::PathPlannerAuto* m_autonomousCommand = nullptr;
 
   // Add robot container (main logic) as a member
   RobotContainer m_container;

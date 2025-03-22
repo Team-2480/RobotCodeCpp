@@ -44,7 +44,7 @@ DriveSubsystem::DriveSubsystem()
   // m_compressor is on closed loop mode
 
   pathplanner::RobotConfig config = pathplanner::RobotConfig::fromGUISettings();
-  
+
   // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds.
          // Also optionally outputs individual module feedforwards
   auto pid = std::make_shared<
@@ -52,8 +52,8 @@ DriveSubsystem::DriveSubsystem()
                                                     // the built in path
                                                     // following controller for
                                                     // holonomic drive trains
-          pathplanner::PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-          pathplanner::PIDConstants(5.0, 0.0, 0.0)  // Rotation PID constants
+          pathplanner::PIDConstants(0.4, 0.0, 0.2), // Translation PID constants
+          pathplanner::PIDConstants(0.4, 0.0, 0.2)  // Rotation PID constants
           );
 
   // Configure the AutoBuilder last
@@ -66,7 +66,7 @@ DriveSubsystem::DriveSubsystem()
       [this]() {
         return getChassisSpeeds();
       }, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-      [this](auto speeds, auto feedforwards) {
+      [this](frc::ChassisSpeeds speeds, auto feedforwards) {
         driveRobotRelative(speeds);
       }, 
          pid
@@ -97,7 +97,9 @@ void DriveSubsystem::Periodic() {
 }
 
 void DriveSubsystem::driveRobotRelative(frc::ChassisSpeeds speeds) {
-  auto states = kDriveKinematics.ToSwerveModuleStates(m_chassisSpeeds);
+  printf("%f, %f\n", speeds.vx, speeds.vy);
+  m_chassisSpeeds = speeds;
+  auto states = kDriveKinematics.ToSwerveModuleStates(speeds);
 
   kDriveKinematics.DesaturateWheelSpeeds(&states, DriveConstants::kMaxSpeed);
 
@@ -121,14 +123,14 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   units::radians_per_second_t rotDelivered =
       rot.value() * DriveConstants::kMaxAngularSpeed;
 
-  m_chassisSpeeds =
+  auto speeds =
       fieldRelative
           ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
                 xSpeedDelivered, ySpeedDelivered, rotDelivered,
                 frc::Rotation2d(units::degree_t{m_pigeon.GetYaw().GetValue()}))
           : frc::ChassisSpeeds{xSpeedDelivered, ySpeedDelivered, rotDelivered};
 
-  driveRobotRelative(m_chassisSpeeds);
+  driveRobotRelative(speeds);
 }
 
 void DriveSubsystem::SetX() {

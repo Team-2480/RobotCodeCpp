@@ -14,6 +14,7 @@
 #include <frc2/command/InstantCommand.h>
 #include <frc2/command/PIDCommand.h>
 #include <frc2/command/ParallelRaceGroup.h>
+#include <pathplanner/lib/commands/PathPlannerAuto.h>
 #include <frc2/command/RunCommand.h>
 #include <frc/Joystick.h>
 
@@ -43,7 +44,7 @@ public:
    *
    * @return the command to run in autonomous
    */
-  frc2::Command *GetAutonomousCommand();
+  pathplanner::PathPlannerAuto *GetAutonomousCommand();
 
 private:
   // The driver's controller

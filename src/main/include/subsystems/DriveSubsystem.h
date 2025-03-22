@@ -135,6 +135,7 @@ private:
   // Odometry class for tracking robot pose,
   // 4 defines the number of modules
   frc::SwerveDriveOdometry<4> m_odometry;
+  frc::Pose2d m_pose;
 
   frc::ChassisSpeeds m_chassisSpeeds;
   

@@ -161,8 +161,8 @@ void RobotContainer::ConfigureButtonBindingsJoystick()
 {
 }
 
-frc2::Command *RobotContainer::GetAutonomousCommand()
+pathplanner::PathPlannerAuto *RobotContainer::GetAutonomousCommand()
 {
-    auto autoCmd = pathplanner::PathPlannerAuto("Simple Path").ToPtr();
-    return autoCmd.get();
+    pathplanner::PathPlannerAuto * path = new pathplanner::PathPlannerAuto("Simple Path");
+    return path;
 }
