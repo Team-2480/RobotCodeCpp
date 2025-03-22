@@ -13,6 +13,7 @@
 #include <frc/trajectory/TrajectoryGenerator.h>
 #include <frc2/command/InstantCommand.h>
 #include <frc2/command/SequentialCommandGroup.h>
+#include <frc2/command/CommandPtr.h>
 #include <frc2/command/SwerveControllerCommand.h>
 #include <frc2/command/WaitCommand.h>
 #include <frc2/command/button/JoystickButton.h>
@@ -166,9 +167,11 @@ void RobotContainer::ConfigureButtonBindingsJoystick()
 
 pathplanner::PathPlannerAuto *RobotContainer::GetAutonomousCommand()
 {
-    pathplanner::NamedCommands::registerCommand("rev", m_shooter.Rev()); 
-    pathplanner::NamedCommands::registerCommand("shoot", m_shooter.Shoot()); 
-    pathplanner::NamedCommands::registerCommand("stop", m_shooter.Stop()); 
-    pathplanner::PathPlannerAuto * path = new pathplanner::PathPlannerAuto("Simple Path");
+    auto rev_cmd = new frc2::CommandPtr(frc2::SequentialCommandGroup(*m_shooter.Rev()));
+    pathplanner::NamedCommands::registerCommand("rev", rev_cmd);
+    pathplanner::NamedCommands::registerCommand("shoot", m_shooter.Shoot());
+    pathplanner::NamedCommands::registerCommand("stop", m_shooter.Stop());
+    pathplanner::PathPlannerAuto *path = new pathplanner::PathPlannerAuto("Simple Path");
+    m_drive.ResetOdometry(path->getStartingPose());
     return path;
 }

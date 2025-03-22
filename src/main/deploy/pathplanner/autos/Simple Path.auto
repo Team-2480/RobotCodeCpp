@@ -7,7 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Simple Path"
+            "pathName": "Wrong Side Start 001"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Wrong Side Coral"
           }
         }
       ]
