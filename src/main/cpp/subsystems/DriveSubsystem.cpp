@@ -97,7 +97,6 @@ void DriveSubsystem::Periodic() {
 }
 
 void DriveSubsystem::driveRobotRelative(frc::ChassisSpeeds speeds) {
-  printf("%f, %f\n", speeds.vx, speeds.vy);
   m_chassisSpeeds = speeds;
   auto states = kDriveKinematics.ToSwerveModuleStates(speeds);
 

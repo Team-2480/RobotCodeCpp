@@ -167,11 +167,11 @@ void RobotContainer::ConfigureButtonBindingsJoystick()
 
 pathplanner::PathPlannerAuto *RobotContainer::GetAutonomousCommand()
 {
-    auto rev_cmd = new frc2::CommandPtr(frc2::SequentialCommandGroup(*m_shooter.Rev()));
-    pathplanner::NamedCommands::registerCommand("rev", rev_cmd);
+    pathplanner::NamedCommands::registerCommand("rev", m_shooter.Rev());
     pathplanner::NamedCommands::registerCommand("shoot", m_shooter.Shoot());
     pathplanner::NamedCommands::registerCommand("stop", m_shooter.Stop());
     pathplanner::PathPlannerAuto *path = new pathplanner::PathPlannerAuto("Simple Path");
     m_drive.ResetOdometry(path->getStartingPose());
+    printf("reset position.\n");
     return path;
 }
