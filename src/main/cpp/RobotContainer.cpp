@@ -7,10 +7,13 @@
 #include <frc/controller/PIDController.h>
 #include <frc/geometry/Translation2d.h>
 #include <frc/shuffleboard/Shuffleboard.h>
+#include <pathplanner/lib/commands/PathPlannerAuto.h>
+#include <pathplanner/lib/auto/NamedCommands.h>
 #include <frc/trajectory/Trajectory.h>
 #include <frc/trajectory/TrajectoryGenerator.h>
 #include <frc2/command/InstantCommand.h>
 #include <frc2/command/SequentialCommandGroup.h>
+#include <frc2/command/CommandPtr.h>
 #include <frc2/command/SwerveControllerCommand.h>
 #include <frc2/command/WaitCommand.h>
 #include <frc2/command/button/JoystickButton.h>
@@ -86,12 +89,14 @@ void RobotContainer::ConfigureButtonBindings()
 
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
         .ToggleOnTrue(m_shooter.Shoot());
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
+        .ToggleOnFalse(m_shooter.Stop());
+        
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
         .ToggleOnTrue(m_shooter.Rev());
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
+        .ToggleOnFalse(m_shooter.Stop());
 
-    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
-        .ToggleOnFalse(new frc2::InstantCommand([this]()
-                                                { m_shooter.Stop(); }));
 
     frc2::JoystickButton(&m_driverJoystick, 1)
         .ToggleOnTrue(new frc2::InstantCommand(
@@ -173,10 +178,13 @@ void RobotContainer::ConfigureButtonBindingsJoystick()
 {
 }
 
-frc2::Command *RobotContainer::GetAutonomousCommand()
+pathplanner::PathPlannerAuto *RobotContainer::GetAutonomousCommand()
 {
-    return new frc2::SequentialCommandGroup(
-        frc2::InstantCommand(
-            [this]() {},
-            {}));
+    pathplanner::NamedCommands::registerCommand("rev", m_shooter.Rev());
+    pathplanner::NamedCommands::registerCommand("shoot", m_shooter.Shoot());
+    pathplanner::NamedCommands::registerCommand("stop", m_shooter.Stop());
+    pathplanner::PathPlannerAuto *path = new pathplanner::PathPlannerAuto("Simple Path");
+    m_drive.ResetOdometry(path->getStartingPose());
+    printf("reset position.\n");
+    return path;
 }
