@@ -17,7 +17,7 @@ regenDB:
 
 # this link is for linux only, here we can link to compile_commands instead of manually copying it.
 linkDB:
-	rm compile_commands.json
+	- rm compile_commands.json
 	ln -s ./build/TargetedCompileCommands/linuxx86-64debug/compile_commands.json compile_commands.json
 
 # Replace gradle with make lol
