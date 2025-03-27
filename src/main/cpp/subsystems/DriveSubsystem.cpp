@@ -15,6 +15,7 @@
 
 #include "Constants.h"
 #include "frc/geometry/Pose2d.h"
+#include "LimelightHelpers.h"
 #include "frc/kinematics/ChassisSpeeds.h"
 #include "subsystems/MAXSwerveModule.h"
 
@@ -39,19 +40,7 @@ DriveSubsystem::DriveSubsystem()
                   m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
                  frc::Pose2d{}},
 
-      m_poseEstimator{kDriveKinematics,frc::Rotation2d(units::degree_t{m_pigeon.GetYaw().GetValue()}), {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
-                  m_rearLeft.GetPosition(), m_rearRight.GetPosition()}, frc::Pose2d{}}
-
-
-//     (SwerveDriveKinematics<4UL> &kinematics, const Rotation2d &gyroAngle, const wpi::array<SwerveModulePosition, 4UL> &modulePositions, const Pose2d &initialPose, const wpi::array<double, 3> &stateStdDevs, const wpi::array<double, 3> &visionMeasurementStdDevs)
-//
-// {
-//     kDriveKinematics, GetHeading(), new SwerveModulePosition[] {
-//       m_frontLeft.GetPosition()
-//     }
-//   }
-//
-//     }
+      m_poseEstimator{kDriveKinematics, frc::Rotation2d(units::degree_t{m_pigeon.GetYaw().GetValue()}), {m_frontLeft.GetPosition(), m_frontRight.GetPosition(), m_rearLeft.GetPosition(), m_rearRight.GetPosition()}, frc::Pose2d{}}
 
 { // Usage reporting for MAXSwerve template
   HAL_Report(HALUsageReporting::kResourceType_RobotDrive,
@@ -73,20 +62,25 @@ DriveSubsystem::DriveSubsystem()
 
   // Configure the AutoBuilder last
   pathplanner::AutoBuilder::configure(
-      [this]() { return GetPose(); }, // Robot pose supplier
-      [this](frc::Pose2d pose) {
-        ResetOdometry(pose);
+      [this]()
+      { return m_poseEstimator.GetEstimatedPosition(); }, // Robot pose supplier
+      [this](frc::Pose2d pose)
+      {
+        m_poseEstimator.ResetPose(pose);
       }, // Method to reset odometry (will be called if your auto has a starting
          // pose)
-      [this]() {
+      [this]()
+      {
         return getChassisSpeeds();
       }, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-      [this](frc::ChassisSpeeds speeds, auto feedforwards) {
+      [this](frc::ChassisSpeeds speeds, auto feedforwards)
+      {
         driveRobotRelative(speeds);
       },
       pid,
       config, // The robot configuration
-      []() {
+      []()
+      {
         // TODO: figure out alliance logic
         //  Boolean supplier that controls when the path will be mirrored for
         //  the red alliance This will flip the path being followed to the red
@@ -105,16 +99,40 @@ DriveSubsystem::DriveSubsystem()
 /**
  * Will be called periodically whenever the CommandScheduler runs.
  */
-void DriveSubsystem::Periodic() {
+void DriveSubsystem::Periodic()
+{
   // Implementation of subsystem periodic method goes here.
   updateOdometry();
 }
 
-void DriveSubsystem::updateOdometry() {
+void DriveSubsystem::updateOdometry()
+{
   m_odometry.Update(
       frc::Rotation2d(units::degree_t{m_pigeon.GetYaw().GetValue()}),
       {m_frontLeft.GetPosition(), m_rearLeft.GetPosition(),
        m_frontRight.GetPosition(), m_rearRight.GetPosition()});
+
+  // https://docs.limelightvision.io/docs/docs-limelight/tutorials/tutorial-swerve-pose-estimation
+  m_poseEstimator.Update(
+      frc::Rotation2d(units::degree_t{m_pigeon.GetYaw().GetValue()}),
+      {m_frontLeft.GetPosition(), m_rearLeft.GetPosition(),
+       m_frontRight.GetPosition(), m_rearRight.GetPosition()});
+
+  bool doRejectUpdate = false;
+
+  LimelightHelpers::SetRobotOrientation("limelight", m_poseEstimator.GetEstimatedPosition().Rotation().Degrees().value(), 0, 0, 0, 0, 0);
+  LimelightHelpers::PoseEstimate mt2 = LimelightHelpers::getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+  if (mt2.tagCount == 0)
+  {
+    doRejectUpdate = true;
+  }
+  if (!doRejectUpdate)
+  {
+    m_poseEstimator.SetVisionMeasurementStdDevs({.7, .7, 9999999});
+    m_poseEstimator.AddVisionMeasurement(
+        mt2.pose,
+        mt2.timestampSeconds);
+  }
 }
 
 /**
@@ -124,7 +142,8 @@ void DriveSubsystem::updateOdometry() {
  *
  * @return frc::ChassisSpeeds the reletive speeds obj
  */
-void DriveSubsystem::driveRobotRelative(frc::ChassisSpeeds speeds) {
+void DriveSubsystem::driveRobotRelative(frc::ChassisSpeeds speeds)
+{
   m_chassisSpeeds = speeds;
   auto states = kDriveKinematics.ToSwerveModuleStates(speeds);
 
@@ -152,7 +171,8 @@ void DriveSubsystem::driveRobotRelative(frc::ChassisSpeeds speeds) {
 void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
                            units::meters_per_second_t ySpeed,
                            units::radians_per_second_t rot,
-                           bool fieldRelative) {
+                           bool fieldRelative)
+{
   // Convert the commanded speeds into the correct units for the drivetrain
   units::meters_per_second_t xSpeedDelivered =
       xSpeed.value() * DriveConstants::kMaxSpeed;
@@ -174,7 +194,8 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
 /**
  * Sets the wheels into an X formation to prevent movement.
  */
-void DriveSubsystem::SetX() {
+void DriveSubsystem::SetX()
+{
   m_frontLeft.SetDesiredState(
       frc::SwerveModuleState{0_mps, frc::Rotation2d{45_deg}});
   m_frontRight.SetDesiredState(
@@ -189,7 +210,8 @@ void DriveSubsystem::SetX() {
  * Sets the drive MotorControllers to a power from -1 to 1.
  */
 void DriveSubsystem::SetModuleStates(
-    wpi::array<frc::SwerveModuleState, 4> desiredStates) {
+    wpi::array<frc::SwerveModuleState, 4> desiredStates)
+{
   kDriveKinematics.DesaturateWheelSpeeds(&desiredStates,
                                          DriveConstants::kMaxSpeed);
   m_frontLeft.SetDesiredState(desiredStates[0]);
@@ -201,7 +223,8 @@ void DriveSubsystem::SetModuleStates(
 /**
  * Resets the drive encoders to currently read a position of 0.
  */
-void DriveSubsystem::ResetEncoders() {
+void DriveSubsystem::ResetEncoders()
+{
   m_frontLeft.ResetEncoders();
   m_rearLeft.ResetEncoders();
   m_frontRight.ResetEncoders();
@@ -213,7 +236,8 @@ void DriveSubsystem::ResetEncoders() {
  *
  * @return the robot's heading in degrees, from 180 to 180
  */
-units::degree_t DriveSubsystem::GetHeading() {
+units::degree_t DriveSubsystem::GetHeading()
+{
   return frc::Rotation2d(units::degree_t{m_pigeon.GetYaw().GetValue()})
       .Degrees();
 }
@@ -228,7 +252,8 @@ void DriveSubsystem::ZeroHeading() { m_pigeon.Reset(); }
  *
  * @return The turn rate of the robot, in degrees per second
  */
-double DriveSubsystem::GetTurnRate() {
+double DriveSubsystem::GetTurnRate()
+{
   return -m_pigeon.GetAngularVelocityZWorld().GetValue().value();
 }
 
@@ -244,7 +269,8 @@ frc::Pose2d DriveSubsystem::GetPose() { return m_odometry.GetPose(); }
  *
  * @param pose The pose to which to set the odometry.
  */
-void DriveSubsystem::ResetOdometry(frc::Pose2d pose) {
+void DriveSubsystem::ResetOdometry(frc::Pose2d pose)
+{
   m_odometry.ResetPosition(
       GetHeading(),
       {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
@@ -257,6 +283,7 @@ void DriveSubsystem::ResetOdometry(frc::Pose2d pose) {
  *
  * @return frs::ChassisSpeeds the reletive speeds obj
  */
-frc::ChassisSpeeds DriveSubsystem::getChassisSpeeds(void) {
+frc::ChassisSpeeds DriveSubsystem::getChassisSpeeds(void)
+{
   return m_chassisSpeeds;
 }
