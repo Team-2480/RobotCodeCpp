@@ -7,13 +7,17 @@
 #include <frc/controller/PIDController.h>
 #include <frc/geometry/Translation2d.h>
 #include <frc/shuffleboard/Shuffleboard.h>
+#include <pathplanner/lib/commands/PathPlannerAuto.h>
+#include <pathplanner/lib/auto/NamedCommands.h>
 #include <frc/trajectory/Trajectory.h>
 #include <frc/trajectory/TrajectoryGenerator.h>
 #include <frc2/command/InstantCommand.h>
 #include <frc2/command/SequentialCommandGroup.h>
+#include <frc2/command/CommandPtr.h>
 #include <frc2/command/SwerveControllerCommand.h>
 #include <frc2/command/WaitCommand.h>
 #include <frc2/command/button/JoystickButton.h>
+#include <frc2/command/button/POVButton.h>
 #include <units/angle.h>
 #include <units/velocity.h>
 
@@ -79,24 +83,20 @@ void RobotContainer::ConfigureButtonBindings()
                                         { m_drive.SetX(); },
                                         {&m_drive}));
 
-    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
-        .WhileTrue(new frc2::RunCommand(
-            [this]
-            { m_drive.m_pigeon.SetYaw((units::degree_t)0); },
-            {&m_drive}));
-
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kBack)
         .ToggleOnTrue(new frc2::InstantCommand([this]()
                                                { m_climb.m_regulator.Zero(); }));
 
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
         .ToggleOnTrue(m_shooter.Shoot());
-    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kLeftBumper)
-        .ToggleOnTrue(m_shooter.Rev());
-
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
-        .ToggleOnFalse(new frc2::InstantCommand([this]()
-                                                { m_shooter.Stop(); }));
+        .ToggleOnFalse(m_shooter.Stop());
+        
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
+        .ToggleOnTrue(m_shooter.Rev());
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
+        .ToggleOnFalse(m_shooter.Stop());
+
 
     frc2::JoystickButton(&m_driverJoystick, 1)
         .ToggleOnTrue(new frc2::InstantCommand(
@@ -119,39 +119,57 @@ void RobotContainer::ConfigureButtonBindings()
             { global_local = !global_local;
             printf("global local: %i\n", global_local); },
             {}));
+    
+    frc2::JoystickButton(&m_driverJoystick, 11)
+        .WhileTrue(new frc2::RunCommand(
+            [this]
+            { m_drive.m_pigeon.SetYaw((units::degree_t)0); },
+            {&m_drive}));
 
     frc2::JoystickButton(&m_driverJoystick, 3)
-        .ToggleOnTrue(new frc2::InstantCommand(
+        .ToggleOnTrue(new frc2::RunCommand(
             [this]
             {
-                printf("Flipping 180 Degrees...\n");
+                // printf("Flipping 180 Degrees...\n");
+                //printf("Gyro is %d\n", m_drive.m_pigeon.GetYaw().GetValue().value());
+                printf("Gyro is %d\n",frc::Rotation2d(units::degree_t{m_drive.m_pigeon.GetYaw().GetValue()}).Degrees());
+                
                 m_drive.Drive(
-                    -units::meters_per_second_t{0},
-                    -units::meters_per_second_t{0},
-                    -units::radians_per_second_t{M_PI},
-                    true);
-            },
-            {}));
+                                -units::meters_per_second_t{0},
+                                -units::meters_per_second_t{0},
+                                -units::radians_per_second_t{M_PI},
+                                global_local);
+                        }));
+                // m_drive.Drive(
+                //     -units::meters_per_second_t{0},
+                //     -units::meters_per_second_t{0},
+                //     -units::radians_per_second_t{M_PI},
+                // true);
+            
 
-    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kY)
+    // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kY)
+    frc2::POVButton(&m_driverController, 0, 0)
         .ToggleOnTrue(new frc2::InstantCommand(
             [this]
             {
                 m_climb.Spool();
             }));
 
-    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kY)
+    // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kY)
+    frc2::POVButton(&m_driverController, 0, 0)
         .ToggleOnFalse(new frc2::InstantCommand([this]()
                                                 { m_climb.Stop(); }));
 
-    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kX)
+    // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kX)
+    frc2::POVButton(&m_driverController, 180, 0)
         .ToggleOnTrue(new frc2::InstantCommand(
             [this]
             {
                 m_climb.Unspool();
             }));
 
-    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kX)
+    // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kX)
+    frc2::POVButton(&m_driverController, 180, 0)
         .ToggleOnFalse(new frc2::InstantCommand([this]()
                                                 { m_climb.Stop(); }));
 }
@@ -160,10 +178,13 @@ void RobotContainer::ConfigureButtonBindingsJoystick()
 {
 }
 
-frc2::Command *RobotContainer::GetAutonomousCommand()
+pathplanner::PathPlannerAuto *RobotContainer::GetAutonomousCommand()
 {
-    return new frc2::SequentialCommandGroup(
-        frc2::InstantCommand(
-            [this]() {},
-            {}));
+    pathplanner::NamedCommands::registerCommand("rev", m_shooter.Rev());
+    pathplanner::NamedCommands::registerCommand("shoot", m_shooter.Shoot());
+    pathplanner::NamedCommands::registerCommand("stop", m_shooter.Stop());
+    pathplanner::PathPlannerAuto *path = new pathplanner::PathPlannerAuto("Simple Path");
+    m_drive.ResetOdometry(path->getStartingPose());
+    printf("reset position.\n");
+    return path;
 }

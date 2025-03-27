@@ -6,11 +6,15 @@
 
 #include <frc/geometry/Rotation2d.h>
 #include <hal/FRCUsageReporting.h>
+#include <pathplanner/lib/auto/AutoBuilder.h>
+#include <pathplanner/lib/config/RobotConfig.h>
+#include <pathplanner/lib/controllers/PPHolonomicDriveController.h>
 #include <units/angle.h>
 #include <units/angular_velocity.h>
 #include <units/velocity.h>
 
 #include "Constants.h"
+#include "frc/kinematics/ChassisSpeeds.h"
 #include "subsystems/MAXSwerveModule.h"
 
 using namespace DriveConstants;
@@ -38,6 +42,50 @@ DriveSubsystem::DriveSubsystem()
   HAL_Report(HALUsageReporting::kResourceType_RobotDrive,
              HALUsageReporting::kRobotDriveSwerve_MaxSwerve);
   // m_compressor is on closed loop mode
+
+  pathplanner::RobotConfig config = pathplanner::RobotConfig::fromGUISettings();
+
+  // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds.
+         // Also optionally outputs individual module feedforwards
+  auto pid = std::make_shared<
+          pathplanner::PPHolonomicDriveController>( // PPHolonomicController is
+                                                    // the built in path
+                                                    // following controller for
+                                                    // holonomic drive trains
+          pathplanner::PIDConstants(0.4, 0.0, 0.2), // Translation PID constants
+          pathplanner::PIDConstants(0.4, 0.0, 0.2)  // Rotation PID constants
+          );
+
+  // Configure the AutoBuilder last
+  pathplanner::AutoBuilder::configure(
+      [this]() { return GetPose(); }, // Robot pose supplier
+      [this](frc::Pose2d pose) {
+        ResetOdometry(pose);
+      }, // Method to reset odometry (will be called if your auto has a starting
+         // pose)
+      [this]() {
+        return getChassisSpeeds();
+      }, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+      [this](frc::ChassisSpeeds speeds, auto feedforwards) {
+        driveRobotRelative(speeds);
+      }, 
+         pid
+      ,
+      config, // The robot configuration
+      []() {
+        //TODO: figure out alliance logic
+        // Boolean supplier that controls when the path will be mirrored for the
+        // red alliance This will flip the path being followed to the red side
+        // of the field. THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+        // auto alliance = pathplanner::DriverStation::GetAlliance();
+        // if (alliance) {
+        //     return alliance.value() == DriverStation::Alliance::kRed;
+        // }
+        return false;
+      },
+      this // Reference to this subsystem to set requirements
+  );
 }
 
 void DriveSubsystem::Periodic() {
@@ -46,6 +94,20 @@ void DriveSubsystem::Periodic() {
       frc::Rotation2d(units::degree_t{m_pigeon.GetYaw().GetValue()}),
       {m_frontLeft.GetPosition(), m_rearLeft.GetPosition(),
        m_frontRight.GetPosition(), m_rearRight.GetPosition()});
+}
+
+void DriveSubsystem::driveRobotRelative(frc::ChassisSpeeds speeds) {
+  m_chassisSpeeds = speeds;
+  auto states = kDriveKinematics.ToSwerveModuleStates(speeds);
+
+  kDriveKinematics.DesaturateWheelSpeeds(&states, DriveConstants::kMaxSpeed);
+
+  auto [fl, fr, bl, br] = states;
+
+  m_frontLeft.SetDesiredState(fl);
+  m_frontRight.SetDesiredState(fr);
+  m_rearLeft.SetDesiredState(bl);
+  m_rearRight.SetDesiredState(br);
 }
 
 void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
@@ -60,21 +122,14 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   units::radians_per_second_t rotDelivered =
       rot.value() * DriveConstants::kMaxAngularSpeed;
 
-  auto states = kDriveKinematics.ToSwerveModuleStates(
+  auto speeds =
       fieldRelative
           ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
                 xSpeedDelivered, ySpeedDelivered, rotDelivered,
                 frc::Rotation2d(units::degree_t{m_pigeon.GetYaw().GetValue()}))
-          : frc::ChassisSpeeds{xSpeedDelivered, ySpeedDelivered, rotDelivered});
+          : frc::ChassisSpeeds{xSpeedDelivered, ySpeedDelivered, rotDelivered};
 
-  kDriveKinematics.DesaturateWheelSpeeds(&states, DriveConstants::kMaxSpeed);
-
-  auto [fl, fr, bl, br] = states;
-
-  m_frontLeft.SetDesiredState(fl);
-  m_frontRight.SetDesiredState(fr);
-  m_rearLeft.SetDesiredState(bl);
-  m_rearRight.SetDesiredState(br);
+  driveRobotRelative(speeds);
 }
 
 void DriveSubsystem::SetX() {
@@ -124,4 +179,8 @@ void DriveSubsystem::ResetOdometry(frc::Pose2d pose) {
       {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
        m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
       pose);
+}
+
+frc::ChassisSpeeds DriveSubsystem::getChassisSpeeds(void) {
+  return m_chassisSpeeds;
 }
