@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.692750000000001,
+        "y": 7.25225
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.005840163934426,
+        "y": 6.704252049180327
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.7732500000000004,
+        "y": 5.22425
+      },
+      "prevControl": {
+        "x": 4.411475409836065,
+        "y": 5.865112704918032
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "B Trough"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -60.05431655960483
+  },
+  "reversed": false,
+  "folder": "Starts to Drop",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -179.6240765000744
+  },
+  "useDefaultConstraints": true
+}
