@@ -15,6 +15,7 @@
 
 #include "Constants.h"
 #include "frc/kinematics/ChassisSpeeds.h"
+#include "LimelightHelpers.h"
 #include "subsystems/MAXSwerveModule.h"
 
 using namespace DriveConstants;
@@ -30,7 +31,7 @@ DriveSubsystem::DriveSubsystem()
                    kFrontRightChassisAngularOffset},
       m_rearRight{kRearRightDrivingCanId, kRearRightTurningCanId,
                   kRearRightChassisAngularOffset},
-
+      m_poseEstimator{kDriveKinematics, frc::Rotation2d(units::degree_t{m_pigeon.GetYaw().GetValue()}), {m_frontLeft.GetPosition(), m_frontRight.GetPosition(), m_rearLeft.GetPosition(), m_rearRight.GetPosition()}, frc::Pose2d{}},
       m_odometry{kDriveKinematics,
                  frc::Rotation2d(units::degree_t{m_pigeon.GetYaw().GetValue()}),
 
@@ -55,12 +56,12 @@ DriveSubsystem::DriveSubsystem()
           pathplanner::PIDConstants(0.4, 0.0, 0.2), // Translation PID constants
           pathplanner::PIDConstants(0.4, 0.0, 0.2)  // Rotation PID constants
           );
-
+ 
   // Configure the AutoBuilder last
   pathplanner::AutoBuilder::configure(
-      [this]() { return GetPose(); }, // Robot pose supplier
+      [this]() { return m_poseEstimator.GetEstimatedPosition(); }, // Robot pose supplier
       [this](frc::Pose2d pose) {
-        ResetOdometry(pose);
+        m_poseEstimator.ResetPose(pose);
       }, // Method to reset odometry (will be called if your auto has a starting
          // pose)
       [this]() {
@@ -94,6 +95,29 @@ void DriveSubsystem::Periodic() {
       frc::Rotation2d(units::degree_t{m_pigeon.GetYaw().GetValue()}),
       {m_frontLeft.GetPosition(), m_rearLeft.GetPosition(),
        m_frontRight.GetPosition(), m_rearRight.GetPosition()});
+
+  // https://docs.limelightvision.io/docs/docs-limelight/tutorials/tutorial-swerve-pose-estimation
+  m_poseEstimator.Update(
+      frc::Rotation2d(units::degree_t{m_pigeon.GetYaw().GetValue()}),
+      {m_frontLeft.GetPosition(), m_rearLeft.GetPosition(),
+       m_frontRight.GetPosition(), m_rearRight.GetPosition()});
+
+  bool doRejectUpdate = false;
+
+  LimelightHelpers::SetRobotOrientation("limelight", m_poseEstimator.GetEstimatedPosition().Rotation().Degrees().value(), 0, 0, 0, 0, 0);
+  LimelightHelpers::PoseEstimate mt2 = LimelightHelpers::getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+  if (mt2.tagCount == 0)
+  {
+    doRejectUpdate = true;
+  }
+  if (!doRejectUpdate)
+  {
+    printf("not rejected\n");
+    m_poseEstimator.SetVisionMeasurementStdDevs({.7, .7, 9999999});
+    m_poseEstimator.AddVisionMeasurement(
+        mt2.pose,
+        mt2.timestampSeconds);
+  }
 }
 
 void DriveSubsystem::driveRobotRelative(frc::ChassisSpeeds speeds) {

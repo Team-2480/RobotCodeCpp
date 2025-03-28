@@ -12,6 +12,7 @@
 #include <frc/kinematics/ChassisSpeeds.h>
 #include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc/kinematics/SwerveDriveOdometry.h>
+#include <frc/estimator/SwerveDrivePoseEstimator.h>
 #include <frc2/command/SubsystemBase.h>
 
 #include <ctre/phoenix6/Pigeon2.hpp>
@@ -135,6 +136,7 @@ private:
   // Odometry class for tracking robot pose,
   // 4 defines the number of modules
   frc::SwerveDriveOdometry<4> m_odometry;
+  frc::SwerveDrivePoseEstimator<4> m_poseEstimator;
   frc::Pose2d m_pose;
 
   frc::ChassisSpeeds m_chassisSpeeds;
