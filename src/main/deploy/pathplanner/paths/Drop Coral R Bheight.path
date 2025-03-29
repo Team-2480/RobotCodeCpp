@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.1987704918032787,
-        "y": 6.955993852459016
+        "x": 16.23375,
+        "y": 7.0475
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3939999999999997,
-        "y": 7.066999999999999
+        "x": 15.249,
+        "y": 6.35525
       },
       "isLocked": false,
-      "linkedName": "B side"
+      "linkedName": "R Bside Coral"
     },
     {
       "anchor": {
-        "x": 3.728176229508197,
-        "y": 5.229764344262294
+        "x": 13.767000000000001,
+        "y": 5.22425
       },
       "prevControl": {
-        "x": 2.361577868852459,
-        "y": 6.0449282786885234
+        "x": 14.547,
+        "y": 5.90675
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "R Bheight"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -57.43956201884656
+    "rotation": -117.45099777093228
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Get&Drop R&B",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 126.86989764584406
+    "rotation": 52.71567356354849
   },
   "useDefaultConstraints": true
 }
