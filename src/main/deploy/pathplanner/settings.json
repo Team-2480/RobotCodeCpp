@@ -3,7 +3,10 @@
   "robotLength": 0.914,
   "holonomicMode": true,
   "pathFolders": [
-    "Starts to Drop"
+    "Blue Starts",
+    "Get&Drop R&B",
+    "Test",
+    "Red Start"
   ],
   "autoFolders": [
     "Blue Start",

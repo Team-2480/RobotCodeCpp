@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 3.7732500000000004,
-        "y": 5.22425
+        "x": 3.8220000000000005,
+        "y": 5.2145
       },
       "prevControl": {
-        "x": 3.6075,
-        "y": 7.096249999999999
+        "x": 3.6562499999999996,
+        "y": 7.086499999999999
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,10 +42,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -60.05431655960483
+    "rotation": -59.64188454123334
   },
   "reversed": false,
-  "folder": "Starts to Drop",
+  "folder": "Blue Starts",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 179.48150031270936
