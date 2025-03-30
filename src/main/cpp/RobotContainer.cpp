@@ -183,7 +183,7 @@ pathplanner::PathPlannerAuto *RobotContainer::GetAutonomousCommand()
     pathplanner::NamedCommands::registerCommand("rev", m_shooter.Rev());
     pathplanner::NamedCommands::registerCommand("shoot", m_shooter.Shoot());
     pathplanner::NamedCommands::registerCommand("stop", m_shooter.Stop());
-    pathplanner::PathPlannerAuto *path = new pathplanner::PathPlannerAuto("Correction Auto");
+    pathplanner::PathPlannerAuto *path = new pathplanner::PathPlannerAuto("RblueSide start");
     m_drive.ResetOdometry(path->getStartingPose());
     printf("reset position.\n");
     return path;

@@ -47,37 +47,41 @@ DriveSubsystem::DriveSubsystem()
   pathplanner::RobotConfig config = pathplanner::RobotConfig::fromGUISettings();
 
   // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds.
-         // Also optionally outputs individual module feedforwards
+  // Also optionally outputs individual module feedforwards
   auto pid = std::make_shared<
-          pathplanner::PPHolonomicDriveController>( // PPHolonomicController is
-                                                    // the built in path
-                                                    // following controller for
-                                                    // holonomic drive trains
-          pathplanner::PIDConstants(0.4, 0.0, 0.2), // Translation PID constants
-          pathplanner::PIDConstants(0.4, 0.0, 0.2)  // Rotation PID constants
-          );
- 
+      pathplanner::PPHolonomicDriveController>( // PPHolonomicController is
+                                                // the built in path
+                                                // following controller for
+                                                // holonomic drive trains
+      pathplanner::PIDConstants(0.4, 0.0, 0.2), // Translation PID constants
+      pathplanner::PIDConstants(0.4, 0.0, 0.2)  // Rotation PID constants
+  );
+
   // Configure the AutoBuilder last
   pathplanner::AutoBuilder::configure(
-      [this]() { return m_poseEstimator.GetEstimatedPosition(); }, // Robot pose supplier
-      [this](frc::Pose2d pose) {
+      [this]()
+      { return m_poseEstimator.GetEstimatedPosition(); }, // Robot pose supplier
+      [this](frc::Pose2d pose)
+      {
         m_poseEstimator.ResetPose(pose);
       }, // Method to reset odometry (will be called if your auto has a starting
          // pose)
-      [this]() {
+      [this]()
+      {
         return getChassisSpeeds();
       }, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-      [this](frc::ChassisSpeeds speeds, auto feedforwards) {
+      [this](frc::ChassisSpeeds speeds, auto feedforwards)
+      {
         driveRobotRelative(speeds);
-      }, 
-         pid
-      ,
+      },
+      pid,
       config, // The robot configuration
-      []() {
-        //TODO: figure out alliance logic
-        // Boolean supplier that controls when the path will be mirrored for the
-        // red alliance This will flip the path being followed to the red side
-        // of the field. THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+      []()
+      {
+        // TODO: figure out alliance logic
+        //  Boolean supplier that controls when the path will be mirrored for the
+        //  red alliance This will flip the path being followed to the red side
+        //  of the field. THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
         // auto alliance = pathplanner::DriverStation::GetAlliance();
         // if (alliance) {
@@ -89,7 +93,8 @@ DriveSubsystem::DriveSubsystem()
   );
 }
 
-void DriveSubsystem::Periodic() {
+void DriveSubsystem::Periodic()
+{
   // Implementation of subsystem periodic method goes here.
   m_odometry.Update(
       frc::Rotation2d(units::degree_t{m_pigeon.GetYaw().GetValue()}),
@@ -103,13 +108,16 @@ void DriveSubsystem::Periodic() {
        m_frontRight.GetPosition(), m_rearRight.GetPosition()});
 
   bool doRejectUpdate = false;
-
+  
+/*
   LimelightHelpers::SetRobotOrientation("limelight", m_poseEstimator.GetEstimatedPosition().Rotation().Degrees().value(), 0, 0, 0, 0, 0);
-  LimelightHelpers::PoseEstimate mt2 = LimelightHelpers::getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+  LimelightHelpers::PoseEstimate mt2 = LimelightHelpers::getBotPoseEstimate_wpiRed_MegaTag2("limelight");
+
   if (mt2.tagCount == 0)
   {
     doRejectUpdate = true;
   }
+
   if (!doRejectUpdate)
   {
     printf("not rejected\n");
@@ -118,9 +126,11 @@ void DriveSubsystem::Periodic() {
         mt2.pose,
         mt2.timestampSeconds);
   }
+  */
 }
 
-void DriveSubsystem::driveRobotRelative(frc::ChassisSpeeds speeds) {
+void DriveSubsystem::driveRobotRelative(frc::ChassisSpeeds speeds)
+{
   m_chassisSpeeds = speeds;
   auto states = kDriveKinematics.ToSwerveModuleStates(speeds);
 
@@ -137,7 +147,8 @@ void DriveSubsystem::driveRobotRelative(frc::ChassisSpeeds speeds) {
 void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
                            units::meters_per_second_t ySpeed,
                            units::radians_per_second_t rot,
-                           bool fieldRelative) {
+                           bool fieldRelative)
+{
   // Convert the commanded speeds into the correct units for the drivetrain
   units::meters_per_second_t xSpeedDelivered =
       xSpeed.value() * DriveConstants::kMaxSpeed;
@@ -156,7 +167,8 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   driveRobotRelative(speeds);
 }
 
-void DriveSubsystem::SetX() {
+void DriveSubsystem::SetX()
+{
   m_frontLeft.SetDesiredState(
       frc::SwerveModuleState{0_mps, frc::Rotation2d{45_deg}});
   m_frontRight.SetDesiredState(
@@ -168,7 +180,8 @@ void DriveSubsystem::SetX() {
 }
 
 void DriveSubsystem::SetModuleStates(
-    wpi::array<frc::SwerveModuleState, 4> desiredStates) {
+    wpi::array<frc::SwerveModuleState, 4> desiredStates)
+{
   kDriveKinematics.DesaturateWheelSpeeds(&desiredStates,
                                          DriveConstants::kMaxSpeed);
   m_frontLeft.SetDesiredState(desiredStates[0]);
@@ -177,27 +190,31 @@ void DriveSubsystem::SetModuleStates(
   m_rearRight.SetDesiredState(desiredStates[3]);
 }
 
-void DriveSubsystem::ResetEncoders() {
+void DriveSubsystem::ResetEncoders()
+{
   m_frontLeft.ResetEncoders();
   m_rearLeft.ResetEncoders();
   m_frontRight.ResetEncoders();
   m_rearRight.ResetEncoders();
 }
 
-units::degree_t DriveSubsystem::GetHeading() {
+units::degree_t DriveSubsystem::GetHeading()
+{
   return frc::Rotation2d(units::degree_t{m_pigeon.GetYaw().GetValue()})
       .Degrees();
 }
 
 void DriveSubsystem::ZeroHeading() { m_pigeon.Reset(); }
 
-double DriveSubsystem::GetTurnRate() {
+double DriveSubsystem::GetTurnRate()
+{
   return -m_pigeon.GetAngularVelocityZWorld().GetValue().value();
 }
 
 frc::Pose2d DriveSubsystem::GetPose() { return m_odometry.GetPose(); }
 
-void DriveSubsystem::ResetOdometry(frc::Pose2d pose) {
+void DriveSubsystem::ResetOdometry(frc::Pose2d pose)
+{
   m_odometry.ResetPosition(
       GetHeading(),
       {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
@@ -205,6 +222,7 @@ void DriveSubsystem::ResetOdometry(frc::Pose2d pose) {
       pose);
 }
 
-frc::ChassisSpeeds DriveSubsystem::getChassisSpeeds(void) {
+frc::ChassisSpeeds DriveSubsystem::getChassisSpeeds(void)
+{
   return m_chassisSpeeds;
 }

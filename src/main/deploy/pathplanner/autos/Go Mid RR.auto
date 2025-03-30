@@ -7,7 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "CoralDropR1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot"
           }
         },
         {
@@ -17,15 +23,15 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": null
+            "name": "stop"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Red Start",
   "choreoAuto": false
 }

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 13.767000000000001,
-        "y": 5.22425
+        "x": 12.395286885245902,
+        "y": 5.145850409836064
       },
       "prevControl": null,
       "nextControl": {
-        "x": 14.69325,
-        "y": 5.92625
+        "x": 12.275409836065574,
+        "y": 6.836116803278688
       },
       "isLocked": false,
       "linkedName": "R Bheight"
     },
     {
       "anchor": {
-        "x": 16.23375,
-        "y": 7.0475
+        "x": 16.243340163934427,
+        "y": 7.06388319672131
       },
       "prevControl": {
-        "x": 15.27825,
-        "y": 6.3260000000000005
+        "x": 15.102110655737706,
+        "y": 7.140204918032785
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": "Get&Drop R&B",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -117.45099777093228
+    "rotation": -56.57518881739617
   },
   "useDefaultConstraints": true
 }
