@@ -62,6 +62,7 @@ private:
   float y_mult = -1;
   bool global_local = false;
   bool slowMode = false;
+  bool alignMode = false;
 
   // The chooser for the autonomous routines
   frc::SendableChooser<frc2::Command *> m_chooser;

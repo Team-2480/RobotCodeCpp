@@ -101,23 +101,6 @@ void DriveSubsystem::Periodic() {
       frc::Rotation2d(units::degree_t{m_pigeon.GetYaw().GetValue()}),
       {m_frontLeft.GetPosition(), m_rearLeft.GetPosition(),
        m_frontRight.GetPosition(), m_rearRight.GetPosition()});
-
-  bool doRejectUpdate = false;
-
-  LimelightHelpers::SetRobotOrientation("limelight", m_poseEstimator.GetEstimatedPosition().Rotation().Degrees().value(), 0, 0, 0, 0, 0);
-  LimelightHelpers::PoseEstimate mt2 = LimelightHelpers::getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
-  if (mt2.tagCount == 0)
-  {
-    doRejectUpdate = true;
-  }
-  if (!doRejectUpdate)
-  {
-    printf("not rejected\n");
-    m_poseEstimator.SetVisionMeasurementStdDevs({.7, .7, 9999999});
-    m_poseEstimator.AddVisionMeasurement(
-        mt2.pose,
-        mt2.timestampSeconds);
-  }
 }
 
 void DriveSubsystem::driveRobotRelative(frc::ChassisSpeeds speeds) {

@@ -24,6 +24,7 @@
 #include <utility>
 
 #include "Constants.h"
+#include "LimelightHelpers.h"
 #include "subsystems/DriveSubsystem.h"
 
 using namespace DriveConstants;
@@ -54,6 +55,32 @@ RobotContainer::RobotContainer()
                         std::pow(m_driverJoystick.GetTwist(), 3), OIConstants::kDriveDeadband,
                         DriveConstants::kSlowTargetSpeed.value())},
                     global_local);
+            }
+            else if (alignMode)
+            {
+                double p = -10;
+                double targetingSidewaysSpeed = LimelightHelpers::getTX("limelight") * p;
+                p = -10;
+                
+                // 1.5 = 54"
+                // 3.36 = 35.25"
+                double targetingForwardSpeed = (3.36 - LimelightHelpers::getTA("limelight")) * p;
+
+                if(LimelightHelpers::getTA("limelight") == 0)
+                    goto driveQuit;
+
+                targetingForwardSpeed *= DriveConstants::kSlowTargetSpeed.value();
+                targetingSidewaysSpeed *= DriveConstants::kSlowTargetSpeed.value();
+
+                m_drive.Drive(
+                    units::meters_per_second_t{targetingForwardSpeed},
+                    units::meters_per_second_t{targetingSidewaysSpeed},
+                    units::radians_per_second_t{0},
+                    global_local);
+
+                driveQuit:
+                printf("x %f, y %f\n", targetingForwardSpeed, targetingSidewaysSpeed);
+
             }
             else
             {
@@ -91,12 +118,11 @@ void RobotContainer::ConfigureButtonBindings()
         .ToggleOnTrue(m_shooter.Shoot());
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
         .ToggleOnFalse(m_shooter.Stop());
-        
+
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
         .ToggleOnTrue(m_shooter.Rev());
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
         .ToggleOnFalse(m_shooter.Stop());
-
 
     frc2::JoystickButton(&m_driverJoystick, 1)
         .ToggleOnTrue(new frc2::InstantCommand(
@@ -113,13 +139,28 @@ void RobotContainer::ConfigureButtonBindings()
             },
             {}));
 
+        frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kRightBumper)
+        .ToggleOnTrue(new frc2::InstantCommand(
+            [this]
+            {
+                alignMode = !alignMode;
+            },
+            {}));
+    frc2::JoystickButton(&m_driverJoystick, frc::XboxController::Button::kRightBumper)
+        .ToggleOnFalse(new frc2::InstantCommand(
+            [this]
+            {
+                alignMode = !alignMode;
+            },
+            {}));
+
     frc2::JoystickButton(&m_driverJoystick, 2)
         .ToggleOnTrue(new frc2::InstantCommand(
             [this]
             { global_local = !global_local;
             printf("global local: %i\n", global_local); },
             {}));
-    
+
     frc2::JoystickButton(&m_driverJoystick, 11)
         .WhileTrue(new frc2::RunCommand(
             [this]
@@ -131,21 +172,20 @@ void RobotContainer::ConfigureButtonBindings()
             [this]
             {
                 // printf("Flipping 180 Degrees...\n");
-                //printf("Gyro is %d\n", m_drive.m_pigeon.GetYaw().GetValue().value());
-                printf("Gyro is %d\n",frc::Rotation2d(units::degree_t{m_drive.m_pigeon.GetYaw().GetValue()}).Degrees());
-                
+                // printf("Gyro is %d\n", m_drive.m_pigeon.GetYaw().GetValue().value());
+                printf("Gyro is %d\n", frc::Rotation2d(units::degree_t{m_drive.m_pigeon.GetYaw().GetValue()}).Degrees());
+
                 m_drive.Drive(
-                                -units::meters_per_second_t{0},
-                                -units::meters_per_second_t{0},
-                                -units::radians_per_second_t{M_PI},
-                                global_local);
-                        }));
-                // m_drive.Drive(
-                //     -units::meters_per_second_t{0},
-                //     -units::meters_per_second_t{0},
-                //     -units::radians_per_second_t{M_PI},
-                // true);
-            
+                    -units::meters_per_second_t{0},
+                    -units::meters_per_second_t{0},
+                    -units::radians_per_second_t{M_PI},
+                    global_local);
+            }));
+    // m_drive.Drive(
+    //     -units::meters_per_second_t{0},
+    //     -units::meters_per_second_t{0},
+    //     -units::radians_per_second_t{M_PI},
+    // true);
 
     // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kY)
     frc2::POVButton(&m_driverController, 0, 0)
@@ -183,6 +223,7 @@ pathplanner::PathPlannerAuto *RobotContainer::GetAutonomousCommand()
     pathplanner::NamedCommands::registerCommand("rev", m_shooter.Rev());
     pathplanner::NamedCommands::registerCommand("shoot", m_shooter.Shoot());
     pathplanner::NamedCommands::registerCommand("stop", m_shooter.Stop());
+    pathplanner::NamedCommands::registerCommand("startalign", m_shooter.Stop());
     pathplanner::PathPlannerAuto *path = new pathplanner::PathPlannerAuto("Correction Auto");
     m_drive.ResetOdometry(path->getStartingPose());
     printf("reset position.\n");
