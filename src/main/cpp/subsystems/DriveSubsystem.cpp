@@ -72,6 +72,11 @@ DriveSubsystem::DriveSubsystem()
       }, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
       [this](frc::ChassisSpeeds speeds, auto feedforwards)
       {
+        if (alignMode())
+        {
+          driveAlign();
+          return;
+        }
         driveRobotRelative(speeds);
       },
       pid,
@@ -91,6 +96,30 @@ DriveSubsystem::DriveSubsystem()
       },
       this // Reference to this subsystem to set requirements
   );
+}
+
+void DriveSubsystem::driveAlign()
+{
+
+  double p = -10;
+  double targetingSidewaysSpeed = LimelightHelpers::getTX("limelight") * p;
+
+  p = -10;
+  // 1.5 = 54"
+  // 3.36 = 35.25"
+  double targetingForwardSpeed = (3.36 - LimelightHelpers::getTA("limelight")) * p;
+
+  if (LimelightHelpers::getTA("limelight") == 0)
+    return;
+
+  targetingForwardSpeed *= DriveConstants::kSlowTargetSpeed.value();
+  targetingSidewaysSpeed *= DriveConstants::kSlowTargetSpeed.value();
+
+  Drive(
+      units::meters_per_second_t{targetingForwardSpeed},
+      units::meters_per_second_t{targetingSidewaysSpeed},
+      units::radians_per_second_t{0},
+      false);
 }
 
 void DriveSubsystem::Periodic()

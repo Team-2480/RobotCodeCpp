@@ -56,31 +56,9 @@ RobotContainer::RobotContainer()
                         DriveConstants::kSlowTargetSpeed.value())},
                     global_local);
             }
-            else if (alignMode)
+            else if (m_drive.alignMode())
             {
-                double p = -10;
-                double targetingSidewaysSpeed = LimelightHelpers::getTX("limelight") * p;
-                p = -10;
-                
-                // 1.5 = 54"
-                // 3.36 = 35.25"
-                double targetingForwardSpeed = (3.36 - LimelightHelpers::getTA("limelight")) * p;
-
-                if(LimelightHelpers::getTA("limelight") == 0)
-                    goto driveQuit;
-
-                targetingForwardSpeed *= DriveConstants::kSlowTargetSpeed.value();
-                targetingSidewaysSpeed *= DriveConstants::kSlowTargetSpeed.value();
-
-                m_drive.Drive(
-                    units::meters_per_second_t{targetingForwardSpeed},
-                    units::meters_per_second_t{targetingSidewaysSpeed},
-                    units::radians_per_second_t{0},
-                    global_local);
-
-                driveQuit:
-                printf("x %f, y %f\n", targetingForwardSpeed, targetingSidewaysSpeed);
-
+                m_drive.driveAlign();
             }
             else
             {
@@ -140,19 +118,7 @@ void RobotContainer::ConfigureButtonBindings()
             {}));
 
         frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kRightBumper)
-        .ToggleOnTrue(new frc2::InstantCommand(
-            [this]
-            {
-                alignMode = !alignMode;
-            },
-            {}));
-    frc2::JoystickButton(&m_driverJoystick, frc::XboxController::Button::kRightBumper)
-        .ToggleOnFalse(new frc2::InstantCommand(
-            [this]
-            {
-                alignMode = !alignMode;
-            },
-            {}));
+        .ToggleOnTrue(m_drive.startAlignment()) .ToggleOnFalse(m_drive.stopAlignment());
 
     frc2::JoystickButton(&m_driverJoystick, 2)
         .ToggleOnTrue(new frc2::InstantCommand(
@@ -223,6 +189,8 @@ pathplanner::PathPlannerAuto *RobotContainer::GetAutonomousCommand()
     pathplanner::NamedCommands::registerCommand("rev", m_shooter.Rev());
     pathplanner::NamedCommands::registerCommand("shoot", m_shooter.Shoot());
     pathplanner::NamedCommands::registerCommand("stop", m_shooter.Stop());
+    pathplanner::NamedCommands::registerCommand("startalign", m_drive.startAlignment());
+    pathplanner::NamedCommands::registerCommand("stopalign", m_drive.stopAlignment());
     pathplanner::PathPlannerAuto *path = new pathplanner::PathPlannerAuto("RblueSide start");
     m_drive.ResetOdometry(path->getStartingPose());
     printf("reset position.\n");
