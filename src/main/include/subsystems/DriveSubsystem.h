@@ -14,6 +14,8 @@
 #include <frc/kinematics/SwerveDriveOdometry.h>
 #include <frc/estimator/SwerveDrivePoseEstimator.h>
 #include <frc2/command/SubsystemBase.h>
+#include <frc2/command/CommandPtr.h>
+#include <frc2/command/InstantCommand.h>
 
 #include <ctre/phoenix6/Pigeon2.hpp>
 
@@ -105,10 +107,15 @@ public:
    * Driving helper functions
    *
    * @param speeds: frc::ChassisSpeeds
-   *
-   * @return frc::ChassisSpeeds the reletive speeds obj
    */
   void driveRobotRelative(frc::ChassisSpeeds speeds);
+
+
+  /**
+   * Use limelight to align the robot
+   */
+  void driveAlign();
+  
 
   frc::SwerveDriveKinematics<4> kDriveKinematics{
       frc::Translation2d{DriveConstants::kWheelBase / 2,
@@ -124,6 +131,20 @@ public:
   // frc::ADIS16470_IMU m_gyro;
   ctre::phoenix6::hardware::Pigeon2 m_pigeon;
 
+frc2::CommandPtr startAlignment(){
+return frc2::CommandPtr(frc2::InstantCommand([this]{
+    m_alignMode = true;
+  }));
+}
+
+frc2::CommandPtr stopAlignment(){
+return frc2::CommandPtr(frc2::InstantCommand([this]{
+    m_alignMode = false;
+  }));
+}
+bool alignMode() {
+  return m_alignMode;
+}
 private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
@@ -137,8 +158,8 @@ private:
   // 4 defines the number of modules
   frc::SwerveDriveOdometry<4> m_odometry;
   frc::SwerveDrivePoseEstimator<4> m_poseEstimator;
+  bool m_alignMode = false;
   frc::Pose2d m_pose;
 
   frc::ChassisSpeeds m_chassisSpeeds;
-  
 };
