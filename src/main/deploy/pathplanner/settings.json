@@ -4,9 +4,10 @@
   "holonomicMode": true,
   "pathFolders": [
     "Blue Starts",
-    "Get&Drop R&B",
-    "Test",
-    "Red Start"
+    "Get&Drop B",
+    "Get&Drop R",
+    "Red Start",
+    "Test"
   ],
   "autoFolders": [
     "Blue Start",

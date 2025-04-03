@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 13.767000000000001,
-        "y": 5.22425
+        "x": 12.36389802631579,
+        "y": 5.208470394736842
       },
       "prevControl": null,
       "nextControl": {
-        "x": 14.69325,
-        "y": 5.92625
+        "x": 12.960444078947367,
+        "y": 6.28610197368421
       },
       "isLocked": false,
-      "linkedName": "R Bheight"
+      "linkedName": "RtroughCloseTop"
     },
     {
       "anchor": {
@@ -45,10 +45,10 @@
     "rotation": 52.71567356354849
   },
   "reversed": false,
-  "folder": "Get&Drop R&B",
+  "folder": "Get&Drop R",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -117.45099777093228
+    "rotation": -60.78075330951541
   },
   "useDefaultConstraints": true
 }

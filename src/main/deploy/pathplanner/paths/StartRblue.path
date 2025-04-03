@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 10.588500000000003,
-        "y": 6.51125
+        "x": 10.824424342105262,
+        "y": 6.2476151315789465
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 13.767000000000001,
-        "y": 5.22425
+        "x": 12.36389802631579,
+        "y": 5.208470394736842
       },
       "prevControl": {
-        "x": 13.874250000000002,
-        "y": 6.794
+        "x": 11.430592105263155,
+        "y": 6.353453947368421
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "R Bheight"
+      "linkedName": "RtroughCloseTop"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -117.45099777093228
+    "rotation": -60.78075330951541
   },
   "reversed": false,
   "folder": "Red Start",

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.7732500000000004,
-        "y": 2.855
+        "x": 5.195723684210526,
+        "y": 2.880016447368421
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.7689999999999997,
-        "y": 2.279749999999999
+        "x": 4.628042763157894,
+        "y": 1.6291940789473687
       },
       "isLocked": false,
       "linkedName": "Btrough Rside"
@@ -25,7 +25,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Bside Rheight coral"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -45,10 +45,10 @@
     "rotation": -123.6900675259798
   },
   "reversed": false,
-  "folder": "Get&Drop R&B",
+  "folder": "Get&Drop B",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 58.84069549165568
+    "rotation": 119.69072651201682
   },
   "useDefaultConstraints": true
 }

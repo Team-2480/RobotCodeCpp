@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 3.728176229508197,
-        "y": 5.229764344262294
+        "x": 3.8220000000000005,
+        "y": 5.2145
       },
       "prevControl": {
-        "x": 2.361577868852459,
-        "y": 6.0449282786885234
+        "x": 2.4554016393442626,
+        "y": 6.02966393442623
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "B Trough"
     }
   ],
   "rotationTargets": [],
@@ -42,10 +42,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -57.43956201884656
+    "rotation": -59.64188454123334
   },
   "reversed": false,
-  "folder": "Get&Drop R&B",
+  "folder": "Get&Drop B",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 126.75367918553147
