@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2675,
-        "y": 1.0317499999999995
+        "x": 3.8220000000000005,
+        "y": 5.2145
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.155263157894736,
-        "y": 1.7157894736842105
+        "x": 2.7325657894688833,
+        "y": 5.9204769736862355
       },
       "isLocked": false,
-      "linkedName": "Bside Rheight coral"
+      "linkedName": "B Trough"
     },
     {
       "anchor": {
-        "x": 3.7620888157894736,
-        "y": 2.8896381578947365
+        "x": 1.2219572368446847,
+        "y": 6.978865131574263
       },
       "prevControl": {
-        "x": 2.7999177631578944,
-        "y": 2.0910361842105267
+        "x": 2.1552631578973167,
+        "y": 6.2764802631532115
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BtroughRside2"
+      "linkedName": "B side"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 62.818888914522816
+    "rotation": 126.75367918553147
   },
   "reversed": false,
   "folder": "Get&Drop B",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -123.6900675259798
+    "rotation": -59.64188454123334
   },
   "useDefaultConstraints": true
 }

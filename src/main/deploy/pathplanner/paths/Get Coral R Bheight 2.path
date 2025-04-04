@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2675,
-        "y": 1.0317499999999995
+        "x": 13.767000000000001,
+        "y": 5.22425
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.155263157894736,
-        "y": 1.7157894736842105
+        "x": 14.442187499999998,
+        "y": 5.756907894736842
       },
       "isLocked": false,
-      "linkedName": "Bside Rheight coral"
+      "linkedName": "R Bheight"
     },
     {
       "anchor": {
-        "x": 3.7620888157894736,
-        "y": 2.8896381578947365
+        "x": 16.23375,
+        "y": 7.0475
       },
       "prevControl": {
-        "x": 2.7999177631578944,
-        "y": 2.0910361842105267
+        "x": 15.606414473684211,
+        "y": 6.661348684210526
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BtroughRside2"
+      "linkedName": "R Bside Coral"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 62.818888914522816
+    "rotation": 52.71567356354849
   },
   "reversed": false,
-  "folder": "Get&Drop B",
+  "folder": "Get&Drop R",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -123.6900675259798
+    "rotation": -117.45099777093228
   },
   "useDefaultConstraints": true
 }
