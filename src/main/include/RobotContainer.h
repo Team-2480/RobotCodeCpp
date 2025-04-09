@@ -60,7 +60,7 @@ private:
   ClimbSubsystem m_climb;
   float x_mult = -1;
   float y_mult = -1;
-  bool global_local = false;
+  bool global_local = true;
   bool slowMode = false;
 
   // The chooser for the autonomous routines

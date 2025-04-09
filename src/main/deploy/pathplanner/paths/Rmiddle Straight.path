@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.1987704918032787,
-        "y": 1.0100922131147536
+        "x": 9.817930327868853,
+        "y": 4.0549692622950815
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.086533649698015,
-        "y": 1.6941316867989646
+        "x": 10.817930327868854,
+        "y": 4.0549692622950815
       },
       "isLocked": false,
-      "linkedName": "Bside Rheight coral"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.848053278688525,
-        "y": 2.904149590163935
+        "x": 11.855840163934426,
+        "y": 4.0549692622950815
       },
       "prevControl": {
-        "x": 2.8858822260569457,
-        "y": 2.105547616479725
+        "x": 10.855840163934426,
+        "y": 4.0549692622950815
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 58.736268305622524
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Get&Drop B",
+  "folder": "Red Start",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -123.6900675259798
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 16.23375,
-        "y": 7.0475
+        "x": 16.279303278688527,
+        "y": 7.06388319672131
       },
       "prevControl": null,
       "nextControl": {
-        "x": 15.249,
-        "y": 6.35525
+        "x": 15.294553278688527,
+        "y": 6.37163319672131
       },
       "isLocked": false,
       "linkedName": "R Bside Coral"
     },
     {
       "anchor": {
-        "x": 13.767000000000001,
-        "y": 5.22425
+        "x": 13.677971311475408,
+        "y": 5.1698258196721305
       },
       "prevControl": {
-        "x": 14.547,
-        "y": 5.90675
+        "x": 14.457971311475408,
+        "y": 5.852325819672131
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -117.45099777093228
+    "rotation": -118.61045966596541
   },
   "reversed": false,
   "folder": "Get&Drop R",
