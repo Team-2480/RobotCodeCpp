@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.7732500000000004,
-        "y": 2.855
+        "x": 3.773,
+        "y": 2.864749999999999
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.7689999999999997,
-        "y": 2.279749999999999
+        "x": 2.7687499999999994,
+        "y": 2.289499999999998
       },
       "isLocked": false,
       "linkedName": "Btrough Rside"
@@ -45,7 +45,7 @@
     "rotation": -123.6900675259798
   },
   "reversed": false,
-  "folder": "Get&Drop R&B",
+  "folder": "Get&Drop B",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 58.84069549165568

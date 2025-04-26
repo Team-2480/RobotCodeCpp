@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.566,
-        "y": 1.9092499999999994
+        "x": 7.71225,
+        "y": 1.8994999999999993
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.550749999999997,
-        "y": 1.9092499999999994
+        "x": 6.747000000000001,
+        "y": 1.8312499999999998
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.7732500000000004,
-        "y": 2.855
+        "x": 3.30973266691,
+        "y": 2.08881790638
       },
       "prevControl": {
-        "x": 3.2175000000000007,
-        "y": 1.8604999999999998
+        "x": 4.1925,
+        "y": 1.685
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Btrough Rside"
+      "linkedName": "BRHoming"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 58.84069549165568
+    "rotation": 58.841
   },
   "reversed": false,
   "folder": "Blue Starts",

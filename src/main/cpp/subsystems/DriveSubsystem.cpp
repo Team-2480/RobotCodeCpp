@@ -39,7 +39,9 @@ DriveSubsystem::DriveSubsystem()
                   m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
                  frc::Pose2d{}}
 
-{ // Usage reporting for MAXSwerve template
+{
+  m_alignMode = false;
+   // Usage reporting for MAXSwerve template
   HAL_Report(HALUsageReporting::kResourceType_RobotDrive,
              HALUsageReporting::kRobotDriveSwerve_MaxSwerve);
   // m_compressor is on closed loop mode
@@ -100,6 +102,7 @@ DriveSubsystem::DriveSubsystem()
 
 void DriveSubsystem::driveAlign()
 {
+  printf("aligning\n");
 
   double p = -10;
   double targetingSidewaysSpeed = LimelightHelpers::getTX("limelight") * p;

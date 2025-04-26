@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 13.757249999999999,
-        "y": 2.8354999999999997
+        "x": 14.1968982128,
+        "y": 2.05516592477
       },
       "prevControl": {
-        "x": 14.5890368852459,
-        "y": 2.4006659836065567
+        "x": 15.028685098045901,
+        "y": 1.6203319083765568
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "R trough"
+      "linkedName": "RRHoming"
     }
   ],
   "rotationTargets": [],
@@ -42,10 +42,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 119.42745640318944
+    "rotation": 119.42699999999999
   },
   "reversed": false,
-  "folder": "Get&Drop R&B",
+  "folder": "Get&Drop R",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -53.55555824341268

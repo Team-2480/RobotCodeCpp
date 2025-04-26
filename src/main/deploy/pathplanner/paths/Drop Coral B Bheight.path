@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3726065573770487,
-        "y": 6.053959016393442
+        "x": 2.114025258267187,
+        "y": 6.017899480591104
       },
       "isLocked": false,
       "linkedName": "B side"
     },
     {
       "anchor": {
-        "x": 3.728176229508197,
-        "y": 5.229764344262294
+        "x": 3.36948888097,
+        "y": 5.98758352924
       },
       "prevControl": {
-        "x": 2.361577868852459,
-        "y": 6.0449282786885234
+        "x": 1.4813597113079802,
+        "y": 6.548394607733003
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "BBHoming"
     }
   ],
   "rotationTargets": [],
@@ -42,10 +42,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -57.43956201884656
+    "rotation": -59.642
   },
   "reversed": false,
-  "folder": "Get&Drop R&B",
+  "folder": "Get&Drop B",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 126.75367918553147

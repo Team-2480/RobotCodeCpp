@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 3.8220000000000005,
-        "y": 5.2145
+        "x": 3.36948888097,
+        "y": 5.98758352924
       },
       "prevControl": {
-        "x": 3.1882500000000014,
-        "y": 6.326
+        "x": 2.735738880970001,
+        "y": 7.09908352924
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "B Trough"
+      "linkedName": "BBHoming"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -59.64188454123334
+    "rotation": -59.642
   },
   "reversed": false,
   "folder": "Blue Starts",

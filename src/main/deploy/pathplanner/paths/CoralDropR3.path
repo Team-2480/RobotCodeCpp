@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 12.395286885245902,
-        "y": 5.145850409836064
+        "x": 14.1800525791,
+        "y": 5.9578519187
       },
       "prevControl": {
-        "x": 12.502536885245902,
-        "y": 6.715600409836064
+        "x": 14.2873025791,
+        "y": 7.5276019187
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "R Bheight"
+      "linkedName": "RBHoming"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -56.57518881739617
+    "rotation": -120.32400000000001
   },
   "reversed": false,
   "folder": "Red Start",

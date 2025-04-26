@@ -28,7 +28,12 @@
       "linkedName": "B side"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 0.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -45,7 +50,7 @@
     "rotation": 126.75367918553147
   },
   "reversed": false,
-  "folder": "Get&Drop R&B",
+  "folder": "Get&Drop B",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -59.64188454123334

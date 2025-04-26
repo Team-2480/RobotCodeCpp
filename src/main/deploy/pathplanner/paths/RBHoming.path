@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 11.6805,
-        "y": 4.00716463414634
+        "x": 14.1800525791,
+        "y": 5.9578519187
       },
       "prevControl": null,
       "nextControl": {
-        "x": 10.94925,
-        "y": 2.5039999999999996
+        "x": 13.9815,
+        "y": 5.516749999999999
       },
       "isLocked": false,
-      "linkedName": "Middle start"
+      "linkedName": "RBHoming"
     },
     {
       "anchor": {
-        "x": 16.411168032786886,
-        "y": 1.1179815573770497
+        "x": 13.728,
+        "y": 5.185
       },
       "prevControl": {
-        "x": 14.207668032786888,
-        "y": 0.4257315573770496
+        "x": 14.157,
+        "y": 5.7215
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "R side"
+      "linkedName": "RBTrough"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -53.55555824341268
+    "rotation": -120.55654255929655
   },
   "reversed": false,
-  "folder": "Get&Drop R",
+  "folder": "Homing R&B",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.6508428712533053
+    "rotation": -120.32400000000001
   },
   "useDefaultConstraints": true
 }

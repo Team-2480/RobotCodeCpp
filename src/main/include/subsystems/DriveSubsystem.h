@@ -133,6 +133,7 @@ public:
 
 frc2::CommandPtr startAlignment(){
 return frc2::CommandPtr(frc2::InstantCommand([this]{
+  printf("align mode\n");
     m_alignMode = true;
   }));
 }
@@ -143,6 +144,7 @@ return frc2::CommandPtr(frc2::InstantCommand([this]{
   }));
 }
 bool alignMode() {
+  printf("align mode is %i\n", m_alignMode);
   return m_alignMode;
 }
 private:

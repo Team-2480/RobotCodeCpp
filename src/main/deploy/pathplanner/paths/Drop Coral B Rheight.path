@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.2632499999999993,
-        "y": 0.45649999999999924
+        "x": 1.794,
+        "y": 1.49
       },
       "isLocked": false,
       "linkedName": "Bside Rheight coral"
     },
     {
       "anchor": {
-        "x": 3.7732500000000004,
-        "y": 2.855
+        "x": 3.30973266691,
+        "y": 2.08881790638
       },
       "prevControl": {
-        "x": 4.57275,
-        "y": 3.615499999999999
+        "x": 2.6957326669099997,
+        "y": 1.7378179063799997
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Btrough Rside"
+      "linkedName": "BRHoming"
     }
   ],
   "rotationTargets": [],
@@ -42,10 +42,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 58.84069549165568
+    "rotation": 58.841
   },
   "reversed": false,
-  "folder": "Get&Drop R&B",
+  "folder": "Get&Drop B",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -123.6900675259798

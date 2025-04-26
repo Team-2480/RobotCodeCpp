@@ -7,7 +7,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CoralDropB3"
+            "pathName": "CoralDropBM"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "startalign"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "stopalign"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "HomingBBside"
           }
         },
         {
@@ -50,6 +74,30 @@
           "type": "path",
           "data": {
             "pathName": "Drop Coral B Bheight"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "startalign"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "stopalign"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "HomingBBside"
           }
         },
         {

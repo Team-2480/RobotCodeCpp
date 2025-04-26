@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 13.665983606557377,
-        "y": 5.0379610655737705
+        "x": 14.1800525791,
+        "y": 5.9578519187
       },
       "prevControl": {
-        "x": 14.445983606557377,
-        "y": 5.720461065573771
+        "x": 14.9600525791,
+        "y": 6.6403519187
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "RBHoming"
     }
   ],
   "rotationTargets": [],
@@ -41,11 +41,11 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": -117.45099777093228
+    "velocity": 0.0,
+    "rotation": -120.32400000000001
   },
   "reversed": false,
-  "folder": "Get&Drop R&B",
+  "folder": "Get&Drop R",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 52.71567356354849
