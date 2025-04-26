@@ -141,6 +141,7 @@ return frc2::CommandPtr(frc2::InstantCommand([this]{
 frc2::CommandPtr stopAlignment(){
 return frc2::CommandPtr(frc2::InstantCommand([this]{
     m_alignMode = false;
+    m_poseEstimator.ResetPose(frc::Pose2d(units::meter_t{14.180},units::meter_t{5.958}, frc::Rotation2d(units::degree_t{-114.234})));
   }));
 }
 bool alignMode() {

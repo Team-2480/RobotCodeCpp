@@ -83,11 +83,6 @@ void RobotContainer::ConfigureButtonBindings()
 {
     // the while true method will run the lambda function specified until the
     // button class is in false state.
-    frc2::JoystickButton(&m_driverController,
-                         frc::XboxController::Button::kRightBumper)
-        .WhileTrue(new frc2::RunCommand([this]
-                                        { m_drive.SetX(); },
-                                        {&m_drive}));
 
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kBack)
         .ToggleOnTrue(new frc2::InstantCommand([this]()
@@ -169,7 +164,7 @@ pathplanner::PathPlannerAuto *RobotContainer::GetAutonomousCommand()
     pathplanner::NamedCommands::registerCommand("stop", m_shooter.Stop());
     pathplanner::NamedCommands::registerCommand("startalign", m_drive.startAlignment());
     pathplanner::NamedCommands::registerCommand("stopalign", m_drive.stopAlignment());
-    pathplanner::PathPlannerAuto *path = new pathplanner::PathPlannerAuto("TestFull");
+    pathplanner::PathPlannerAuto *path = new pathplanner::PathPlannerAuto("RblueSide start");
     m_drive.ResetOdometry(path->getStartingPose());
     printf("reset position.\n");
     return path;
