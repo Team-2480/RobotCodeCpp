@@ -99,12 +99,8 @@ constexpr int kDrivingMotorPinionTeeth = 14;
 constexpr double kDrivingMotorFreeSpeedRps =
     5676.0 / 60; // NEO free speed is 5676 RPM
     // is the detected error
-    #define WHEELD1 3;
-    #define WHEELD2 3;
-    #define WHEELD3 3;
-    #define WHEELD4 3;
     
-constexpr units::meter_t kWheelDiameter = units::meter_t((WHEELD1+WHEELD2+WHEELD3+WHEELD4)/4*0.0254);
+constexpr units::meter_t kWheelDiameter = units::meter_t((2.80)*0.0254);
 constexpr units::meter_t kWheelCircumference =
     kWheelDiameter * std::numbers::pi;
 // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15

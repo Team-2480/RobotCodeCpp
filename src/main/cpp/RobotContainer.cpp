@@ -164,7 +164,8 @@ pathplanner::PathPlannerAuto *RobotContainer::GetAutonomousCommand()
     pathplanner::NamedCommands::registerCommand("stop", m_shooter.Stop());
     pathplanner::NamedCommands::registerCommand("startalign", m_drive.startAlignment());
     pathplanner::NamedCommands::registerCommand("stopalign", m_drive.stopAlignment());
-    pathplanner::PathPlannerAuto *path = new pathplanner::PathPlannerAuto("RblueSide start");
+    m_drive.m_autoName = std::make_pair("10ftFlat",  0);
+    pathplanner::PathPlannerAuto *path = new pathplanner::PathPlannerAuto(m_drive.m_autoName.value().first);
     m_drive.ResetOdometry(path->getStartingPose());
     printf("reset position.\n");
     return path;

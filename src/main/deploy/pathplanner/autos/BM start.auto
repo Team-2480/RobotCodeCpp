@@ -31,7 +31,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "HomingBBside"
+            "pathName": "BBHoming"
           }
         },
         {
@@ -97,7 +97,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "HomingBBside"
+            "pathName": "BBHoming"
           }
         },
         {

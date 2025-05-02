@@ -104,7 +104,7 @@ void DriveSubsystem::driveAlign()
 {
   printf("aligning\n");
 
-  double p = -10;
+  double p = 5;
   double targetingSidewaysSpeed = LimelightHelpers::getTX("limelight") * p;
 
   p = -10;
@@ -127,6 +127,10 @@ void DriveSubsystem::driveAlign()
 
 void DriveSubsystem::Periodic()
 {
+  
+  if (alignMode()) {
+    driveAlign();
+  }
   // Implementation of subsystem periodic method goes here.
   m_odometry.Update(
       frc::Rotation2d(units::degree_t{m_pigeon.GetYaw().GetValue()}),

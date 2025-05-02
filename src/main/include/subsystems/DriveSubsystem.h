@@ -22,6 +22,20 @@
 #include "Constants.h"
 #include "MAXSwerveModule.h"
 
+struct RobotPoint {
+    double x, y, rot;
+    RobotPoint(double x_val, double y_val, double rot_val) : x(x_val), y(y_val), rot(rot_val) {}
+};
+
+static std::map<std::string, std::vector<RobotPoint>> autoMap {
+        {"RR start", {RobotPoint(14.197, 2.055, 119.427)}},
+        {"RB start", {RobotPoint(14.180, 5.958, -120.324)}},
+        
+        {"BR start", {RobotPoint(3.310, 2.089, 58.841)}},
+        {"BB start", {RobotPoint(3.369, 5.988, -59.642)}},
+        {"10ft", {RobotPoint(0.895, 6.0, 180.000)}},
+    };
+
 class DriveSubsystem : public frc2::SubsystemBase {
 public:
   DriveSubsystem();
@@ -141,13 +155,21 @@ return frc2::CommandPtr(frc2::InstantCommand([this]{
 frc2::CommandPtr stopAlignment(){
 return frc2::CommandPtr(frc2::InstantCommand([this]{
     m_alignMode = false;
-    m_poseEstimator.ResetPose(frc::Pose2d(units::meter_t{14.180},units::meter_t{5.958}, frc::Rotation2d(units::degree_t{-114.234})));
+    if (!m_autoName.has_value())
+      return;
+    auto resetPoints = autoMap[m_autoName.value().first];
+    auto resetPoint = resetPoints[m_autoName.value().second];
+    m_poseEstimator.ResetPose(frc::Pose2d(units::meter_t{resetPoint.x},units::meter_t{resetPoint.y}, frc::Rotation2d(units::degree_t{resetPoint.rot})));
+    m_autoName.value().second++;
   }));
 }
 bool alignMode() {
   printf("align mode is %i\n", m_alignMode);
   return m_alignMode;
 }
+
+  std::optional<std::pair<std::string, uint32_t>> m_autoName;
+
 private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

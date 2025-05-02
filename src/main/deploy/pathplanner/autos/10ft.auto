@@ -9,6 +9,30 @@
           "data": {
             "pathName": "10ft"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "startalign"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "stopalign"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "10ftCorrection"
+          }
         }
       ]
     }
