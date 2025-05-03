@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 13.728,
-        "y": 5.185
+        "x": 13.761885245901638,
+        "y": 5.193801229508197
       },
       "prevControl": null,
       "nextControl": {
-        "x": 14.689697420900002,
-        "y": 5.816398081299999
+        "x": 14.72358266680164,
+        "y": 5.8251993108081965
       },
       "isLocked": false,
       "linkedName": "RBTrough"
     },
     {
       "anchor": {
-        "x": 16.243340163934427,
-        "y": 7.06388319672131
+        "x": 16.30327868852459,
+        "y": 7.039907786885245
       },
       "prevControl": {
-        "x": 15.327,
-        "y": 6.76475
+        "x": 15.386938524590162,
+        "y": 6.7407745901639355
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

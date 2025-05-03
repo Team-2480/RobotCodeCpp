@@ -42,7 +42,6 @@ RobotContainer::RobotContainer()
     m_drive.SetDefaultCommand(frc2::RunCommand(
         [this]
         {
-            printf("default\n");
             if (slowMode)
             {
                 m_drive.Drive(
@@ -164,7 +163,7 @@ pathplanner::PathPlannerAuto *RobotContainer::GetAutonomousCommand()
     pathplanner::NamedCommands::registerCommand("stop", m_shooter.Stop());
     pathplanner::NamedCommands::registerCommand("startalign", m_drive.startAlignment());
     pathplanner::NamedCommands::registerCommand("stopalign", m_drive.stopAlignment());
-    m_drive.m_autoName = std::make_pair("10ftFlat",  0);
+    m_drive.m_autoName = std::make_pair("RB2.5 start",  0);
     pathplanner::PathPlannerAuto *path = new pathplanner::PathPlannerAuto(m_drive.m_autoName.value().first);
     m_drive.ResetOdometry(path->getStartingPose());
     printf("reset position.\n");

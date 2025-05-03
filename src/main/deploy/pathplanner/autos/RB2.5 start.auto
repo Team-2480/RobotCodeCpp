@@ -43,7 +43,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.5
+            "waitTime": 0.8
           }
         },
         {
@@ -61,7 +61,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 2.0
+            "waitTime": 0.8
           }
         },
         {
@@ -104,6 +104,24 @@
           "type": "named",
           "data": {
             "name": "shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.8
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "stop"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SetGlobe R Bheight"
           }
         }
       ]

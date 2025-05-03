@@ -104,7 +104,7 @@ void DriveSubsystem::driveAlign()
 {
   printf("aligning\n");
 
-  double p = 5;
+  double p = 2;
   double targetingSidewaysSpeed = LimelightHelpers::getTX("limelight") * p;
 
   p = -10;

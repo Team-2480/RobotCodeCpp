@@ -30,6 +30,8 @@ struct RobotPoint {
 static std::map<std::string, std::vector<RobotPoint>> autoMap {
         {"RR start", {RobotPoint(14.197, 2.055, 119.427)}},
         {"RB start", {RobotPoint(14.180, 5.958, -120.324)}},
+        {"RB3 start", {RobotPoint(14.180, 5.958, -120.324)}},
+        {"RB2.5 start", {RobotPoint(14.180, 5.958, -120.324)}},
         
         {"BR start", {RobotPoint(3.310, 2.089, 58.841)}},
         {"BB start", {RobotPoint(3.369, 5.988, -59.642)}},
@@ -158,13 +160,12 @@ return frc2::CommandPtr(frc2::InstantCommand([this]{
     if (!m_autoName.has_value())
       return;
     auto resetPoints = autoMap[m_autoName.value().first];
-    auto resetPoint = resetPoints[m_autoName.value().second];
+    auto resetPoint = resetPoints[0];
     m_poseEstimator.ResetPose(frc::Pose2d(units::meter_t{resetPoint.x},units::meter_t{resetPoint.y}, frc::Rotation2d(units::degree_t{resetPoint.rot})));
     m_autoName.value().second++;
   }));
 }
 bool alignMode() {
-  printf("align mode is %i\n", m_alignMode);
   return m_alignMode;
 }
 
