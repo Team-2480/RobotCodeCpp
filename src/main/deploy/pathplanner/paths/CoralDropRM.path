@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 10.880999999999998,
-        "y": 3.9762500000000007
+        "x": 10.880541964487694,
+        "y": 4.00716463414634
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 11.6805,
-        "y": 4.00716463414634
+        "x": 10.78565,
+        "y": 4.007
       },
       "prevControl": {
-        "x": 10.959000000000001,
-        "y": 3.93725
+        "x": 10.100247912559396,
+        "y": 4.007
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Middle start"
+      "linkedName": "RMHoming"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.6508428712533053
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": "Red Start",

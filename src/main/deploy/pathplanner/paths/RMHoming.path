@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.369,
-        "y": 5.988
+        "x": 10.78565,
+        "y": 4.007
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.4900131641987593,
-        "y": 5.712167368006446
+        "x": 11.78565,
+        "y": 4.007
       },
       "isLocked": false,
-      "linkedName": "BBHoming"
+      "linkedName": "RMHoming"
     },
     {
       "anchor": {
-        "x": 3.822,
-        "y": 5.215
+        "x": 11.681,
+        "y": 4.007
       },
       "prevControl": {
-        "x": 3.675750000000001,
-        "y": 5.448499999999999
+        "x": 10.681,
+        "y": 4.007
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "B Trough"
+      "linkedName": "Middle start"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -59.642
+    "rotation": 0.6508428712533053
   },
   "reversed": false,
-  "folder": "Homing B",
+  "folder": "Homing R",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -59.642
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }
