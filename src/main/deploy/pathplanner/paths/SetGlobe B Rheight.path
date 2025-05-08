@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.773,
+        "y": 2.864749999999999
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.4764344262295084,
+        "y": 2.6404200819672123
+      },
+      "isLocked": false,
+      "linkedName": "Btrough Rside"
+    },
+    {
+      "anchor": {
+        "x": 3.0448770491803274,
+        "y": 1.7
+      },
+      "prevControl": {
+        "x": 3.2366803278688523,
+        "y": 2.0650102459016386
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "reversed": false,
+  "folder": "2.5s",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 58.84069549165568
+  },
+  "useDefaultConstraints": true
+}

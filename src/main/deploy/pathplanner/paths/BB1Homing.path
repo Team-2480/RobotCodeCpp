@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 5.526331967213115,
+        "y": 6.020952868852459
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.4083374781061595,
+        "y": 5.800550281434823
+      },
+      "isLocked": false,
+      "linkedName": "BB1Homing"
+    },
+    {
+      "anchor": {
+        "x": 5.083,
+        "y": 5.194
+      },
+      "prevControl": {
+        "x": 5.200954026720774,
+        "y": 5.414424244538469
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "BB1Trough"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -119.99999999999999
+  },
+  "reversed": false,
+  "folder": "Homing B",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -119.99999999999999
+  },
+  "useDefaultConstraints": true
+}

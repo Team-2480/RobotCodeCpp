@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.747000000000001,
-        "y": 1.8312499999999998
+        "x": 6.496324850152617,
+        "y": 1.958509973459222
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.30973266691,
-        "y": 2.08881790638
+        "x": 5.626675,
+        "y": 2.08060415472
       },
       "prevControl": {
-        "x": 4.1925,
-        "y": 1.685
+        "x": 6.719217178956982,
+        "y": 1.994223170674946
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BRHoming"
+      "linkedName": "BR1Homing"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 58.841
+    "rotation": 119.99999999999999
   },
   "reversed": false,
   "folder": "Blue Starts",

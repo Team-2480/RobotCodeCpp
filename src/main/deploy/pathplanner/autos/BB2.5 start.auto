@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CoralDropB1"
+            "pathName": "CoralDropB2"
           }
         },
         {
@@ -31,7 +31,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BRHoming"
+            "pathName": "BB1Homing"
           }
         },
         {
@@ -43,7 +43,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 0.8
           }
         },
         {
@@ -55,7 +55,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Get Coral B Rheight"
+            "pathName": "Get Coral B Bheight"
           }
         },
         {
@@ -73,7 +73,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Drop Coral B Rheight"
+            "pathName": "Drop Coral B Bheight"
           }
         },
         {
@@ -97,13 +97,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BRHoming"
+            "pathName": "BBHoming"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.8
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "stop"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SetGlobe B Bheight"
           }
         }
       ]

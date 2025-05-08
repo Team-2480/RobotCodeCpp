@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.8220000000000005,
-        "y": 5.2145
+        "x": 5.083,
+        "y": 5.194
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.850995901639345,
-        "y": 5.933762295081967
+        "x": 4.471413934426229,
+        "y": 6.452510245901639
       },
       "isLocked": false,
-      "linkedName": "B Trough"
+      "linkedName": "BB1Trough"
     },
     {
       "anchor": {
@@ -53,7 +53,7 @@
   "folder": "Get&Drop B",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -59.64188454123334
+    "rotation": -119.99999999999999
   },
   "useDefaultConstraints": true
 }

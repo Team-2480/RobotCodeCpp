@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.773,
-        "y": 2.864749999999999
+        "x": 5.179,
+        "y": 2.856
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.7687499999999994,
-        "y": 2.289499999999998
+        "x": 4.543340163934426,
+        "y": 1.59748975409836
       },
       "isLocked": false,
-      "linkedName": "Btrough Rside"
+      "linkedName": "BR1Trough"
     },
     {
       "anchor": {
@@ -48,7 +48,7 @@
   "folder": "Get&Drop B",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 58.84069549165568
+    "rotation": 119.99999999999999
   },
   "useDefaultConstraints": true
 }
