@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 13.761885245901638,
-        "y": 5.193801229508197
+        "x": 12.371,
+        "y": 5.206
       },
       "prevControl": null,
       "nextControl": {
-        "x": 14.72358266680164,
-        "y": 5.8251993108081965
+        "x": 13.138524590163934,
+        "y": 6.380584016393442
       },
       "isLocked": false,
-      "linkedName": "RBTrough"
+      "linkedName": "RBTrough2"
     },
     {
       "anchor": {
@@ -48,7 +48,7 @@
   "folder": "Get&Drop R",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -120.55654255929655
+    "rotation": -59.99999999999999
   },
   "useDefaultConstraints": true
 }

@@ -31,7 +31,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RBHoming"
+            "pathName": "RB1Homing"
           }
         },
         {
@@ -97,7 +97,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RBHoming"
+            "pathName": "RB2Homing"
           }
         },
         {
@@ -157,7 +157,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RBHoming"
+            "pathName": "RB1Homing"
           }
         },
         {

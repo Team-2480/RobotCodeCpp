@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 9.03825,
-        "y": 1.9092499999999986
+        "x": 9.349635262727427,
+        "y": 1.8860541046810246
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 14.1968982128,
-        "y": 2.05516592477
+        "x": 11.899325,
+        "y": 2.09260415472
       },
       "prevControl": {
-        "x": 14.284648212800002,
-        "y": 1.0704159247699996
+        "x": 11.692225422251754,
+        "y": 1.9525692844322804
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "RRHoming"
+      "linkedName": "RR1Homing"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 119.42699999999999
+    "rotation": 59.99999999999999
   },
   "reversed": false,
   "folder": "Red Start",

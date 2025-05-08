@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 12.347,
-        "y": 2.868
+        "x": 13.757,
+        "y": 2.835
       },
       "prevControl": null,
       "nextControl": {
-        "x": 13.11454918032787,
-        "y": 1.6334528688524588
+        "x": 13.935034157266404,
+        "y": 2.6594897756640914
       },
       "isLocked": false,
-      "linkedName": "RRTrough"
+      "linkedName": "R trough"
     },
     {
       "anchor": {
-        "x": 16.411168032786886,
-        "y": 1.1179815573770497
+        "x": 14.625,
+        "y": 1.7053790983606552
       },
       "prevControl": {
-        "x": 15.308299180327868,
-        "y": 1.7413422131147547
+        "x": 14.50512295081967,
+        "y": 1.9810963114754099
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "R side"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -53.55555824341268
+    "rotation": 180.0
   },
   "reversed": false,
-  "folder": "Get&Drop R",
+  "folder": "2.5s",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 59.99999999999999
+    "rotation": 119.42699999999999
   },
   "useDefaultConstraints": true
 }

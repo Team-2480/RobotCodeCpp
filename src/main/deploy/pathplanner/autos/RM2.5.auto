@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CoralDropRM"
+            "pathName": "GoMidCoralDropRM"
           }
         },
         {
@@ -43,7 +43,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 0.8
           }
         },
         {
@@ -97,7 +97,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RRHoming"
+            "pathName": "RR2Homing"
           }
         },
         {
@@ -109,13 +109,19 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 0.8
           }
         },
         {
           "type": "named",
           "data": {
             "name": "stop"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Setglobe R Rheight"
           }
         }
       ]

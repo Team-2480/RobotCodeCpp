@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 13.873695627571852,
-        "y": 5.401999873000697
+        "x": 14.05507580309091,
+        "y": 5.7414499018087986
       },
       "isLocked": false,
       "linkedName": "RBHoming"
     },
     {
       "anchor": {
-        "x": 13.761885245901638,
-        "y": 5.193801229508197
+        "x": 13.786,
+        "y": 5.182
       },
       "prevControl": {
-        "x": 14.099750894948855,
-        "y": 5.787250117266423
+        "x": 13.911125995286207,
+        "y": 5.3984335586355225
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "RBTrough"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -120.557
+    "rotation": -119.99999999999999
   },
   "reversed": false,
   "folder": "Homing R",
