@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.1175000000000015,
-        "y": 4.61
+        "x": 6.802233883552394,
+        "y": 4.039117221208325
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.36948888097,
-        "y": 5.98758352924
+        "x": 5.802049180327868,
+        "y": 4.03475
       },
       "prevControl": {
-        "x": 4.1827499999999995,
-        "y": 6.735499999999999
+        "x": 6.802268772519807,
+        "y": 4.035023678841271
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BBHoming"
+      "linkedName": "BMid Trough"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -59.642
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "Blue Starts",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 179.48150031270936
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

@@ -1,0 +1,157 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CoralDropBM"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.8
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "stop"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Middle to BBcoral"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "rev"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Drop Coral B Bheight"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "startalign"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "stopalign"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BBHoming"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.8
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "stop"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Get Coral B Bheight"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "rev"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Drop Coral B Bheight"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "startalign"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "stopalign"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BBHoming"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Blue Start",
+  "choreoAuto": false
+}

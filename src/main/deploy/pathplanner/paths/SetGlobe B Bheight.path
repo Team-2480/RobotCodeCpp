@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2107581967213117,
-        "y": 6.991956967213114
+        "x": 3.8220000000000005,
+        "y": 5.2145
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0670334549884988,
-        "y": 6.020856447804218
+        "x": 4.244290292190369,
+        "y": 5.152187570472654
       },
       "isLocked": false,
-      "linkedName": "B side"
+      "linkedName": "B Trough"
     },
     {
       "anchor": {
-        "x": 3.36948888097,
-        "y": 5.98758352924
+        "x": 3.0448770491803274,
+        "y": 6.5963627049180324
       },
       "prevControl": {
-        "x": 1.4813597113079795,
-        "y": 6.548394607733003
+        "x": 2.802238009631424,
+        "y": 6.656581443586206
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BBHoming"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -59.642
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Get&Drop B",
+  "folder": "2.5s",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 126.75367918553147
+    "rotation": -59.64188454123334
   },
   "useDefaultConstraints": true
 }
