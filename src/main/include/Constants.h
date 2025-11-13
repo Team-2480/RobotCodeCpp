@@ -53,7 +53,7 @@ const int kYButton = frc::XboxController::Button::kY;
 namespace DriveConstants {
 // Driving Parameters - Note that these are not the maximum capable speeds of
 // the robot, rather the allowed maximum speeds
-constexpr units::meters_per_second_t kMaxSpeed = 4.8_mps;
+constexpr units::meters_per_second_t kMaxSpeed = 2_mps;
 constexpr units::radians_per_second_t kMaxAngularSpeed{2 * std::numbers::pi};
 
 constexpr units::meters_per_second_t kTargetSpeed = 0.5_mps; // speedy normal mode

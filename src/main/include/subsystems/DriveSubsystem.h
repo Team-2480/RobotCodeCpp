@@ -28,13 +28,14 @@ struct RobotPoint {
 };
 
 static std::map<std::string, std::vector<RobotPoint>> autoMap {
-        {"RR start", {RobotPoint(14.197, 2.055, 119.427)}},
-        {"RB start", {RobotPoint(14.180, 5.958, -120.324)}},
+        {"RR2.5 start", {RobotPoint(11.899, 2.093, 60.000), RobotPoint(14.197, 2.055, 119.427)}},
+        {"Go Mid RR", {RobotPoint(14.180, 5.958, -120.324)}}, // unused
         {"RB3 start", {RobotPoint(14.180, 5.958, -120.324)}},
-        {"RB2.5 start", {RobotPoint(14.180, 5.958, -120.324)}},
+        {"RB2.5 start", {RobotPoint(11.923, 5.981, -60.000), RobotPoint(14.180, 5.958, -120.324)}},
         
-        {"BR start", {RobotPoint(3.310, 2.089, 58.841)}},
-        {"BB start", {RobotPoint(3.369, 5.988, -59.642)}},
+        {"BR2.5 start", {RobotPoint{5.627, 2.081, 120.000}, RobotPoint(3.310, 2.089, 58.841)}},
+        {"Go Mid BB", {RobotPoint(14.180, 5.958, -120.324)}}, // unused
+        {"BB2.5 start", {RobotPoint(5.526, 6.021, -120.000), RobotPoint(3.369, 5.988, -59.642)}},
         {"10ft", {RobotPoint(0.895, 6.0, 180.000)}},
     };
 
@@ -160,7 +161,7 @@ return frc2::CommandPtr(frc2::InstantCommand([this]{
     if (!m_autoName.has_value())
       return;
     auto resetPoints = autoMap[m_autoName.value().first];
-    auto resetPoint = resetPoints[0];
+    auto resetPoint = resetPoints[std::min(m_autoName.value().second, resetPoints.size())];
     m_poseEstimator.ResetPose(frc::Pose2d(units::meter_t{resetPoint.x},units::meter_t{resetPoint.y}, frc::Rotation2d(units::degree_t{resetPoint.rot})));
     m_autoName.value().second++;
   }));

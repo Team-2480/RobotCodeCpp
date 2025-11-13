@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 11.899325,
-        "y": 2.09260415472
+        "x": 11.899,
+        "y": 2.093
       },
       "prevControl": null,
       "nextControl": {
-        "x": 12.024315705997877,
-        "y": 2.309115871294767
+        "x": 12.023990705997877,
+        "y": 2.3095117165747667
       },
       "isLocked": false,
       "linkedName": "RR1Homing"

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.626675,
-        "y": 2.08060415472
+        "x": 5.627,
+        "y": 2.081
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.706797426657637,
-        "y": 1.8321783336934079
+        "x": 5.707124262194898,
+        "y": 1.8325747709793385
       },
       "isLocked": false,
       "linkedName": "BR1Homing"
