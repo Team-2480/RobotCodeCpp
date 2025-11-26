@@ -5,6 +5,8 @@
 #include "subsystems/DriveSubsystem.h"
 
 #include <frc/geometry/Rotation2d.h>
+#include "networktables/NetworkTable.h"
+#include "networktables/NetworkTableInstance.h"
 #include <hal/FRCUsageReporting.h>
 #include <pathplanner/lib/auto/AutoBuilder.h>
 #include <pathplanner/lib/config/RobotConfig.h>
@@ -19,6 +21,7 @@
 #include "subsystems/MAXSwerveModule.h"
 
 using namespace DriveConstants;
+using namespace nt;
 
 DriveSubsystem::DriveSubsystem()
     : m_pigeon(kPigeonCanId, "rio"),
@@ -37,7 +40,8 @@ DriveSubsystem::DriveSubsystem()
 
                  {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
                   m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
-                 frc::Pose2d{}}
+                 frc::Pose2d{}},
+        meta_lime("limelight", "limelight-fancy")
 
 {
   m_alignMode = false;
@@ -98,6 +102,7 @@ DriveSubsystem::DriveSubsystem()
       },
       this // Reference to this subsystem to set requirements
   );
+
 }
 
 void DriveSubsystem::driveAlign()
@@ -127,6 +132,8 @@ void DriveSubsystem::driveAlign()
 
 void DriveSubsystem::Periodic()
 {
+
+  meta_lime.get_position();
   
   if (alignMode()) {
     driveAlign();

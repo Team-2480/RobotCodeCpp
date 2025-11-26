@@ -20,6 +20,7 @@
 #include <ctre/phoenix6/Pigeon2.hpp>
 
 #include "Constants.h"
+#include "LimelightMetaLibrary.h"
 #include "MAXSwerveModule.h"
 
 struct RobotPoint {
@@ -180,6 +181,8 @@ private:
   MAXSwerveModule m_rearLeft;
   MAXSwerveModule m_frontRight;
   MAXSwerveModule m_rearRight;
+
+  LimelightMeta meta_lime;
 
   // Odometry class for tracking robot pose,
   // 4 defines the number of modules
